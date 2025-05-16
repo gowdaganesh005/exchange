@@ -1,10 +1,10 @@
-import { createClient, CLient, RedisClientType } from "redis";
-import { orderBody } from "../types/trading.js";
+import { createClient, RedisClientType } from "redis";
+import { Messagetype, orderBody } from "../types/trading.js";
 
 const url = process.env.REDIS_URL;
 
 
-class RedisManager{
+export class RedisManager{
   private client: RedisClientType
   private publisher: RedisClientType
   private static instance: RedisManager
@@ -22,6 +22,23 @@ class RedisManager{
 
     }
     return this.instance;
+  }
+
+  public sendAndAwait(message:Messagetype){
+    return new Promise<any>((resolve)=>{
+      const clientId = this.getRandomClientId()
+      this.client.subscribe(clientId,(message)=>{
+        this.client.unsubscribe(clientId);
+        resolve(JSON.parse(message));
+      });
+      this.publisher.lPush("messages",JSON.stringify({clientId:clientId,message:message}))
+      
+    }) 
+  }
+
+  public getRandomClientId(){
+    return Math.random().toString(36).substring(2,15) + Math.random().toString(36).substring(2,15);
+
   }
 
 }

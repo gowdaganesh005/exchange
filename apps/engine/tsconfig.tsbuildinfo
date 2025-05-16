@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/trade/orderbook.ts","./src/types/orderbook.types.ts","./src/utils/redismanager.ts","./src/utils/orderbook.ts"],"version":"5.8.2"}
