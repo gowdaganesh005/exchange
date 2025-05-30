@@ -1,4 +1,5 @@
 import { orderBody } from "@repo/zod/trading"
+import { engineDepthUpdates } from "@repo/zod/websocket"
 import { z } from 'zod'
 
 export interface orderBook{
@@ -35,4 +36,6 @@ export interface fill{
    quantity: number
    timestamp: number
 }
+
+export type engineDepthUpdates= z.infer<typeof engineDepthUpdates>
 

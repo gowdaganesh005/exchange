@@ -1,4 +1,5 @@
 import { createClient, RedisClientType } from 'redis'
+import { fill } from '../types/orderbook.types';
 
 export class RedisManager{
     private client:RedisClientType;
@@ -18,12 +19,17 @@ export class RedisManager{
     }
 
     public  async getMessage(){
+        
         return  await this.client.rPop('messages')
     }
 
-    public async publish(clientId : string,data:{executedQuantity: number,fills:{ price: number, quantity: number}[]}){
+    public async publishToApi(clientId : string,data:{executedQuantity: number,fills:fill[]}){
         await this.client.publish(clientId,JSON.stringify(data))
         
+    }
+
+    public async publishStream(){
+
     }
 
     

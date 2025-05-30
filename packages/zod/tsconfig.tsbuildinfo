@@ -1,1 +1,1 @@
-{"root":["./src/enums.ts","./src/trading.ts"],"version":"5.8.3"}
+{"root":["./src/enums.ts","./src/snapshot.ts","./src/trading.ts","./src/websocket.ts"],"version":"5.8.3"}

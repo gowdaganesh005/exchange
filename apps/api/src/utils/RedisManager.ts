@@ -41,4 +41,8 @@ export class RedisManager{
 
   }
 
+  public async getSnapshot(symbol:string){
+    return await this.client.hGet("SNAPSHOT",symbol)
+  }
+
 }

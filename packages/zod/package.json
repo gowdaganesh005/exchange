@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "exports": {
-    "./trading": {
-      "import": "./dist/trading.js",
-      "types":"./dist/trading.d.ts"
-    }
+    "./*": "./dist/*.js"
   },
   "scripts": {
     "build": "tsc"

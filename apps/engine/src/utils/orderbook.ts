@@ -1,9 +1,13 @@
-import { consolidatedBook, orderBook, fill } from "../types/orderbook.types";
+import { consolidatedBook, orderBook, fill, engineDepthUpdates } from "../types/orderbook.types";
 import { orderBody } from "../types/orderbook.types";
+import { parentPort } from "node:worker_threads"
 export class OrderBook{
     private orderBook : orderBook
     private consolidatedBook: consolidatedBook
     private symbol: string
+    private eventQueue: Array<engineDepthUpdates>
+
+    private updateId = 0;
 
     public constructor(symbol: string){
         this.orderBook = {
@@ -16,13 +20,17 @@ export class OrderBook{
             sells: []
         }
         this.symbol = symbol
+        this.eventQueue = []
     }
 
     public matchOrders({symbol, type, side, price,quantity,userId,timestamp,}:orderBody){
         console.log(timestamp ,"inside matching engine")
+        
         if(symbol != this.symbol){
             return null
         }
+        this.updateId++;
+        
 
         let filledQuantity:number = 0;
     
@@ -87,10 +95,32 @@ export class OrderBook{
 
                 console.log(this.orderBook," this is a orderbook \n " , this.consolidatedBook ," this is a consolidated book \n")
 
+                this.eventQueue.push({
+                    data:{
+                        T: BigInt(Date.now()),
+                        a: [ [ price,quantity ] ],
+                        e: "depth",
+                        i: BigInt(this.updateId),
+                        s: this.symbol,
+                        b: []
+                    }
+                    
+                })
+                
+                parentPort?.postMessage({
+                    T: BigInt(Date.now()),
+                    a: [ [ price,quantity ] ],
+                    e: "depth",
+                    i: BigInt(this.updateId),
+                    s: this.symbol,
+                    b: []
+                })
+
+
 
 
                 return {
-                    filledQuantity,
+                    executedQuantity:filledQuantity,
                     fills
                 }
         }
@@ -151,11 +181,59 @@ export class OrderBook{
 
                 }
 
+                // this.eventQueue.push({
+                //     data:{
+                //         T: BigInt(Date.now()),
+                //         b: [ [ price,quantity ] ],
+                //         e: "depth",
+                //         i: BigInt(this.updateId),
+                //         s: this.symbol,
+                //         a: []
+                //     }
+                    
+                // })
+                parentPort?.postMessage({
+                    T: BigInt(Date.now()),
+                    a: [ [ price,quantity ] ],
+                    e: "depth",
+                    i: BigInt(this.updateId),
+                    s: this.symbol,
+                    b: []
+                })
+
+
+
                 return {
-                    filledQuantity,
+                    executedQuantity:filledQuantity,
                     fills
                 }
             }
         }
+
+        /**
+         * getCurrentOrderBook
+         */
+        public getCurrentOrderBook() {
+            return {
+                bids: this.consolidatedBook.buys,
+                asks: this.consolidatedBook.sells,
+                timestamp: Date.now(),
+                lastupdateId: this.updateId
+            } 
+        }
+
+        // Giving access for the queue elements to the outer process to add to pub sub
+
+        // Todo -- making sure no new task are added to the items or handled after its value is copied to the items variable and before the queue is initalized to empty array
+        
+        // public flushEventQueue(){
+        //     const items = this.eventQueue
+        //     this.eventQueue = []
+        //     return items;
+        // }
+
+        
+
+        
     
 }
