@@ -12,9 +12,9 @@ parentPort?.on("message",(data)=>{
 
     }
     if(data.type == "order"){
-        const response = OB_BTCUSDT.matchOrders(data.data)
+        const response = OB_BTCUSDT.matchOrders(data.data,data.orderId)
         if(response){
-            parentPort?.postMessage({clientId:data.clientId,response})
+            parentPort?.postMessage({type:"order",clientId:data.clientId,response})
         }
     }
 })

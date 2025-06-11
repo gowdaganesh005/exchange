@@ -7,7 +7,7 @@
     "./*": "./dist/*.js"
   },
   "scripts": {
-    "build": "tsc"
+    "dev": "tsc"
   },
   "keywords": [],
   "author": "",

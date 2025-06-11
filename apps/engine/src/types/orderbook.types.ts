@@ -7,12 +7,14 @@ export interface orderBook{
         price: number,
         quantity: number,
         userId: string,
+        orderId: string,
         timestamp: number
      }[],
      sells:{
         price: number,
         quantity: number,
         userId: string,
+        orderId: string
         timestamp: number
      }[]
 }

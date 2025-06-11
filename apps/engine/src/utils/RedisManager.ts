@@ -28,8 +28,17 @@ export class RedisManager{
         
     }
 
-    public async publishStream(){
+    public async publishStream(stream:string,data:any){
+        console.log(data)
+        await this.client.publish(stream,JSON.stringify(data,(_,value)=> typeof value == 'bigint' ? value.toString() : value))
+    }
 
+    public async pushToDb(data:any){
+        try{
+            await this.client.lPush("DB_QUEUE",JSON.stringify(data))
+        }catch(error:any){
+            console.log(error)
+        }
     }
 
     

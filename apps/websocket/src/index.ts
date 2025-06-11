@@ -19,33 +19,58 @@ const redisClient = RedisManager.getInstance()
 }
 
 */
+
+let subscriptionMap = new Map()
+let clientMap :Map<string,Set<WebSocket>> = new Map()
+
 wsServer.on("connection",(ws:WebSocket)=>{
+    console.log("websocket client connected")
     ws.on("message",(data)=>{
         try{
             const parseddata = webSocketStreamRequest.parse(JSON.parse(data.toString()))
             if(parseddata.method=="SUBSCRIBE"){
-                const params = parseddata.params[0].split('.')
-                if(params[0]=="depth"){
-                    const entity = "depth"
-                    const symbol = params[2]
+
+                const params = parseddata.params[0]
+                if(!clientMap.get(params)){
+                    clientMap.set(params,new Set())
+                    clientMap.get(params)?.add(ws)
                 }else{
-                    const entity = params[0]
-                    const symbol = params[1]
+                    clientMap.get(params)?.add(ws)
                 }
-
-              
-
-               redisClient.subscribeTo(params[0],(data: string)=>{
-                ws.emit('stream',params[0])
-               })
+                console.log(subscriptionMap.get(params))
+                if(!subscriptionMap.get(params)){
+                    subscriptionMap.set(params,true)
+                    
+                    redisClient.subscribeTo(params,(data: string)=>{
+                        console.log(data)
+                        console.log("data came to pubsub")
+                        clientMap.get(params)?.forEach(socket=>{
+                            
+                            socket.send(JSON.stringify({
+                                data,
+                                stream: params
+                            }))
+                        })
+                    })
+                }
+               
 
             }
-            console.log(data.toString())
+            else if( parseddata.method == "UNSUBSCRIBE"){
+                const params = parseddata.params[0]
+                clientMap.get(params)?.delete(ws)
+                if(clientMap.get(params)?.size==0){
+                    subscriptionMap.delete(params)
+                    redisClient.unsubscribeTo(params)
+                }
+            }
+            
             
         }catch(error:any){
-            console.log(error)
+            console.log(error.message)
         }
         }
+
         
     )
    

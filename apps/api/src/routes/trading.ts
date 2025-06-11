@@ -18,7 +18,7 @@ tradingRoute.post("/order", async (req: any, res: any) => {
       } 
     })
     console.log(response)
-    res.json(response.payload)
+    return res.json(response)
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Invalid Body" });

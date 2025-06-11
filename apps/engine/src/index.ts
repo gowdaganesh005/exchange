@@ -3,6 +3,7 @@ import { OB_BTCUSDT } from "./trade/orderbook";
 import { RedisManager } from "./utils/RedisManager";
 import { OrderBook } from "./utils/orderbook";
 import  { Worker } from "node:worker_threads"
+import { randomUUID } from "node:crypto";
 
 const redisClient  =  RedisManager.getInstance()
 
@@ -63,6 +64,29 @@ app.get("/snapshot",async (req:any,res:any)=>{
 function startAllOrderBooks(){
     const worker = new Worker("./dist/trade/orderbook.js")
     allOrderBooks["BTCUSDT"] = worker
+
+    worker?.on('message',async (data)=>{
+        if(data.type=="order")
+        {
+            const {clientId,response} = data
+        
+            if(response){
+            await redisClient.publishToApi(clientId,response);
+            }
+        }else if(data.type=='depthUpdates'){
+            const updateData = data.data
+            console.log(updateData)
+            await redisClient.publishStream(`depth.200ms.${data.symbol}`,updateData)
+        }else if(data.type == 'bookticker'){
+            const updatedData = data
+            await redisClient.publishStream(`${data.type}.${data.symbol}`,updatedData)
+        }else if(data.type == 'dbUpdate'){
+            const dbUpdateData = data.data
+            await redisClient.pushToDb(dbUpdateData)
+
+        }
+
+    })
 }
 
 async function  main(){
@@ -75,26 +99,32 @@ async function  main(){
 
             const required_worker = allOrderBooks[message.message.symbol]
 
+            const orderId = randomUUID()
 
-            required_worker?.postMessage({type:"order" ,data:message.message,clientId})
-            
-
-            required_worker?.on('message',(data)=>{
-                const {clientId,response} = data
-                if(response){
-                    redisClient.publishToApi(clientId,response);
+            const dbData = {
+                type: "create",
+                data:{
+                    orderId,
+                    symbol: message.message.symbol,
+                    userId: message.message.userId,
+                    side: message.message.side,
+                    type: message.message.type,
+                    quote_price: message.message.price,
+                    quote_quantity: message.message.quantity,
+                    status: "PENDING",
+                    timestamp: Date.now(),
+                    updatedAt: Date.now()
                 }
+            }
 
+            redisClient.pushToDb(dbData)
 
-            })
+            required_worker?.postMessage({type:"order" ,data:message.message,clientId,orderId})
 
             
-           
+            
             // const response = allOrderBooks[message.message.symbol].matchOrders(message.message)
            
-            
-            
-            
         }
         
     }
