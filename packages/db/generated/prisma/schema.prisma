@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SIDE {
+  BUY
+  SELL
+}
+
+enum TYPE {
+  LIMIT
+  MARKET
+}
+
+enum STATUS {
+  PENDING
+  FULL_FILLED
+  PARTIALLY_FILLED
+  CANCELLED
+}
+
+model Orders {
+  orderId         String @unique
+  symbol          String
+  userId          String
+  side            SIDE
+  type            TYPE
+  quote_price     Float
+  quote_quantity  Float
+  filled_quantity Float  @default(0)
+  filled_price    Float  @default(-1)
+  timestamp       BigInt
+  updatedAt       BigInt
+  status          STATUS
+}
