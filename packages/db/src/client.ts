@@ -1,6 +1,11 @@
-import prisma from "prisma"
-import { PrismaClient } from "../generated/prisma"
+import { PrismaClient } from "../generated/prisma/index.js";
 
-const client = new PrismaClient()
 
-export default client
+const client = new PrismaClient(); 
+const connect = async ()=>{
+    await client.$connect()
+}
+
+connect();
+
+export {client}
