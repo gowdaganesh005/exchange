@@ -79,6 +79,7 @@ function startAllOrderBooks(){
             await redisClient.publishStream(`depth.200ms.${data.symbol}`,updateData)
         }else if(data.type == 'bookticker'){
             const updatedData = data
+            await redisClient.publishPrice(`price.${data.symbol}`,data.tickerPrice)
             await redisClient.publishStream(`${data.type}.${data.symbol}`,updatedData)
         }else if(data.type == 'dbUpdate'){
             const dbUpdateData = data.data

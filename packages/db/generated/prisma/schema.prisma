@@ -45,3 +45,11 @@ model Orders {
   updatedAt       BigInt
   status          STATUS
 }
+
+model Trades {
+  tradeId   String   @unique
+  symbol    String
+  price     Float
+  volume    Float
+  timestamp DateTime
+}

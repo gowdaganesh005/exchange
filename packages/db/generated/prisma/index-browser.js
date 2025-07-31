@@ -135,6 +135,14 @@ exports.Prisma.OrdersScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.TradesScalarFieldEnum = {
+  tradeId: 'tradeId',
+  symbol: 'symbol',
+  price: 'price',
+  volume: 'volume',
+  timestamp: 'timestamp'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -162,7 +170,8 @@ exports.STATUS = exports.$Enums.STATUS = {
 };
 
 exports.Prisma.ModelName = {
-  Orders: 'Orders'
+  Orders: 'Orders',
+  Trades: 'Trades'
 };
 
 /**

@@ -1,0 +1,329 @@
+import { useEffect, useState, useRef } from "react"
+import axios from "axios";
+
+
+function OrderBook({symbol}:{symbol:string}){
+    const [orderBook,setOrderBook] = useState<any>(null);
+    const wsRef = useRef<WebSocket |null>(null)
+    const orderBookRef = useRef<any>(null)
+    const [trades,setTrades] = useState<any>(null)
+    const tradesRef = useRef<any>([])
+    const [price,setPrice]= useState<any>(0)
+    
+   
+
+
+    useEffect(()=>{
+        const fetchSnapshot= async ()=>{
+            try{
+                const { data } = await axios.get(`http://localhost:3000/api/v1/snapshot/${symbol}`)
+                const priceData = await axios.get(`http://localhost:3000/api/v1/price/${symbol}`)
+                
+
+                const price = priceData.data?.price
+                if(price && price > 0) {
+                    setPrice(price)
+                } else if(data && data.asks && data.bids && data.asks.length > 0 && data.bids.length > 0) {
+                    setPrice((data.asks[0][0] + data.bids[0][0])/2)
+                }
+                
+                const ws = new WebSocket('ws://localhost:8000')
+                wsRef.current = ws;
+                
+
+
+                ws.onopen = () => {
+                    console.log("Connected To Websocket !" )
+                    const DepthsubscriptionMsg = {
+                        "method":"SUBSCRIBE",
+                        "id":1,
+                        "params":[`depth.200ms.${symbol}`]
+                    }
+                    const updateSubMsg = {
+                        "method":"SUBSCRIBE",
+                        "id":2,
+                        "params":["bookticker.BTCUSDT"]
+                    }
+                    
+                    ws.send(JSON.stringify(DepthsubscriptionMsg));
+                    ws.send(JSON.stringify(updateSubMsg));
+                }
+
+
+                // {
+                //     "T": "1752921495863",
+                //     "a": [
+                //         [
+                //             39,
+                //             0
+                //         ]
+                //     ],
+                //     "e": "depth",
+                //     "i": "20",
+                //     "s": "BTCUSDT",
+                //     "b": []
+                // }
+
+
+                ws.onmessage = (event)=>{
+                    try{
+                        
+                        const updates = JSON.parse(event.data)
+                        console.log(updates)
+
+                        if(JSON.parse(updates.data).e == 'depth'){
+                        console.log(JSON.parse(updates.data))
+                        const updateData = JSON.parse(updates.data)
+
+
+                        if(updateData.i==orderBookRef.current.lastupdateId){
+                            let hasUpdates = false
+                            if(updateData.a.length > 0){
+                                updateData.a.map((ele:number[])=>{
+                                    const index = orderBookRef.current.asks.findIndex((a:number[])=>a[0]==ele[0])
+                                    if(index!=-1){
+
+                                    if( ele[1]==0){
+                                        orderBookRef.current.asks.splice(index,1)
+                                        let cumm =0
+                                        orderBookRef.current.asks.map((ele:any)=>{
+                                            cumm = cumm + ele[1]
+                                            ele[2] = cumm
+                                            return ele
+                                        })
+                                       
+                                    }else{
+                                        if(ele[1]){
+                                        
+                                        orderBookRef.current.asks[index][1] = ele[1]
+                                        let cumm = 0;
+                                        orderBookRef.current.asks.map((ele:any)=>{
+                                            cumm = cumm + ele[1]
+                                            ele[2] = cumm
+                                            return ele
+                                        })
+                                       
+                                        }
+                                        
+
+
+                                    }
+                                    }else{
+                                        if(ele && ele[1] !=0){
+                                        const newEntry = [ele[0],ele[1],0]
+                                        orderBookRef.current.asks.push(newEntry)
+                                        orderBookRef.current.asks.sort((a:any,b:any)=>a[0]-b[0])
+                                        let cumm = 0;
+                                        orderBookRef.current.asks.map((ele:any)=>{
+                                            cumm = cumm + ele[1]
+                                            ele[2] = cumm
+                                            return ele
+                                    })
+                                        console.log(orderBookRef.current.asks)
+                                    }
+                                        
+                                    }
+                                })
+                                hasUpdates=true
+                            }
+                            if(updateData.b.length > 0){
+                                updateData.b.map((ele:number[])=>{
+                                    const index = orderBookRef.current.bids.findIndex((a:number[])=>a[0]==ele[0])
+                                    // @ts-ignore
+                                    console.log(ele[0])
+                                    if(index!=-1){
+                                        
+                                    if( ele && ele[0] && ele[1] == 0){
+                                        
+                                        orderBookRef.current.bids.splice(index,1)
+                                        hasUpdates= true;
+                                    }else{
+                                        if(ele[1]){
+                                        
+                                        orderBookRef.current.bids[index][1] = ele[1]
+                                        let cumm = 0;
+                                        orderBookRef.current.bids.map((ele:any)=>{
+                                            cumm = cumm + ele[1]
+                                            ele[2] = cumm
+                                            return ele
+                                        })
+                                       
+                                        }
+                                        hasUpdates = true;
+
+
+                                    }
+                                    }else{
+                                        if( ele  && ele[1] != 0){
+                                        const newEntry = [ele[0],ele[1],0]
+                                        orderBookRef.current.bids.push(newEntry)
+                                        orderBookRef.current.bids.sort((a:any,b:any)=>b[0]-a[0])
+                                        let cumm = 0;
+                                        orderBookRef.current.bids.map((ele:any)=>{
+                                            cumm = cumm + ele[1]
+                                            ele[2] = cumm
+                                            return ele
+                                    })
+                                        console.log(orderBookRef.current.bids)
+                                        
+                                    }
+                                    hasUpdates = true
+                                }
+                                })
+                            }
+                            if(hasUpdates){
+                                orderBookRef.current.lastupdateId ++;
+                                console.log(orderBookRef.current)
+                                setOrderBook({...orderBookRef.current})
+
+                            }
+                        }
+                    }
+                    if(JSON.parse(updates.data).type == 'bookticker'){
+                        const updatedPrice = JSON.parse(updates.data)
+                        setPrice(updatedPrice.tickerPrice)
+                        tradesRef.current.push([updatedPrice.tickerPrice,updatedPrice.size])
+                        setTrades(tradesRef.current)
+                        console.log(trades)
+                    }
+                    }catch(error:any){
+                        console.log(error)
+                    }
+                }
+
+
+                ws.onclose = ()=>{
+                    const DepthUnsubscriptionMsg = {
+                        "method":"SUBSCRIBE",
+                        "id":1,
+                        "params":[`depth.200ms.${symbol}`]
+                    }
+                    const updateUnSubMsg = {
+                        "method":"SUBSCRIBE",
+                        "id":2,
+                        "params":["bookticker.BTCUSDT"]
+                    }
+                    ws.send(JSON.stringify(DepthUnsubscriptionMsg));
+                    ws.send(JSON.stringify(updateUnSubMsg));
+                    console.log("Websocket disconnected ")
+
+                }
+
+
+                let cummSize = 0
+                data.asks.map((ele:any)=>{
+                    cummSize +=ele[1]
+                    ele.push(cummSize)
+                   
+                })
+                cummSize=0
+                data.bids.map((ele:any)=>{
+                    cummSize +=ele[1]
+                    ele.push(cummSize)
+                   
+                })
+                console.log(data)
+                setOrderBook(data)
+                orderBookRef.current=data
+            }
+        catch(error:any){
+            setOrderBook(error)
+        }
+        }
+
+
+        fetchSnapshot()
+
+        return () => {
+            if (wsRef.current) {
+                console.log("Cleaning up old WebSocket connection");
+                wsRef.current.close();
+                wsRef.current = null;
+            }
+        };
+       
+
+
+    },[])
+    
+
+    if (!orderBook || !orderBook.asks || !orderBook.bids) {
+        return <div className="p-4 text-white">NO Trades</div>;
+    }
+    const reversedAsks = [...orderBook.asks].reverse();
+    const topAsks = reversedAsks.slice(0, 15);
+    const maxCumulativeA = reversedAsks.length > 0 ? reversedAsks[0][2] : 1;
+
+    const reversedBids = [...orderBook.bids]
+    const topBids = reversedBids.slice(0, 15);
+    const maxCumulativeB = reversedBids.length > 0 ? reversedBids[reversedBids.length-1][2] : 1;
+
+
+    return (
+        <>
+        <div className="bg-[rgb(var(--foreground-rgb))] text-blue-100 pr-4 w-full flex flex-col h-[calc(100vh-12rem)] justify-center  ">
+            <div className="max-h-3/4 w-full">
+           {topAsks && 
+            topAsks.map((element:any) => {
+                const Lightwidth = (element[2]/maxCumulativeA)*100;
+                const Darkwidth = (element[1]/maxCumulativeA)*100;
+                return(
+                <div className="relative m-0 p-0 my-[2px] py-[2px] ">
+                    <div className="absolute z-0 bg-[#3a1e24]  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
+                    <div className="absolute z-0 bg-[#782c31]  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
+
+
+                    <div className="flex relative z-10 bg-transparent  w-full text-[13px]  font-light px-2 ">
+                        <div className="w-3/5 text-red-500">{element[0]}</div>
+                        <div className="w-1/2 font-medium flex justify-between">
+                            <div>{element[1]}</div>
+                            <div>{element[2]}</div>
+                        </div>
+                    </div>
+                </div>)
+            })}
+            </div>
+
+
+            {/* Trade Price (need to replace with actual price) */}
+            {
+                (price>0)? (<div className="px-3 font-semibold">${price}</div>):(<div></div>)
+            }
+           
+
+
+
+
+            <div className="max-h-3/4 w-full">
+           {orderBook && topBids &&
+            topBids.map((element:any) => {
+                const length = orderBook.bids.length
+                const Lightwidth = (element[2]/maxCumulativeB)*100;
+                const Darkwidth = (element[1]/maxCumulativeB)*100;
+                return(
+                <div className="relative m-0 p-0 my-[2px] py-[2px] ">
+                    <div className="absolute z-0 bg-[#11312a]  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
+                    <div className="absolute z-0 bg-[#0c5f43]  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
+
+
+                    <div className="flex relative z-10 bg-transparent  w-full text-[13px]  font-light px-2 ">
+                        <div className="w-3/5 text-green-500">{element[0]}</div>
+                        <div className="w-1/2 font-medium flex justify-between">
+                            <div>{element[1]}</div>
+                            <div>{element[2]}</div>
+                        </div>
+                    </div>
+                    <div>
+                        
+                    </div>
+                    
+                </div>)
+            })}
+            
+            </div>
+        </div>
+        </>
+    )
+}
+
+export default OrderBook

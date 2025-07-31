@@ -1,0 +1,40 @@
+
+
+@import "tailwindcss";
+@import "@repo/tailwind-config";
+
+
+
+
+
+
+
+@theme{
+  --font-geist: "Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-sans: var(--font-geist);
+}
+:root {
+  --foreground-rgb: 20, 21, 27;
+  --background-start-rgb: 14,15,20;
+  --background-end-rgb: 14,15,20;
+  --foreground2-rgb: 32, 33, 39;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */ 
+
+ body {
+  font-family: Geist,sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}

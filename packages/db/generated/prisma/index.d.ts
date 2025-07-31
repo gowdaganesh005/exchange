@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type Orders = $Result.DefaultSelection<Prisma.$OrdersPayload>
+/**
+ * Model Trades
+ * 
+ */
+export type Trades = $Result.DefaultSelection<Prisma.$TradesPayload>
 
 /**
  * Enums
@@ -196,6 +201,16 @@ export class PrismaClient<
     * ```
     */
   get orders(): Prisma.OrdersDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.trades`: Exposes CRUD operations for the **Trades** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Trades
+    * const trades = await prisma.trades.findMany()
+    * ```
+    */
+  get trades(): Prisma.TradesDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -636,7 +651,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Orders: 'Orders'
+    Orders: 'Orders',
+    Trades: 'Trades'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -655,7 +671,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "orders"
+      modelProps: "orders" | "trades"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -730,6 +746,80 @@ export namespace Prisma {
           count: {
             args: Prisma.OrdersCountArgs<ExtArgs>
             result: $Utils.Optional<OrdersCountAggregateOutputType> | number
+          }
+        }
+      }
+      Trades: {
+        payload: Prisma.$TradesPayload<ExtArgs>
+        fields: Prisma.TradesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TradesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TradesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>
+          }
+          findFirst: {
+            args: Prisma.TradesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TradesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>
+          }
+          findMany: {
+            args: Prisma.TradesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>[]
+          }
+          create: {
+            args: Prisma.TradesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>
+          }
+          createMany: {
+            args: Prisma.TradesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TradesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>[]
+          }
+          delete: {
+            args: Prisma.TradesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>
+          }
+          update: {
+            args: Prisma.TradesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>
+          }
+          deleteMany: {
+            args: Prisma.TradesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TradesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TradesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>[]
+          }
+          upsert: {
+            args: Prisma.TradesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradesPayload>
+          }
+          aggregate: {
+            args: Prisma.TradesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrades>
+          }
+          groupBy: {
+            args: Prisma.TradesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TradesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TradesCountArgs<ExtArgs>
+            result: $Utils.Optional<TradesCountAggregateOutputType> | number
           }
         }
       }
@@ -818,6 +908,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     orders?: OrdersOmit
+    trades?: TradesOmit
   }
 
   /* Types for Logging */
@@ -2053,6 +2144,1043 @@ export namespace Prisma {
 
 
   /**
+   * Model Trades
+   */
+
+  export type AggregateTrades = {
+    _count: TradesCountAggregateOutputType | null
+    _avg: TradesAvgAggregateOutputType | null
+    _sum: TradesSumAggregateOutputType | null
+    _min: TradesMinAggregateOutputType | null
+    _max: TradesMaxAggregateOutputType | null
+  }
+
+  export type TradesAvgAggregateOutputType = {
+    price: number | null
+    volume: number | null
+    timestamp: number | null
+  }
+
+  export type TradesSumAggregateOutputType = {
+    price: number | null
+    volume: number | null
+    timestamp: bigint | null
+  }
+
+  export type TradesMinAggregateOutputType = {
+    tradeId: string | null
+    symbol: string | null
+    price: number | null
+    volume: number | null
+    timestamp: bigint | null
+  }
+
+  export type TradesMaxAggregateOutputType = {
+    tradeId: string | null
+    symbol: string | null
+    price: number | null
+    volume: number | null
+    timestamp: bigint | null
+  }
+
+  export type TradesCountAggregateOutputType = {
+    tradeId: number
+    symbol: number
+    price: number
+    volume: number
+    timestamp: number
+    _all: number
+  }
+
+
+  export type TradesAvgAggregateInputType = {
+    price?: true
+    volume?: true
+    timestamp?: true
+  }
+
+  export type TradesSumAggregateInputType = {
+    price?: true
+    volume?: true
+    timestamp?: true
+  }
+
+  export type TradesMinAggregateInputType = {
+    tradeId?: true
+    symbol?: true
+    price?: true
+    volume?: true
+    timestamp?: true
+  }
+
+  export type TradesMaxAggregateInputType = {
+    tradeId?: true
+    symbol?: true
+    price?: true
+    volume?: true
+    timestamp?: true
+  }
+
+  export type TradesCountAggregateInputType = {
+    tradeId?: true
+    symbol?: true
+    price?: true
+    volume?: true
+    timestamp?: true
+    _all?: true
+  }
+
+  export type TradesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Trades to aggregate.
+     */
+    where?: TradesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradesOrderByWithRelationInput | TradesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TradesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Trades
+    **/
+    _count?: true | TradesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TradesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TradesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TradesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TradesMaxAggregateInputType
+  }
+
+  export type GetTradesAggregateType<T extends TradesAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrades]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrades[P]>
+      : GetScalarType<T[P], AggregateTrades[P]>
+  }
+
+
+
+
+  export type TradesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TradesWhereInput
+    orderBy?: TradesOrderByWithAggregationInput | TradesOrderByWithAggregationInput[]
+    by: TradesScalarFieldEnum[] | TradesScalarFieldEnum
+    having?: TradesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TradesCountAggregateInputType | true
+    _avg?: TradesAvgAggregateInputType
+    _sum?: TradesSumAggregateInputType
+    _min?: TradesMinAggregateInputType
+    _max?: TradesMaxAggregateInputType
+  }
+
+  export type TradesGroupByOutputType = {
+    tradeId: string
+    symbol: string
+    price: number
+    volume: number
+    timestamp: bigint
+    _count: TradesCountAggregateOutputType | null
+    _avg: TradesAvgAggregateOutputType | null
+    _sum: TradesSumAggregateOutputType | null
+    _min: TradesMinAggregateOutputType | null
+    _max: TradesMaxAggregateOutputType | null
+  }
+
+  type GetTradesGroupByPayload<T extends TradesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TradesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TradesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TradesGroupByOutputType[P]>
+            : GetScalarType<T[P], TradesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TradesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tradeId?: boolean
+    symbol?: boolean
+    price?: boolean
+    volume?: boolean
+    timestamp?: boolean
+  }, ExtArgs["result"]["trades"]>
+
+  export type TradesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tradeId?: boolean
+    symbol?: boolean
+    price?: boolean
+    volume?: boolean
+    timestamp?: boolean
+  }, ExtArgs["result"]["trades"]>
+
+  export type TradesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tradeId?: boolean
+    symbol?: boolean
+    price?: boolean
+    volume?: boolean
+    timestamp?: boolean
+  }, ExtArgs["result"]["trades"]>
+
+  export type TradesSelectScalar = {
+    tradeId?: boolean
+    symbol?: boolean
+    price?: boolean
+    volume?: boolean
+    timestamp?: boolean
+  }
+
+  export type TradesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"tradeId" | "symbol" | "price" | "volume" | "timestamp", ExtArgs["result"]["trades"]>
+
+  export type $TradesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Trades"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      tradeId: string
+      symbol: string
+      price: number
+      volume: number
+      timestamp: bigint
+    }, ExtArgs["result"]["trades"]>
+    composites: {}
+  }
+
+  type TradesGetPayload<S extends boolean | null | undefined | TradesDefaultArgs> = $Result.GetResult<Prisma.$TradesPayload, S>
+
+  type TradesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TradesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TradesCountAggregateInputType | true
+    }
+
+  export interface TradesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Trades'], meta: { name: 'Trades' } }
+    /**
+     * Find zero or one Trades that matches the filter.
+     * @param {TradesFindUniqueArgs} args - Arguments to find a Trades
+     * @example
+     * // Get one Trades
+     * const trades = await prisma.trades.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TradesFindUniqueArgs>(args: SelectSubset<T, TradesFindUniqueArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Trades that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TradesFindUniqueOrThrowArgs} args - Arguments to find a Trades
+     * @example
+     * // Get one Trades
+     * const trades = await prisma.trades.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TradesFindUniqueOrThrowArgs>(args: SelectSubset<T, TradesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Trades that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesFindFirstArgs} args - Arguments to find a Trades
+     * @example
+     * // Get one Trades
+     * const trades = await prisma.trades.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TradesFindFirstArgs>(args?: SelectSubset<T, TradesFindFirstArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Trades that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesFindFirstOrThrowArgs} args - Arguments to find a Trades
+     * @example
+     * // Get one Trades
+     * const trades = await prisma.trades.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TradesFindFirstOrThrowArgs>(args?: SelectSubset<T, TradesFindFirstOrThrowArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Trades that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Trades
+     * const trades = await prisma.trades.findMany()
+     * 
+     * // Get first 10 Trades
+     * const trades = await prisma.trades.findMany({ take: 10 })
+     * 
+     * // Only select the `tradeId`
+     * const tradesWithTradeIdOnly = await prisma.trades.findMany({ select: { tradeId: true } })
+     * 
+     */
+    findMany<T extends TradesFindManyArgs>(args?: SelectSubset<T, TradesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Trades.
+     * @param {TradesCreateArgs} args - Arguments to create a Trades.
+     * @example
+     * // Create one Trades
+     * const Trades = await prisma.trades.create({
+     *   data: {
+     *     // ... data to create a Trades
+     *   }
+     * })
+     * 
+     */
+    create<T extends TradesCreateArgs>(args: SelectSubset<T, TradesCreateArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Trades.
+     * @param {TradesCreateManyArgs} args - Arguments to create many Trades.
+     * @example
+     * // Create many Trades
+     * const trades = await prisma.trades.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TradesCreateManyArgs>(args?: SelectSubset<T, TradesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Trades and returns the data saved in the database.
+     * @param {TradesCreateManyAndReturnArgs} args - Arguments to create many Trades.
+     * @example
+     * // Create many Trades
+     * const trades = await prisma.trades.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Trades and only return the `tradeId`
+     * const tradesWithTradeIdOnly = await prisma.trades.createManyAndReturn({
+     *   select: { tradeId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TradesCreateManyAndReturnArgs>(args?: SelectSubset<T, TradesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Trades.
+     * @param {TradesDeleteArgs} args - Arguments to delete one Trades.
+     * @example
+     * // Delete one Trades
+     * const Trades = await prisma.trades.delete({
+     *   where: {
+     *     // ... filter to delete one Trades
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TradesDeleteArgs>(args: SelectSubset<T, TradesDeleteArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Trades.
+     * @param {TradesUpdateArgs} args - Arguments to update one Trades.
+     * @example
+     * // Update one Trades
+     * const trades = await prisma.trades.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TradesUpdateArgs>(args: SelectSubset<T, TradesUpdateArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Trades.
+     * @param {TradesDeleteManyArgs} args - Arguments to filter Trades to delete.
+     * @example
+     * // Delete a few Trades
+     * const { count } = await prisma.trades.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TradesDeleteManyArgs>(args?: SelectSubset<T, TradesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Trades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Trades
+     * const trades = await prisma.trades.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TradesUpdateManyArgs>(args: SelectSubset<T, TradesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Trades and returns the data updated in the database.
+     * @param {TradesUpdateManyAndReturnArgs} args - Arguments to update many Trades.
+     * @example
+     * // Update many Trades
+     * const trades = await prisma.trades.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Trades and only return the `tradeId`
+     * const tradesWithTradeIdOnly = await prisma.trades.updateManyAndReturn({
+     *   select: { tradeId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TradesUpdateManyAndReturnArgs>(args: SelectSubset<T, TradesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Trades.
+     * @param {TradesUpsertArgs} args - Arguments to update or create a Trades.
+     * @example
+     * // Update or create a Trades
+     * const trades = await prisma.trades.upsert({
+     *   create: {
+     *     // ... data to create a Trades
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Trades we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TradesUpsertArgs>(args: SelectSubset<T, TradesUpsertArgs<ExtArgs>>): Prisma__TradesClient<$Result.GetResult<Prisma.$TradesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Trades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesCountArgs} args - Arguments to filter Trades to count.
+     * @example
+     * // Count the number of Trades
+     * const count = await prisma.trades.count({
+     *   where: {
+     *     // ... the filter for the Trades we want to count
+     *   }
+     * })
+    **/
+    count<T extends TradesCountArgs>(
+      args?: Subset<T, TradesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TradesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Trades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TradesAggregateArgs>(args: Subset<T, TradesAggregateArgs>): Prisma.PrismaPromise<GetTradesAggregateType<T>>
+
+    /**
+     * Group by Trades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TradesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TradesGroupByArgs['orderBy'] }
+        : { orderBy?: TradesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TradesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTradesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Trades model
+   */
+  readonly fields: TradesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Trades.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TradesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Trades model
+   */
+  interface TradesFieldRefs {
+    readonly tradeId: FieldRef<"Trades", 'String'>
+    readonly symbol: FieldRef<"Trades", 'String'>
+    readonly price: FieldRef<"Trades", 'Float'>
+    readonly volume: FieldRef<"Trades", 'Float'>
+    readonly timestamp: FieldRef<"Trades", 'BigInt'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Trades findUnique
+   */
+  export type TradesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * Filter, which Trades to fetch.
+     */
+    where: TradesWhereUniqueInput
+  }
+
+  /**
+   * Trades findUniqueOrThrow
+   */
+  export type TradesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * Filter, which Trades to fetch.
+     */
+    where: TradesWhereUniqueInput
+  }
+
+  /**
+   * Trades findFirst
+   */
+  export type TradesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * Filter, which Trades to fetch.
+     */
+    where?: TradesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradesOrderByWithRelationInput | TradesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Trades.
+     */
+    cursor?: TradesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Trades.
+     */
+    distinct?: TradesScalarFieldEnum | TradesScalarFieldEnum[]
+  }
+
+  /**
+   * Trades findFirstOrThrow
+   */
+  export type TradesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * Filter, which Trades to fetch.
+     */
+    where?: TradesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradesOrderByWithRelationInput | TradesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Trades.
+     */
+    cursor?: TradesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Trades.
+     */
+    distinct?: TradesScalarFieldEnum | TradesScalarFieldEnum[]
+  }
+
+  /**
+   * Trades findMany
+   */
+  export type TradesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * Filter, which Trades to fetch.
+     */
+    where?: TradesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradesOrderByWithRelationInput | TradesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Trades.
+     */
+    cursor?: TradesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    distinct?: TradesScalarFieldEnum | TradesScalarFieldEnum[]
+  }
+
+  /**
+   * Trades create
+   */
+  export type TradesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Trades.
+     */
+    data: XOR<TradesCreateInput, TradesUncheckedCreateInput>
+  }
+
+  /**
+   * Trades createMany
+   */
+  export type TradesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Trades.
+     */
+    data: TradesCreateManyInput | TradesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Trades createManyAndReturn
+   */
+  export type TradesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * The data used to create many Trades.
+     */
+    data: TradesCreateManyInput | TradesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Trades update
+   */
+  export type TradesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Trades.
+     */
+    data: XOR<TradesUpdateInput, TradesUncheckedUpdateInput>
+    /**
+     * Choose, which Trades to update.
+     */
+    where: TradesWhereUniqueInput
+  }
+
+  /**
+   * Trades updateMany
+   */
+  export type TradesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Trades.
+     */
+    data: XOR<TradesUpdateManyMutationInput, TradesUncheckedUpdateManyInput>
+    /**
+     * Filter which Trades to update
+     */
+    where?: TradesWhereInput
+    /**
+     * Limit how many Trades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Trades updateManyAndReturn
+   */
+  export type TradesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * The data used to update Trades.
+     */
+    data: XOR<TradesUpdateManyMutationInput, TradesUncheckedUpdateManyInput>
+    /**
+     * Filter which Trades to update
+     */
+    where?: TradesWhereInput
+    /**
+     * Limit how many Trades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Trades upsert
+   */
+  export type TradesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Trades to update in case it exists.
+     */
+    where: TradesWhereUniqueInput
+    /**
+     * In case the Trades found by the `where` argument doesn't exist, create a new Trades with this data.
+     */
+    create: XOR<TradesCreateInput, TradesUncheckedCreateInput>
+    /**
+     * In case the Trades was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TradesUpdateInput, TradesUncheckedUpdateInput>
+  }
+
+  /**
+   * Trades delete
+   */
+  export type TradesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+    /**
+     * Filter which Trades to delete.
+     */
+    where: TradesWhereUniqueInput
+  }
+
+  /**
+   * Trades deleteMany
+   */
+  export type TradesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Trades to delete
+     */
+    where?: TradesWhereInput
+    /**
+     * Limit how many Trades to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Trades without action
+   */
+  export type TradesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trades
+     */
+    select?: TradesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trades
+     */
+    omit?: TradesOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -2082,6 +3210,17 @@ export namespace Prisma {
   };
 
   export type OrdersScalarFieldEnum = (typeof OrdersScalarFieldEnum)[keyof typeof OrdersScalarFieldEnum]
+
+
+  export const TradesScalarFieldEnum: {
+    tradeId: 'tradeId',
+    symbol: 'symbol',
+    price: 'price',
+    volume: 'volume',
+    timestamp: 'timestamp'
+  };
+
+  export type TradesScalarFieldEnum = (typeof TradesScalarFieldEnum)[keyof typeof TradesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2295,6 +3434,60 @@ export namespace Prisma {
     status?: EnumSTATUSWithAggregatesFilter<"Orders"> | $Enums.STATUS
   }
 
+  export type TradesWhereInput = {
+    AND?: TradesWhereInput | TradesWhereInput[]
+    OR?: TradesWhereInput[]
+    NOT?: TradesWhereInput | TradesWhereInput[]
+    tradeId?: StringFilter<"Trades"> | string
+    symbol?: StringFilter<"Trades"> | string
+    price?: FloatFilter<"Trades"> | number
+    volume?: FloatFilter<"Trades"> | number
+    timestamp?: BigIntFilter<"Trades"> | bigint | number
+  }
+
+  export type TradesOrderByWithRelationInput = {
+    tradeId?: SortOrder
+    symbol?: SortOrder
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type TradesWhereUniqueInput = Prisma.AtLeast<{
+    tradeId?: string
+    AND?: TradesWhereInput | TradesWhereInput[]
+    OR?: TradesWhereInput[]
+    NOT?: TradesWhereInput | TradesWhereInput[]
+    symbol?: StringFilter<"Trades"> | string
+    price?: FloatFilter<"Trades"> | number
+    volume?: FloatFilter<"Trades"> | number
+    timestamp?: BigIntFilter<"Trades"> | bigint | number
+  }, "tradeId">
+
+  export type TradesOrderByWithAggregationInput = {
+    tradeId?: SortOrder
+    symbol?: SortOrder
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
+    _count?: TradesCountOrderByAggregateInput
+    _avg?: TradesAvgOrderByAggregateInput
+    _max?: TradesMaxOrderByAggregateInput
+    _min?: TradesMinOrderByAggregateInput
+    _sum?: TradesSumOrderByAggregateInput
+  }
+
+  export type TradesScalarWhereWithAggregatesInput = {
+    AND?: TradesScalarWhereWithAggregatesInput | TradesScalarWhereWithAggregatesInput[]
+    OR?: TradesScalarWhereWithAggregatesInput[]
+    NOT?: TradesScalarWhereWithAggregatesInput | TradesScalarWhereWithAggregatesInput[]
+    tradeId?: StringWithAggregatesFilter<"Trades"> | string
+    symbol?: StringWithAggregatesFilter<"Trades"> | string
+    price?: FloatWithAggregatesFilter<"Trades"> | number
+    volume?: FloatWithAggregatesFilter<"Trades"> | number
+    timestamp?: BigIntWithAggregatesFilter<"Trades"> | bigint | number
+  }
+
   export type OrdersCreateInput = {
     orderId: string
     symbol: string
@@ -2398,6 +3591,62 @@ export namespace Prisma {
     timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSTATUSFieldUpdateOperationsInput | $Enums.STATUS
+  }
+
+  export type TradesCreateInput = {
+    tradeId: string
+    symbol: string
+    price: number
+    volume: number
+    timestamp: bigint | number
+  }
+
+  export type TradesUncheckedCreateInput = {
+    tradeId: string
+    symbol: string
+    price: number
+    volume: number
+    timestamp: bigint | number
+  }
+
+  export type TradesUpdateInput = {
+    tradeId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    volume?: FloatFieldUpdateOperationsInput | number
+    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TradesUncheckedUpdateInput = {
+    tradeId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    volume?: FloatFieldUpdateOperationsInput | number
+    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TradesCreateManyInput = {
+    tradeId: string
+    symbol: string
+    price: number
+    volume: number
+    timestamp: bigint | number
+  }
+
+  export type TradesUpdateManyMutationInput = {
+    tradeId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    volume?: FloatFieldUpdateOperationsInput | number
+    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TradesUncheckedUpdateManyInput = {
+    tradeId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    volume?: FloatFieldUpdateOperationsInput | number
+    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2599,6 +3848,42 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSTATUSFilter<$PrismaModel>
     _max?: NestedEnumSTATUSFilter<$PrismaModel>
+  }
+
+  export type TradesCountOrderByAggregateInput = {
+    tradeId?: SortOrder
+    symbol?: SortOrder
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type TradesAvgOrderByAggregateInput = {
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type TradesMaxOrderByAggregateInput = {
+    tradeId?: SortOrder
+    symbol?: SortOrder
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type TradesMinOrderByAggregateInput = {
+    tradeId?: SortOrder
+    symbol?: SortOrder
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type TradesSumOrderByAggregateInput = {
+    price?: SortOrder
+    volume?: SortOrder
+    timestamp?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {

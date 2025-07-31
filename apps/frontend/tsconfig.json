@@ -1,0 +1,21 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "react"
+      }
+    ],
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../../packages/ui/**/*.tsx"
+, "tailwind.config.js"    
+  ],
+  "exclude": ["node_modules"]
+  
+  
+}

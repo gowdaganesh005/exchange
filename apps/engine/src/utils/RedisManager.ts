@@ -28,6 +28,11 @@ export class RedisManager{
         
     }
 
+    public async publishPrice(symbol:string,data:any){
+        console.log(data)
+        await this.client.publish(symbol,JSON.stringify(data,(_,value)=> typeof value == 'bigint' ? value.toString() : value))
+    }
+
     public async publishStream(stream:string,data:any){
         console.log(data)
         await this.client.publish(stream,JSON.stringify(data,(_,value)=> typeof value == 'bigint' ? value.toString() : value))
