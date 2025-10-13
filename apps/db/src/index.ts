@@ -10,14 +10,21 @@ const redisclient = RedisManager.getInstance()
 async function ProcessRequest(){
     while(true){
         let data:any = await redisclient.fetchQueueItems()
+        
     
         
         if(data){
+            
             console.log(data)
             data = JSON.parse(data)
+
+            
+
             console.log(data)
             if(data && data.type=="create"){
                 try{
+                    data.data.timestamp= new Date(Number(data.data.timestamp));
+            data.data.updatedAt = new Date(Number(data.data.updatedAt));
                     await client.orders.create({
                         data: data.data
                     })
@@ -35,7 +42,7 @@ async function ProcessRequest(){
                                 filled_price: ele.filled_price,
                                 filled_quantity: { increment: ele.filled_quantity},
                                 status: ele.status,
-                                updatedAt: ele.updatedAt,
+                                updatedAt:new Date( ele.updatedAt),
                             },
                             
                         })
@@ -52,7 +59,7 @@ async function ProcessRequest(){
                             tradeId:data.tradeId,
                             price: data.updates[0].filled_price,
                             volume: data.updates[0].filled_quantity,
-                            timestamp: data.updates[0].updatedAt,
+                            timestamp: new Date(data.updates[0].updatedAt),
                             symbol: data.symbol
                         }
                     })

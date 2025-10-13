@@ -6,7 +6,15 @@ export const candles_route = Router()
 candles_route.post("/candles",async(req:any,res:any)=>{
     const { symbol, time } = req.body 
     try {
-        const candle_info = await client.$executeRaw`SELECT * from candles_${time} from trades WHERE symbol = ${symbol} ORDER by bucket DESC`;
+        const tableName = `candle_${time}`
+        const query = `SELECT bucket as time ,open,high,low,close from  ${tableName} WHERE symbol = $1 ORDER by bucket DESC`
+        const candle_info:any = await client.$queryRawUnsafe(query,symbol)
+        console.log(candle_info)
+        candle_info.map((ele:any)=>{ 
+            ele.time = Math.floor(ele.time.getTime()/1000)
+
+        })
+        candle_info.sort((a:any,b:any)=>a.time-b.time)
         return res.json({data:candle_info}).status(200)
     } catch (error:any) {
         console.log(error.message)

@@ -1020,8 +1020,6 @@ export namespace Prisma {
     quote_quantity: number | null
     filled_quantity: number | null
     filled_price: number | null
-    timestamp: number | null
-    updatedAt: number | null
   }
 
   export type OrdersSumAggregateOutputType = {
@@ -1029,8 +1027,6 @@ export namespace Prisma {
     quote_quantity: number | null
     filled_quantity: number | null
     filled_price: number | null
-    timestamp: bigint | null
-    updatedAt: bigint | null
   }
 
   export type OrdersMinAggregateOutputType = {
@@ -1043,8 +1039,8 @@ export namespace Prisma {
     quote_quantity: number | null
     filled_quantity: number | null
     filled_price: number | null
-    timestamp: bigint | null
-    updatedAt: bigint | null
+    timestamp: Date | null
+    updatedAt: Date | null
     status: $Enums.STATUS | null
   }
 
@@ -1058,8 +1054,8 @@ export namespace Prisma {
     quote_quantity: number | null
     filled_quantity: number | null
     filled_price: number | null
-    timestamp: bigint | null
-    updatedAt: bigint | null
+    timestamp: Date | null
+    updatedAt: Date | null
     status: $Enums.STATUS | null
   }
 
@@ -1085,8 +1081,6 @@ export namespace Prisma {
     quote_quantity?: true
     filled_quantity?: true
     filled_price?: true
-    timestamp?: true
-    updatedAt?: true
   }
 
   export type OrdersSumAggregateInputType = {
@@ -1094,8 +1088,6 @@ export namespace Prisma {
     quote_quantity?: true
     filled_quantity?: true
     filled_price?: true
-    timestamp?: true
-    updatedAt?: true
   }
 
   export type OrdersMinAggregateInputType = {
@@ -1240,8 +1232,8 @@ export namespace Prisma {
     quote_quantity: number
     filled_quantity: number
     filled_price: number
-    timestamp: bigint
-    updatedAt: bigint
+    timestamp: Date
+    updatedAt: Date
     status: $Enums.STATUS
     _count: OrdersCountAggregateOutputType | null
     _avg: OrdersAvgAggregateOutputType | null
@@ -1339,8 +1331,8 @@ export namespace Prisma {
       quote_quantity: number
       filled_quantity: number
       filled_price: number
-      timestamp: bigint
-      updatedAt: bigint
+      timestamp: Date
+      updatedAt: Date
       status: $Enums.STATUS
     }, ExtArgs["result"]["orders"]>
     composites: {}
@@ -1774,8 +1766,8 @@ export namespace Prisma {
     readonly quote_quantity: FieldRef<"Orders", 'Float'>
     readonly filled_quantity: FieldRef<"Orders", 'Float'>
     readonly filled_price: FieldRef<"Orders", 'Float'>
-    readonly timestamp: FieldRef<"Orders", 'BigInt'>
-    readonly updatedAt: FieldRef<"Orders", 'BigInt'>
+    readonly timestamp: FieldRef<"Orders", 'DateTime'>
+    readonly updatedAt: FieldRef<"Orders", 'DateTime'>
     readonly status: FieldRef<"Orders", 'STATUS'>
   }
     
@@ -2158,13 +2150,11 @@ export namespace Prisma {
   export type TradesAvgAggregateOutputType = {
     price: number | null
     volume: number | null
-    timestamp: number | null
   }
 
   export type TradesSumAggregateOutputType = {
     price: number | null
     volume: number | null
-    timestamp: bigint | null
   }
 
   export type TradesMinAggregateOutputType = {
@@ -2172,7 +2162,7 @@ export namespace Prisma {
     symbol: string | null
     price: number | null
     volume: number | null
-    timestamp: bigint | null
+    timestamp: Date | null
   }
 
   export type TradesMaxAggregateOutputType = {
@@ -2180,7 +2170,7 @@ export namespace Prisma {
     symbol: string | null
     price: number | null
     volume: number | null
-    timestamp: bigint | null
+    timestamp: Date | null
   }
 
   export type TradesCountAggregateOutputType = {
@@ -2196,13 +2186,11 @@ export namespace Prisma {
   export type TradesAvgAggregateInputType = {
     price?: true
     volume?: true
-    timestamp?: true
   }
 
   export type TradesSumAggregateInputType = {
     price?: true
     volume?: true
-    timestamp?: true
   }
 
   export type TradesMinAggregateInputType = {
@@ -2321,7 +2309,7 @@ export namespace Prisma {
     symbol: string
     price: number
     volume: number
-    timestamp: bigint
+    timestamp: Date
     _count: TradesCountAggregateOutputType | null
     _avg: TradesAvgAggregateOutputType | null
     _sum: TradesSumAggregateOutputType | null
@@ -2385,7 +2373,7 @@ export namespace Prisma {
       symbol: string
       price: number
       volume: number
-      timestamp: bigint
+      timestamp: Date
     }, ExtArgs["result"]["trades"]>
     composites: {}
   }
@@ -2813,7 +2801,7 @@ export namespace Prisma {
     readonly symbol: FieldRef<"Trades", 'String'>
     readonly price: FieldRef<"Trades", 'Float'>
     readonly volume: FieldRef<"Trades", 'Float'>
-    readonly timestamp: FieldRef<"Trades", 'BigInt'>
+    readonly timestamp: FieldRef<"Trades", 'DateTime'>
   }
     
 
@@ -3301,16 +3289,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'BigInt'
+   * Reference to a field of type 'DateTime'
    */
-  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
   /**
-   * Reference to a field of type 'BigInt[]'
+   * Reference to a field of type 'DateTime[]'
    */
-  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -3358,8 +3346,8 @@ export namespace Prisma {
     quote_quantity?: FloatFilter<"Orders"> | number
     filled_quantity?: FloatFilter<"Orders"> | number
     filled_price?: FloatFilter<"Orders"> | number
-    timestamp?: BigIntFilter<"Orders"> | bigint | number
-    updatedAt?: BigIntFilter<"Orders"> | bigint | number
+    timestamp?: DateTimeFilter<"Orders"> | Date | string
+    updatedAt?: DateTimeFilter<"Orders"> | Date | string
     status?: EnumSTATUSFilter<"Orders"> | $Enums.STATUS
   }
 
@@ -3391,8 +3379,8 @@ export namespace Prisma {
     quote_quantity?: FloatFilter<"Orders"> | number
     filled_quantity?: FloatFilter<"Orders"> | number
     filled_price?: FloatFilter<"Orders"> | number
-    timestamp?: BigIntFilter<"Orders"> | bigint | number
-    updatedAt?: BigIntFilter<"Orders"> | bigint | number
+    timestamp?: DateTimeFilter<"Orders"> | Date | string
+    updatedAt?: DateTimeFilter<"Orders"> | Date | string
     status?: EnumSTATUSFilter<"Orders"> | $Enums.STATUS
   }, "orderId">
 
@@ -3429,8 +3417,8 @@ export namespace Prisma {
     quote_quantity?: FloatWithAggregatesFilter<"Orders"> | number
     filled_quantity?: FloatWithAggregatesFilter<"Orders"> | number
     filled_price?: FloatWithAggregatesFilter<"Orders"> | number
-    timestamp?: BigIntWithAggregatesFilter<"Orders"> | bigint | number
-    updatedAt?: BigIntWithAggregatesFilter<"Orders"> | bigint | number
+    timestamp?: DateTimeWithAggregatesFilter<"Orders"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Orders"> | Date | string
     status?: EnumSTATUSWithAggregatesFilter<"Orders"> | $Enums.STATUS
   }
 
@@ -3442,7 +3430,7 @@ export namespace Prisma {
     symbol?: StringFilter<"Trades"> | string
     price?: FloatFilter<"Trades"> | number
     volume?: FloatFilter<"Trades"> | number
-    timestamp?: BigIntFilter<"Trades"> | bigint | number
+    timestamp?: DateTimeFilter<"Trades"> | Date | string
   }
 
   export type TradesOrderByWithRelationInput = {
@@ -3454,15 +3442,18 @@ export namespace Prisma {
   }
 
   export type TradesWhereUniqueInput = Prisma.AtLeast<{
-    tradeId?: string
+    tradeId_timestamp?: TradesTradeIdTimestampCompoundUniqueInput
+    symbol_timestamp?: TradesSymbolTimestampCompoundUniqueInput
+    timestamp_symbol?: TradesTimestampSymbolCompoundUniqueInput
     AND?: TradesWhereInput | TradesWhereInput[]
     OR?: TradesWhereInput[]
     NOT?: TradesWhereInput | TradesWhereInput[]
+    tradeId?: StringFilter<"Trades"> | string
     symbol?: StringFilter<"Trades"> | string
     price?: FloatFilter<"Trades"> | number
     volume?: FloatFilter<"Trades"> | number
-    timestamp?: BigIntFilter<"Trades"> | bigint | number
-  }, "tradeId">
+    timestamp?: DateTimeFilter<"Trades"> | Date | string
+  }, "timestamp_symbol" | "tradeId_timestamp" | "symbol_timestamp">
 
   export type TradesOrderByWithAggregationInput = {
     tradeId?: SortOrder
@@ -3485,7 +3476,7 @@ export namespace Prisma {
     symbol?: StringWithAggregatesFilter<"Trades"> | string
     price?: FloatWithAggregatesFilter<"Trades"> | number
     volume?: FloatWithAggregatesFilter<"Trades"> | number
-    timestamp?: BigIntWithAggregatesFilter<"Trades"> | bigint | number
+    timestamp?: DateTimeWithAggregatesFilter<"Trades"> | Date | string
   }
 
   export type OrdersCreateInput = {
@@ -3498,8 +3489,8 @@ export namespace Prisma {
     quote_quantity: number
     filled_quantity?: number
     filled_price?: number
-    timestamp: bigint | number
-    updatedAt: bigint | number
+    timestamp: Date | string
+    updatedAt: Date | string
     status: $Enums.STATUS
   }
 
@@ -3513,8 +3504,8 @@ export namespace Prisma {
     quote_quantity: number
     filled_quantity?: number
     filled_price?: number
-    timestamp: bigint | number
-    updatedAt: bigint | number
+    timestamp: Date | string
+    updatedAt: Date | string
     status: $Enums.STATUS
   }
 
@@ -3528,8 +3519,8 @@ export namespace Prisma {
     quote_quantity?: FloatFieldUpdateOperationsInput | number
     filled_quantity?: FloatFieldUpdateOperationsInput | number
     filled_price?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
-    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumSTATUSFieldUpdateOperationsInput | $Enums.STATUS
   }
 
@@ -3543,8 +3534,8 @@ export namespace Prisma {
     quote_quantity?: FloatFieldUpdateOperationsInput | number
     filled_quantity?: FloatFieldUpdateOperationsInput | number
     filled_price?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
-    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumSTATUSFieldUpdateOperationsInput | $Enums.STATUS
   }
 
@@ -3558,8 +3549,8 @@ export namespace Prisma {
     quote_quantity: number
     filled_quantity?: number
     filled_price?: number
-    timestamp: bigint | number
-    updatedAt: bigint | number
+    timestamp: Date | string
+    updatedAt: Date | string
     status: $Enums.STATUS
   }
 
@@ -3573,8 +3564,8 @@ export namespace Prisma {
     quote_quantity?: FloatFieldUpdateOperationsInput | number
     filled_quantity?: FloatFieldUpdateOperationsInput | number
     filled_price?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
-    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumSTATUSFieldUpdateOperationsInput | $Enums.STATUS
   }
 
@@ -3588,8 +3579,8 @@ export namespace Prisma {
     quote_quantity?: FloatFieldUpdateOperationsInput | number
     filled_quantity?: FloatFieldUpdateOperationsInput | number
     filled_price?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
-    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumSTATUSFieldUpdateOperationsInput | $Enums.STATUS
   }
 
@@ -3598,7 +3589,7 @@ export namespace Prisma {
     symbol: string
     price: number
     volume: number
-    timestamp: bigint | number
+    timestamp: Date | string
   }
 
   export type TradesUncheckedCreateInput = {
@@ -3606,7 +3597,7 @@ export namespace Prisma {
     symbol: string
     price: number
     volume: number
-    timestamp: bigint | number
+    timestamp: Date | string
   }
 
   export type TradesUpdateInput = {
@@ -3614,7 +3605,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     volume?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TradesUncheckedUpdateInput = {
@@ -3622,7 +3613,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     volume?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TradesCreateManyInput = {
@@ -3630,7 +3621,7 @@ export namespace Prisma {
     symbol: string
     price: number
     volume: number
-    timestamp: bigint | number
+    timestamp: Date | string
   }
 
   export type TradesUpdateManyMutationInput = {
@@ -3638,7 +3629,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     volume?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TradesUncheckedUpdateManyInput = {
@@ -3646,7 +3637,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     volume?: FloatFieldUpdateOperationsInput | number
-    timestamp?: BigIntFieldUpdateOperationsInput | bigint | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3689,15 +3680,15 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type BigIntFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type EnumSTATUSFilter<$PrismaModel = never> = {
@@ -3727,8 +3718,6 @@ export namespace Prisma {
     quote_quantity?: SortOrder
     filled_quantity?: SortOrder
     filled_price?: SortOrder
-    timestamp?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type OrdersMaxOrderByAggregateInput = {
@@ -3766,8 +3755,6 @@ export namespace Prisma {
     quote_quantity?: SortOrder
     filled_quantity?: SortOrder
     filled_price?: SortOrder
-    timestamp?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3824,20 +3811,18 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedBigIntFilter<$PrismaModel>
-    _min?: NestedBigIntFilter<$PrismaModel>
-    _max?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type EnumSTATUSWithAggregatesFilter<$PrismaModel = never> = {
@@ -3848,6 +3833,21 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSTATUSFilter<$PrismaModel>
     _max?: NestedEnumSTATUSFilter<$PrismaModel>
+  }
+
+  export type TradesTradeIdTimestampCompoundUniqueInput = {
+    tradeId: string
+    timestamp: Date | string
+  }
+
+  export type TradesSymbolTimestampCompoundUniqueInput = {
+    symbol: string
+    timestamp: Date | string
+  }
+
+  export type TradesTimestampSymbolCompoundUniqueInput = {
+    timestamp: Date | string
+    symbol: string
   }
 
   export type TradesCountOrderByAggregateInput = {
@@ -3861,7 +3861,6 @@ export namespace Prisma {
   export type TradesAvgOrderByAggregateInput = {
     price?: SortOrder
     volume?: SortOrder
-    timestamp?: SortOrder
   }
 
   export type TradesMaxOrderByAggregateInput = {
@@ -3883,7 +3882,6 @@ export namespace Prisma {
   export type TradesSumOrderByAggregateInput = {
     price?: SortOrder
     volume?: SortOrder
-    timestamp?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3906,12 +3904,8 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type BigIntFieldUpdateOperationsInput = {
-    set?: bigint | number
-    increment?: bigint | number
-    decrement?: bigint | number
-    multiply?: bigint | number
-    divide?: bigint | number
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type EnumSTATUSFieldUpdateOperationsInput = {
@@ -3957,15 +3951,15 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedBigIntFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedEnumSTATUSFilter<$PrismaModel = never> = {
@@ -4039,20 +4033,18 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedBigIntFilter<$PrismaModel>
-    _min?: NestedBigIntFilter<$PrismaModel>
-    _max?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumSTATUSWithAggregatesFilter<$PrismaModel = never> = {

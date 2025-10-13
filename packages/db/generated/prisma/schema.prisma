@@ -32,24 +32,28 @@ enum STATUS {
 }
 
 model Orders {
-  orderId         String @unique
+  orderId         String   @unique
   symbol          String
   userId          String
   side            SIDE
   type            TYPE
   quote_price     Float
   quote_quantity  Float
-  filled_quantity Float  @default(0)
-  filled_price    Float  @default(-1)
-  timestamp       BigInt
-  updatedAt       BigInt
+  filled_quantity Float    @default(0)
+  filled_price    Float    @default(-1)
+  timestamp       DateTime
+  updatedAt       DateTime
   status          STATUS
 }
 
 model Trades {
-  tradeId   String   @unique
+  tradeId   String
   symbol    String
   price     Float
   volume    Float
   timestamp DateTime
+
+  @@id([timestamp, symbol])
+  @@unique([tradeId, timestamp])
+  @@unique([symbol, timestamp])
 }

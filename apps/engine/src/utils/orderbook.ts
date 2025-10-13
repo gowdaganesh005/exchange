@@ -51,19 +51,19 @@ export class OrderBook{
 
                     quantity = 0
 
-                    parentPort?.postMessage({
-                        data:{
-                            T: BigInt(Date.now()),
-                            i: BigInt(this.updateId++),
-                            e: "depth",
-                            a: [[ this.consolidatedBook.sells[0].price,this.consolidatedBook.sells[0].quantity]],
-                            s: this.symbol,
-                            b: []
-                        },
-                        symbol: this.symbol,
-                        type: "depthUpdates"
+                    // parentPort?.postMessage({
+                    //     data:{
+                    //         T: BigInt(Date.now()),
+                    //         i: BigInt(this.updateId++),
+                    //         e: "depth",
+                    //         a: [[ this.consolidatedBook.sells[0].price,this.consolidatedBook.sells[0].quantity]],
+                    //         s: this.symbol,
+                    //         b: []
+                    //     },
+                    //     symbol: this.symbol,
+                    //     type: "depthUpdates"
 
-                    })
+                    // })
 
                     parentPort?.postMessage({
                         type: "bookticker",
@@ -94,6 +94,12 @@ export class OrderBook{
                                 }]
                         }                        
                     })
+                    if(this.orderBook.sells[0].quantity == 0){
+                        this.orderBook.sells.shift()
+                    }
+                    if(this.consolidatedBook.sells[0].quantity == 0){
+                        this.consolidatedBook.sells.shift()
+                    }
                 }
                 else{
                     let curQuantity = this.orderBook.sells[0].quantity
@@ -107,19 +113,19 @@ export class OrderBook{
                         quantity: curQuantity , 
                         timestamp: Date.now()
                     })
-                    parentPort?.postMessage({
-                        data:{
-                            T: BigInt(Date.now()),
-                            i: BigInt(this.updateId++),
-                            e: "depth",
-                            a: [[ this.orderBook.sells[0].price,0]],
-                            s: this.symbol,
-                            b: [[ price,quantity]]
-                        },
-                        type:"depthUpdates",
-                        symbol: this.symbol
+                    // parentPort?.postMessage({
+                    //     data:{
+                    //         T: BigInt(Date.now()),
+                    //         i: BigInt(this.updateId++),
+                    //         e: "depth",
+                    //         a: [[ this.orderBook.sells[0].price,0]],
+                    //         s: this.symbol,
+                    //         b: [[ price,quantity]]
+                    //     },
+                    //     type:"depthUpdates",
+                    //     symbol: this.symbol
 
-                    })
+                    // })
 
                     parentPort?.postMessage({
                         type:"bookticker",
@@ -157,9 +163,7 @@ export class OrderBook{
                     if(this.consolidatedBook.sells[0].quantity == 0){
                         this.consolidatedBook.sells.shift()
                     }
-                    if(this.consolidatedBook.buys[0].quantity == 0){
-                        this.consolidatedBook.buys.shift()
-                    }
+                    
 
 
                 }
@@ -167,7 +171,6 @@ export class OrderBook{
                 
             }
             console.log(fills)
-            let actualquantity =0
             if(quantity > 0){
 
                 this.orderBook.buys.push({price,quantity,timestamp,userId,orderId})
@@ -182,25 +185,23 @@ export class OrderBook{
                 const value = this.consolidatedBook.buys.findIndex((a)=>a.price == price)
                 if(value != -1){
                     this.consolidatedBook.buys[value].quantity += quantity
-                    actualquantity = this.consolidatedBook.buys[value].quantity 
                 }else{
                     this.consolidatedBook.buys.push({price,quantity})
-                    actualquantity= quantity
                 }
 
                 this.consolidatedBook.buys.sort((a,b)=>b.price - a.price)
-                parentPort?.postMessage({
-                    data:{
-                        T: BigInt(Date.now()),
-                        b: [[ price,actualquantity ]],
-                        e: "depth",
-                        i: BigInt(this.updateId++),
-                        s: this.symbol,
-                        a: []
-                    },
-                    type:"depthUpdates",
-                    symbol: this.symbol
-                })
+                // parentPort?.postMessage({
+                //     data:{
+                //         T: BigInt(Date.now()),
+                //         b: [[ price,actualquantity ]],
+                //         e: "depth",
+                //         i: BigInt(this.updateId++),
+                //         s: this.symbol,
+                //         a: []
+                //     },
+                //     type:"depthUpdates",
+                //     symbol: this.symbol
+                // })
 
                 }
 
@@ -221,6 +222,36 @@ export class OrderBook{
                 
 
 
+                console.log(fills)
+                let asksmsg:any = []
+                if(fills.length >0){
+                    fills.forEach((element:fill) => {
+                        let i = asksmsg.findIndex((e:any)=>e[0]==element.price)
+                        if(i!=-1){
+                            asksmsg[i][1]-=element.quantity
+                        }else{
+                            asksmsg.push([element.price,-element.quantity])
+                        }
+                    });
+                }
+
+                let bidsmsg :any=[]
+                if(quantity>0){
+                    bidsmsg= [[price,quantity]]
+                }
+
+                parentPort?.postMessage({
+                        data:{
+                            T: BigInt(Date.now()),
+                            b: bidsmsg,
+                            e: "depth",
+                            i: BigInt(this.updateId++),
+                            s: this.symbol,
+                            a: asksmsg
+                        },
+                        type:"depthUpdates",
+                        symbol: this.symbol
+                    })
 
 
                 return {
@@ -242,19 +273,19 @@ export class OrderBook{
                     quantity = 0
 
                     //sending the update of reduced  quantity of the order that is matched
-                    parentPort?.postMessage({
-                        data:{
-                            T: BigInt(Date.now()),
-                            i: BigInt(this.updateId++),
-                            e: "depth",
-                            b: [ [this.consolidatedBook.buys[0].price,this.consolidatedBook.buys[0].quantity ]],
-                            s: this.symbol,
-                            a: []
-                        },
-                        type: "depthUpdates",
-                        symbol: this.symbol
+                    // parentPort?.postMessage({
+                    //     data:{
+                    //         T: BigInt(Date.now()),
+                    //         i: BigInt(this.updateId++),
+                    //         e: "depth",
+                    //         b: [ [this.consolidatedBook.buys[0].price,this.consolidatedBook.buys[0].quantity ]],
+                    //         s: this.symbol,
+                    //         a: []
+                    //     },
+                    //     type: "depthUpdates",
+                    //     symbol: this.symbol
 
-                    })
+                    // })
 
                     parentPort?.postMessage({
                         type:"bookticker",
@@ -287,6 +318,12 @@ export class OrderBook{
                     }
                         
                     })
+                    if(this.orderBook.buys[0].quantity == 0){
+                        this.orderBook.buys.shift()
+                    }
+                    if(this.consolidatedBook.buys[0].quantity == 0){
+                        this.consolidatedBook.buys.shift()
+                    }
                 }
                 else{
                     let curQuantity = this.orderBook.buys[0].quantity
@@ -300,19 +337,19 @@ export class OrderBook{
                         timestamp: Date.now()
                     })
 
-                    parentPort?.postMessage({
-                        data:{
-                            T: BigInt(Date.now()),
-                            i: BigInt(this.updateId++),
-                            e: "depth",
-                            b: [ [this.consolidatedBook.buys[0].price,0]],
-                            s: this.symbol,
-                            a: [[price,quantity]]
-                        },
-                        type:"depthUpdates",
-                        symbol: this.symbol
+                    // parentPort?.postMessage({
+                    //     data:{
+                    //         T: BigInt(Date.now()),
+                    //         i: BigInt(this.updateId++),
+                    //         e: "depth",
+                    //         b: [ [this.consolidatedBook.buys[0].price,0]],
+                    //         s: this.symbol,
+                    //         a: [[price,quantity]]
+                    //     },
+                    //     type:"depthUpdates",
+                    //     symbol: this.symbol
 
-                    })
+                    // })
 
                     parentPort?.postMessage({
                         type:"bookticker",
@@ -347,19 +384,18 @@ export class OrderBook{
                     if(this.consolidatedBook.buys[0].quantity == 0){
                         this.consolidatedBook.buys.shift()
                     }
-                    if(this.consolidatedBook.sells[0].quantity == 0){
-                        this.consolidatedBook.sells.shift()
-                    }
+                    
+                    
                    
                 }
 
                 
             }
             console.log(fills)
-            let actualquantity = 0;
             if(quantity > 0){
 
                 this.orderBook.sells.push({price,quantity,timestamp,userId,orderId})
+                
                 this.orderBook.sells.sort((a,b)=>{ 
                     if(a.price == b.price ){
                         return a.timestamp - b.timestamp
@@ -372,25 +408,23 @@ export class OrderBook{
                 const value = this.consolidatedBook.sells.findIndex((a)=>a.price == price)
                 if(value != -1){
                     this.consolidatedBook.sells[value].quantity += quantity
-                    actualquantity= this.consolidatedBook.sells[value].quantity
                 }else{
                     this.consolidatedBook.sells.push({price,quantity})
-                    actualquantity= quantity
                 }
 
                 this.consolidatedBook.sells.sort((a,b)=>a.price - b.price)
-                parentPort?.postMessage({
-                    data:{
-                        T: BigInt(Date.now()),
-                        a: [[ price,actualquantity]  ],
-                        e: "depth",
-                        i: BigInt(this.updateId++),
-                        s: this.symbol,
-                        b: []
-                    },
-                    type:"depthUpdates",
-                    symbol: this.symbol
-                })
+                // parentPort?.postMessage({
+                //     data:{
+                //         T: BigInt(Date.now()),
+                //         a: [[ price,actualquantity]  ],
+                //         e: "depth",
+                //         i: BigInt(this.updateId++),
+                //         s: this.symbol,
+                //         b: []
+                //     },
+                //     type:"depthUpdates",
+                //     symbol: this.symbol
+                // })
 
                 }
 
@@ -405,6 +439,37 @@ export class OrderBook{
                 //     }
                     
                 // })
+
+                let bidsmsg:any = []
+                if(fills.length >0){
+                    fills.forEach((element:fill) => {
+                        let i = bidsmsg.findIndex((e:any)=>e[0]==element.price)
+                        if(i!=-1){
+                            bidsmsg[i][1]-=element.quantity
+                        }else{
+                            bidsmsg.push([element.price,-element.quantity])
+                        }
+                    });
+                }
+
+                let asksmsg :any=[]
+                console.log(quantity)
+                if(quantity>0){
+                    asksmsg= [[price,quantity]]
+                }
+
+                parentPort?.postMessage({
+                        data:{
+                            T: BigInt(Date.now()),
+                            b: bidsmsg,
+                            e: "depth",
+                            i: BigInt(this.updateId++),
+                            s: this.symbol,
+                            a: asksmsg
+                        },
+                        type:"depthUpdates",
+                        symbol: this.symbol
+                    })
                 
 
 

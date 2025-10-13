@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, EventHandler } from "react"
 import axios from "axios";
 
 
@@ -9,6 +9,8 @@ function OrderBook({symbol}:{symbol:string}){
     const [trades,setTrades] = useState<any>(null)
     const tradesRef = useRef<any>([])
     const [price,setPrice]= useState<any>(0)
+
+    const [activeTab , setActiveTab] = useState<'orderbook'|'trades'>('orderbook')
     
    
 
@@ -19,8 +21,8 @@ function OrderBook({symbol}:{symbol:string}){
                 const { data } = await axios.get(`http://localhost:3000/api/v1/snapshot/${symbol}`)
                 const priceData = await axios.get(`http://localhost:3000/api/v1/price/${symbol}`)
                 
-
-                const price = priceData.data?.price
+                console.log(priceData)
+                const price = priceData.data
                 if(price && price > 0) {
                     setPrice(price)
                 } else if(data && data.asks && data.bids && data.asks.length > 0 && data.bids.length > 0) {
@@ -83,31 +85,42 @@ function OrderBook({symbol}:{symbol:string}){
                                     const index = orderBookRef.current.asks.findIndex((a:number[])=>a[0]==ele[0])
                                     if(index!=-1){
 
-                                    if( ele[1]==0){
-                                        orderBookRef.current.asks.splice(index,1)
+                                        orderBookRef.current.asks[index][1] += ele[1]
+                                        if(orderBookRef.current.asks[index][1]==0){
+                                            orderBookRef.current.asks.splice(index,1);
+                                        }
                                         let cumm =0
                                         orderBookRef.current.asks.map((ele:any)=>{
                                             cumm = cumm + ele[1]
                                             ele[2] = cumm
                                             return ele
                                         })
+
+                                    // if( ele[1]==0){
+                                    //     orderBookRef.current.asks.splice(index,1)
+                                    //     let cumm =0
+                                    //     orderBookRef.current.asks.map((ele:any)=>{
+                                    //         cumm = cumm + ele[1]
+                                    //         ele[2] = cumm
+                                    //         return ele
+                                    //     })
                                        
-                                    }else{
-                                        if(ele[1]){
+                                    // }else{
+                                    //     if(ele[1]){
                                         
-                                        orderBookRef.current.asks[index][1] = ele[1]
-                                        let cumm = 0;
-                                        orderBookRef.current.asks.map((ele:any)=>{
-                                            cumm = cumm + ele[1]
-                                            ele[2] = cumm
-                                            return ele
-                                        })
+                                    //     orderBookRef.current.asks[index][1] = ele[1]
+                                    //     let cumm = 0;
+                                    //     orderBookRef.current.asks.map((ele:any)=>{
+                                    //         cumm = cumm + ele[1]
+                                    //         ele[2] = cumm
+                                    //         return ele
+                                    //     })
                                        
-                                        }
+                                    //     }
                                         
 
 
-                                    }
+                                    // }
                                     }else{
                                         if(ele && ele[1] !=0){
                                         const newEntry = [ele[0],ele[1],0]
@@ -132,27 +145,16 @@ function OrderBook({symbol}:{symbol:string}){
                                     // @ts-ignore
                                     console.log(ele[0])
                                     if(index!=-1){
-                                        
-                                    if( ele && ele[0] && ele[1] == 0){
-                                        
-                                        orderBookRef.current.bids.splice(index,1)
-                                        hasUpdates= true;
-                                    }else{
-                                        if(ele[1]){
-                                        
-                                        orderBookRef.current.bids[index][1] = ele[1]
-                                        let cumm = 0;
+                                        orderBookRef.current.bids[index][1] += ele[1]
+                                        if(orderBookRef.current.bids[index][1]==0){
+                                            orderBookRef.current.bids.splice(index,1);
+                                        }
+                                        let cumm =0
                                         orderBookRef.current.bids.map((ele:any)=>{
                                             cumm = cumm + ele[1]
                                             ele[2] = cumm
                                             return ele
                                         })
-                                       
-                                        }
-                                        hasUpdates = true;
-
-
-                                    }
                                     }else{
                                         if( ele  && ele[1] != 0){
                                         const newEntry = [ele[0],ele[1],0]
@@ -167,9 +169,10 @@ function OrderBook({symbol}:{symbol:string}){
                                         console.log(orderBookRef.current.bids)
                                         
                                     }
-                                    hasUpdates = true
+                                    
                                 }
                                 })
+                                hasUpdates = true
                             }
                             if(hasUpdates){
                                 orderBookRef.current.lastupdateId ++;
@@ -181,9 +184,10 @@ function OrderBook({symbol}:{symbol:string}){
                     }
                     if(JSON.parse(updates.data).type == 'bookticker'){
                         const updatedPrice = JSON.parse(updates.data)
+                        console.log(updatedPrice)
                         setPrice(updatedPrice.tickerPrice)
                         tradesRef.current.push([updatedPrice.tickerPrice,updatedPrice.size])
-                        setTrades(tradesRef.current)
+                        setTrades([...tradesRef.current])
                         console.log(trades)
                     }
                     }catch(error:any){
@@ -259,10 +263,32 @@ function OrderBook({symbol}:{symbol:string}){
     const maxCumulativeB = reversedBids.length > 0 ? reversedBids[reversedBids.length-1][2] : 1;
 
 
+
     return (
         <>
-        <div className="bg-[rgb(var(--foreground-rgb))] text-blue-100 pr-4 w-full flex flex-col h-[calc(100vh-12rem)] justify-center  ">
+        <div className="w-full">
+        <div className="text-white flex justify-between mx-5 py-3">
+            <button 
+            onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{
+                setActiveTab("orderbook")
+            }}
+            className="bg-gray-500 px-4 rounded">Order Book</button>
+            
+            <button 
+            onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{
+                setActiveTab("trades")
+            }}
+            className="bg-gray-500 px-3 rounded">Trades</button>
+        </div>
+       { activeTab=='orderbook' && ( <div className=" bg-[rgb(var(--foreground-rgb))] text-blue-100 pr-4 w-full flex flex-col h-[calc(100vh-12rem)] justify-center  ">
             <div className="max-h-3/4 w-full">
+            <div className="flex relative z-10 bg-transparent top-0 w-full text-[13px]  font-light px-2 ">
+                        <div className="w-3/5 font-semibold">Price</div>
+                        <div className="w-1/2 font-medium flex justify-between">
+                            <div className="-mx-1">Size</div>
+                            <div>Total</div>
+                        </div>
+            </div>
            {topAsks && 
             topAsks.map((element:any) => {
                 const Lightwidth = (element[2]/maxCumulativeA)*100;
@@ -321,6 +347,30 @@ function OrderBook({symbol}:{symbol:string}){
             })}
             
             </div>
+        </div>)
+        }
+
+        {activeTab=='trades' && (<div className="w-full mr-4 text-white bg-[rgb(var(--foreground-rgb))] min-h-[82vh] h-[100%]">
+            <div className="flex justify-between text-sm px-2 font-semibold">
+                <div>
+                    Price
+                </div>
+                <div>
+                    Size
+                </div>
+            </div>
+            {/* { trades && trades.map((ele:any)=>( */}
+                <div className="relative  flex justify-between px-2 my-[2px]  ">
+                    <div className="absolute inset-0 w-[100%] bg-indigo-800 opacity-35 rounded"></div>
+                    <div className="font-semibold  ">
+                        $30
+                    </div>
+                    <div>
+                        19
+                    </div>
+                </div>
+            {/* ))} */}
+        </div>)}
         </div>
         </>
     )

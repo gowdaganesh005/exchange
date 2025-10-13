@@ -41,16 +41,20 @@ model Orders{
   quote_quantity Float
   filled_quantity Float @default(0)
   filled_price Float @default(-1)
-  timestamp BigInt
-  updatedAt BigInt
+  timestamp DateTime
+  updatedAt DateTime
   status STATUS
   
 }
 
-model Trades{
-  tradeId String @unique
-  symbol String
-  price Float
-  volume Float
-  timestamp BigInt
+model Trades {
+  tradeId   String
+  symbol    String
+  price     Float
+  volume    Float
+  timestamp DateTime
+
+  @@id([timestamp, symbol])
+  @@unique([tradeId, timestamp])
+  @@unique([symbol, timestamp])
 }

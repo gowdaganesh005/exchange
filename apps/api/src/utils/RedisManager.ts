@@ -46,7 +46,7 @@ export class RedisManager{
   }
 
   public async getPrice(symbol:string){
-    return await this.client.GET(`price.${symbol}`)
+    return await this.client.hGet('PRICE',`price.${symbol}`)
   }
 
 }
