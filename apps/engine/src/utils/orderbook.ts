@@ -81,7 +81,7 @@ export class OrderBook{
                     parentPort?.postMessage({
                         type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "tradeUpdate",
                             symbol: this.symbol,
                             tradeId: this.updateId.toString(),
                             updates:[{
@@ -103,9 +103,9 @@ export class OrderBook{
                     const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.sells[0].price);
 
                     parentPort?.postMessage({
-                        type: "walletUpdate",
+                        type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "walletUpdate",
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             credit: this.orderBook.sells[0].userId,
@@ -161,7 +161,7 @@ export class OrderBook{
                     parentPort?.postMessage({
                         type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "tradeUpdate",
                             tradeId: this.updateId.toString(),
                             symbol: this.symbol,
                         
@@ -184,9 +184,9 @@ export class OrderBook{
                     const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.sells[0].price);
 
                     parentPort?.postMessage({
-                        type: "walletUpdate",
+                        type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "walletUpdate",
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             credit: this.orderBook.sells[0].userId,
@@ -335,7 +335,7 @@ export class OrderBook{
                     parentPort?.postMessage({
                         type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "tradeUpdate",
                             tradeId: this.updateId.toString(),
                             symbol:this.symbol,
                         
@@ -360,9 +360,9 @@ export class OrderBook{
                     const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.buys[0].price);
 
                     parentPort?.postMessage({
-                        type: "walletUpdate",
+                        type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "walletUpdate",
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             debit: this.orderBook.buys[0].userId,
@@ -416,7 +416,7 @@ export class OrderBook{
                     parentPort?.postMessage({
                         type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "tradeUpdate",
                             tradeId: this.updateId.toString(),
                             symbol: this.symbol,
                         
@@ -437,9 +437,9 @@ export class OrderBook{
                     const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.buys[0].price);
 
                     parentPort?.postMessage({
-                        type: "walletUpdate",
+                        type: "dbUpdate",
                         data:{
-                            type: "update",
+                            type: "walletUpdate",
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             debit: this.orderBook.buys[0].userId,

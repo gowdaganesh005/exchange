@@ -31,7 +31,7 @@ async function ProcessRequest(){
                 }catch(error:any){
                     console.log(error.message)
                 }
-            }else if(data.type == "update"){
+            }else if(data.type == "tradeUpdate"){
                 data.updates.forEach(async (ele:any) => {
                     try{
                         await client.orders.update({
@@ -66,6 +66,65 @@ async function ProcessRequest(){
                     console.log("added the trade data to the db")
                 } catch (error:any) {
                     console.log(error.message)
+                }
+            }
+            else if(data.type=="walletUpdate"){
+                try{
+                    await client.$transaction(async (tx)=>{
+                        //credit to the reciever balance 
+                        const crediter = await tx.wallet.update({
+                            where:{
+                                userId:data.credit
+                            },
+                            data:{
+                                freeBalance: {
+                                    increment: data.amount
+                                }
+                            },
+                            select:{
+                                walletId: true
+                            }
+                        })
+
+                        // creditere ledger entry
+                        await tx.ledger.create({
+                            data:{
+                                walletId: crediter.walletId,
+                                amount:data.amount,
+                                type:"CREDIT",
+                                reason:"Order Complete"
+
+                            }
+                        })
+                        // debit from the recivers balance
+                        const debiter = await tx.wallet.update({
+                            where:{
+                                userId: data.debit
+                            },
+                            data:{
+                                lockedBalance:{
+                                    decrement: data.amount
+                                }
+                            },
+                            select:{
+                                walletId: true
+                            }
+                        })
+
+                        // debiter ledger data to make the entry
+
+                        await tx.ledger.create({
+                            data:{
+                                walletId:debiter.walletId,
+                                amount: data.amount,
+                                reason:"Order Complete",
+                                type:"DEBIT"
+                            }
+                        })
+
+                    })
+                }catch(error:any){
+                    console.log("Error Updating Balance :: Transaction Failed :: ",error)
                 }
             }
         }

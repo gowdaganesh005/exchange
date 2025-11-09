@@ -82,7 +82,7 @@ function startAllOrderBooks(){
             await redisClient.publishPrice(`price.${data.symbol}`,data.tickerPrice)
             await redisClient.publishStream(`${data.type}.${data.symbol}`,updatedData)
             
-        }else if(data.type == 'dbUpdate' || data.type == "walletUpdate"){
+        }else if(data.type == 'dbUpdate' ){
             const dbUpdateData = data.data
             await redisClient.pushToDb(dbUpdateData)
 
