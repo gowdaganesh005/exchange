@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, EventHandler } from "react"
+import { useEffect, useState, useRef, EventHandler, useLayoutEffect } from "react"
 import axios from "axios";
 
 
@@ -11,6 +11,9 @@ function OrderBook({symbol}:{symbol:string}){
     const [price,setPrice]= useState<any>(0)
 
     const [activeTab , setActiveTab] = useState<'orderbook'|'trades'>('orderbook')
+
+
+
     
    
 
@@ -266,29 +269,42 @@ function OrderBook({symbol}:{symbol:string}){
 
     return (
         <>
-        <div className="w-full">
-        <div className="text-white flex justify-between mx-5 py-3">
+        <div className="w-full rounded-2xl">
+        <div  className=" relative text-white flex justify-between   text-sm">
+            <div 
+                className={`h-10 absolute -top-1 left-0 w-1/2 rounded-xs   bg-[#32353d] border border-b-2 border-t-0 border-r-0 border-l-0 mt-[1px] 0 z-0 transition ease-in-out ${activeTab==='orderbook'?"rounded-tl-2xl":"rounded-tr-2xl"}` }
+                style={{
+                    
+                    transform:
+                activeTab==='orderbook' ? "translateX(0px)": `translateX(100%)`
+                
+                }}></div>
+            <div  className="h-10 flex w-full justify-between relative z-10 rounded-2xl ">
             <button 
             onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{
                 setActiveTab("orderbook")
             }}
-            className="bg-gray-500 px-4 rounded">Order Book</button>
+            className="  text-center w-1/2 rounded-2xl">Order Book</button>
             
             <button 
             onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{
                 setActiveTab("trades")
             }}
-            className="bg-gray-500 px-3 rounded">Trades</button>
+            className=" rounded text-center w-1/2 h-full ">Trades</button>
+
+            </div>
+            
         </div>
-       { activeTab=='orderbook' && ( <div className=" bg-[rgb(var(--foreground-rgb))] text-blue-100 pr-4 w-full flex flex-col h-[calc(100vh-12rem)] justify-center  ">
-            <div className="max-h-3/4 w-full">
-            <div className="flex relative z-10 bg-transparent top-0 w-full text-[13px]  font-light px-2 ">
+        {activeTab=="orderbook" && <div className=" bg-[rgb(var(--foreground-rgb))] text-blue-100 flex  z-10  top-0 w-full text-[13px]  font-light px-2 ">
                         <div className="w-3/5 font-semibold">Price</div>
                         <div className="w-1/2 font-medium flex justify-between">
                             <div className="-mx-1">Size</div>
                             <div>Total</div>
                         </div>
-            </div>
+            </div>}
+       { activeTab=='orderbook' && ( <div className=" bg-[rgb(var(--foreground-rgb))] text-blue-100  w-full flex flex-col h-[calc(76vh)] justify-center rounded-b-2xl ">
+            <div className="max-h-3/4 w-full">
+            
            {topAsks && 
             topAsks.map((element:any) => {
                 const Lightwidth = (element[2]/maxCumulativeA)*100;

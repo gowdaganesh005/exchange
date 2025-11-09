@@ -11,7 +11,18 @@ const server = http.createServer(app)
 
 const wsServer = new WebSocketServer({ server })
 const redisClient = RedisManager.getInstance()
+
+let candles= new Map<string,Map<string,{time:number,open:number,close:number,low:number,high:number}>>();
+let timeinSeconds:Record<string,number>={
+    "1m":60,
+    "5m":5*60,
+    "10m":10*60,
+    "30m":30*60,
+    "1h":60*60,
+    "1d":24*60*60
+}
 /*
+
 { 
     method: "SUBSCRIBE"
     id: 1,
@@ -19,6 +30,10 @@ const redisClient = RedisManager.getInstance()
 }
 
 */
+
+function getBucketStart(timestamp:number,intervalSeconds:number){
+   return  Math.floor(timestamp/(intervalSeconds*1000))*(intervalSeconds*1000)
+}
 
 let subscriptionMap = new Map()
 let clientMap :Map<string,Set<WebSocket>> = new Map()
@@ -40,10 +55,63 @@ wsServer.on("connection",(ws:WebSocket)=>{
                 console.log(subscriptionMap.get(params))
                 if(!subscriptionMap.get(params)){
                     subscriptionMap.set(params,true)
+
                     
                     redisClient.subscribeTo(params,(data: string)=>{
                         console.log(data)
                         console.log("data came to pubsub")
+                        console.log(params)
+
+                        // { 
+                        //     method: "SUBSCRIBE"
+                        //     id: 1,
+                        //     params: [ "kline.1m.SHFL_USDC" ]
+                        // }
+                        if (params.startsWith('bookticker.') ) {
+                            const [_,symbol] = params.split('.')
+                            console.log("Inside the kline part ")
+                            let newdata = JSON.parse(data)
+
+                            for( const [interval,intervalSec] of Object.entries(timeinSeconds)){
+                                const klineStream = `kline.${interval}.${symbol}`
+                                if(clientMap.has(klineStream) && clientMap.get(klineStream)){
+                                    const bucketStart = getBucketStart(newdata.timestamp, intervalSec)
+                                    if (!candles.has(symbol)) candles.set(symbol, new Map())
+                                    const symbolMap:any = candles.get(symbol)
+
+                                    if (!symbolMap.has(interval)) symbolMap.set(interval, new Map());
+                                    const intervalMap = symbolMap.get(interval);
+                                     
+                                    let candle = intervalMap.get(bucketStart)
+                                    if (!candle) {
+                                    // Create a new candle for this bucket
+                                    candle = {
+                                        open: newdata.tickerPrice,
+                                        high: newdata.tickerPrice,
+                                        low: newdata.tickerPrice,
+                                        close: newdata.tickerPrice,
+                                        time: Math.floor(bucketStart/1000)
+                                    }
+                                    } else {
+                                    // Update existing candle
+                                    candle.high = Math.max(candle.high, newdata.tickerPrice)
+                                    candle.low = Math.min(candle.low, newdata.tickerPrice)
+                                    candle.close = newdata.tickerPrice
+                                    }
+
+                                    intervalMap.set(bucketStart, candle)
+
+                                    clientMap.get(klineStream)?.forEach(socket=>{
+                                        socket.send(JSON.stringify({
+                                            data:candle,
+                                            stream:params
+                                        }))
+                                    })
+                                }
+                            }
+                          }
+                          
+                          
                         clientMap.get(params)?.forEach(socket=>{
                             
                             socket.send(JSON.stringify({
@@ -52,6 +120,7 @@ wsServer.on("connection",(ws:WebSocket)=>{
                             }))
                         })
                     })
+                
                 }
                
 

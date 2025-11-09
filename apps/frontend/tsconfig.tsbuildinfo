@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./src/vite-env.d.ts","./src/app.tsx","./src/main.tsx","../../packages/ui/src/app.tsx"],"errors":true,"version":"5.8.3"}
+{"root":["./vite.config.ts","./src/vite-env.d.ts","./src/app.tsx","./src/main.tsx","./src/pages/trade.tsx","./src/components/background.tsx","./src/components/button.tsx","./src/components/buysellsection.tsx","./src/components/card.tsx","./src/components/databar.tsx","./src/components/navbar.tsx","./src/components/orderbook.tsx","./src/components/tradingcharts.tsx"],"version":"5.8.3"}

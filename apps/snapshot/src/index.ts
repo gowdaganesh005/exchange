@@ -39,7 +39,12 @@ async function main(){
             console.log(reason)
         }) 
         console.log("requested data ...")
-        console.log(data.data)
+        if(data){
+            console.log(data.data)
+        }else{
+            console.log("failed after requesing dt")
+        }
+        
 
 
         try{

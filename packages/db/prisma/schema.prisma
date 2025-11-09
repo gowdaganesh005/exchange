@@ -31,6 +31,11 @@ enum STATUS{
   CANCELLED
 }
 
+enum LedgerType{
+  CREDIT
+  DEBIT
+}
+
 model Orders{
   orderId String @unique
   symbol  String 
@@ -57,4 +62,35 @@ model Trades {
   @@id([timestamp, symbol])
   @@unique([tradeId, timestamp])
   @@unique([symbol, timestamp])
+}
+
+model User {
+  userId  String @unique @default(uuid())
+  email String @unique
+  password String
+  pin String
+  wallet Wallet? 
+}
+
+model Wallet {
+  walletId String @unique @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId],references: [userId])
+  freeBalance BigInt @default(0)
+  lockedBalance BigInt @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ledgers Ledger[]
+
+}
+
+model Ledger {
+  ledgerId String @id @default(uuid())
+  walletId String
+  wallet Wallet @relation(fields: [walletId], references: [walletId])
+  type LedgerType
+  reason String
+  createdAt DateTime @default(now()) 
+  amount BigInt
+  
 }

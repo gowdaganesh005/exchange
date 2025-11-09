@@ -38,3 +38,8 @@
     )
     rgb(var(--background-start-rgb));
 }
+
+
+#tv-attr-logo {
+  display: none !important;
+}

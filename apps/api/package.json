@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc -b && node ./dist/index.js"
+    "dev": "tsx watch src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +15,18 @@
     "@repo/zod": "workspace:*",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.1",
+    "@types/express-session": "^1.18.2",
     "@types/node": "^22.14.0",
+    "argon2": "^0.44.0",
+    "connect-redis": "^7.1.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "redis": "^4.7.0",
+    "express-session": "^1.18.2",
+    "redis": "^4.7.1",
     "typescript": "5.8.2",
     "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6"
   }
 }

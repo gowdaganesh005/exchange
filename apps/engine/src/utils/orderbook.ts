@@ -22,7 +22,11 @@ export class OrderBook{
         this.symbol = symbol
     }
 
-    public matchOrders({symbol, type, side, price,quantity,userId,timestamp,}:orderBody,orderId: string){
+    private  mulprec=(a:number,b:number)=>{
+        return Math.floor((Math.floor(a*1000)*Math.floor(b*1000))/1000);
+    }
+
+    public matchOrders({symbol, type, side, price,quantity,userId,timestamp}:orderBody,orderId: string){
         console.log(timestamp ,"inside matching engine")
         
         if(symbol != this.symbol){
@@ -48,6 +52,7 @@ export class OrderBook{
                         quantity: quantity , 
                         timestamp: Date.now()
                     })
+                    let matchedQuantity = quantity;
 
                     quantity = 0
 
@@ -69,7 +74,8 @@ export class OrderBook{
                         type: "bookticker",
                         symbol: this.symbol,
                         tickerPrice: this.orderBook.sells[0].price,
-                        size: filledQuantity
+                        size: matchedQuantity,
+                        timestamp: Date.now()
                     })
 
                     parentPort?.postMessage({
@@ -80,20 +86,34 @@ export class OrderBook{
                             tradeId: this.updateId.toString(),
                             updates:[{
                             orderId,
-                            filled_quantity:filledQuantity,
+                            filled_quantity:matchedQuantity,
                             status:"FULL_FILLED",
                             filled_price: this.orderBook.sells[0].price,
                             updatedAt: Date.now()
                             },{
                             orderId: this.orderBook.sells[0].orderId,
-                            filled_quantity: filledQuantity,
-                            status: "PARTIALLY_FILLED",
+                            filled_quantity: matchedQuantity,
+                            status:  this.orderBook.sells[0].quantity === 0 ? "FULL_FILLED" : "PARTIALLY_FILLED",
                             filled_price: this.orderBook.sells[0].price,
                             updatedAt: Date.now()
 
                                 }]
                         }                        
                     })
+                    const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.sells[0].price);
+
+                    parentPort?.postMessage({
+                        type: "walletUpdate",
+                        data:{
+                            type: "update",
+                            symbol: this.symbol,
+                            amount: totalScaledAmount,
+                            credit: this.orderBook.sells[0].userId,
+                            debit: userId
+                        }
+                    })
+
+                    
                     if(this.orderBook.sells[0].quantity == 0){
                         this.orderBook.sells.shift()
                     }
@@ -113,6 +133,8 @@ export class OrderBook{
                         quantity: curQuantity , 
                         timestamp: Date.now()
                     })
+                    
+                    const matchedQuantity= curQuantity;
                     // parentPort?.postMessage({
                     //     data:{
                     //         T: BigInt(Date.now()),
@@ -131,7 +153,8 @@ export class OrderBook{
                         type:"bookticker",
                         symbol: this.symbol,
                         tickerPrice: this.orderBook.sells[0].price,
-                        size: filledQuantity
+                        size: matchedQuantity,
+                        timestamp: Date.now()
                     })
                     
                     
@@ -144,18 +167,31 @@ export class OrderBook{
                         
                             updates:[{
                                 orderId,
-                                filled_quantity: filledQuantity,
+                                filled_quantity: matchedQuantity,
                                 status: "PARTIALLY_FILLED",
                                 filled_price: this.orderBook.sells[0].price,
                                 updatedAt: Date.now()
                                 },{
                                 orderId: this.orderBook.sells[0].orderId,
-                                filled_quantity: filledQuantity,
+                                filled_quantity: matchedQuantity,
                                 status: "FULL_FILLED",
                                 filled_price: this.orderBook.sells[0].price,
-                                updateAt: Date.now()
+                                updatedAt: Date.now()
                             }]
                     }
+                    })
+
+                    const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.sells[0].price);
+
+                    parentPort?.postMessage({
+                        type: "walletUpdate",
+                        data:{
+                            type: "update",
+                            symbol: this.symbol,
+                            amount: totalScaledAmount,
+                            credit: this.orderBook.sells[0].userId,
+                            debit: userId
+                        }
                     })
 
                     // remove the order from the orderbokk and consolidated book too
@@ -261,7 +297,7 @@ export class OrderBook{
         }
         else if(side == "SELL"){
             while(quantity>0 && this.orderBook.buys.length>0 && price <= this.orderBook.buys[0].price ){
-                if(quantity < this.orderBook.buys[0].quantity){
+                if(quantity <= this.orderBook.buys[0].quantity){
                     filledQuantity += quantity
                     this.orderBook.buys[0].quantity -= quantity 
                     this.consolidatedBook.buys[0].quantity -= quantity
@@ -270,6 +306,7 @@ export class OrderBook{
                         quantity: quantity , 
                         timestamp: Date.now()
                     })
+                    const matchedQuantity= quantity;
                     quantity = 0
 
                     //sending the update of reduced  quantity of the order that is matched
@@ -291,7 +328,8 @@ export class OrderBook{
                         type:"bookticker",
                         symbol: this.symbol,
                         tickerPrice: this.orderBook.buys[0].price,
-                        size: filledQuantity
+                        size: matchedQuantity,
+                        timestamp: Date.now()
                     })
                     
                     parentPort?.postMessage({
@@ -303,14 +341,14 @@ export class OrderBook{
                         
                         updates:[{
                             orderId,
-                            filled_quantity:filledQuantity,
+                            filled_quantity:matchedQuantity,
                             status:"FULL_FILLED",
                             filled_price: this.orderBook.buys[0].price,
                             updatedAt: Date.now()
                         },{
                             orderId: this.orderBook.buys[0].orderId,
-                            filled_quantity: filledQuantity,
-                            status: "PARTIALLY_FILLED",
+                            filled_quantity: matchedQuantity,
+                            status: this.orderBook.buys[0].quantity === 0 ? "FULL_FILLED" : "PARTIALLY_FILLED",
                             filled_price: this.orderBook.buys[0].price,
                             updatedAt: Date.now()
 
@@ -318,6 +356,20 @@ export class OrderBook{
                     }
                         
                     })
+
+                    const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.buys[0].price);
+
+                    parentPort?.postMessage({
+                        type: "walletUpdate",
+                        data:{
+                            type: "update",
+                            symbol: this.symbol,
+                            amount: totalScaledAmount,
+                            debit: this.orderBook.buys[0].userId,
+                            credit: userId
+                        }
+                    })
+
                     if(this.orderBook.buys[0].quantity == 0){
                         this.orderBook.buys.shift()
                     }
@@ -337,6 +389,8 @@ export class OrderBook{
                         timestamp: Date.now()
                     })
 
+                    let matchedQuantity = curQuantity;
+
                     // parentPort?.postMessage({
                     //     data:{
                     //         T: BigInt(Date.now()),
@@ -355,7 +409,8 @@ export class OrderBook{
                         type:"bookticker",
                         symbol: this.symbol,
                         tickerPrice: this.orderBook.buys[0].price,
-                        size: filledQuantity
+                        size: matchedQuantity,
+                        timestamp: Date.now()
                     })
 
                     parentPort?.postMessage({
@@ -366,18 +421,30 @@ export class OrderBook{
                             symbol: this.symbol,
                         
                         updates:[{                           orderId,
-                            filled_quantity: filledQuantity,
+                            filled_quantity: matchedQuantity,
                             status: "PARTIALLY_FILLED",
                             filled_price: this.orderBook.buys[0].price,
                             updatedAt: Date.now()
                         },{
                             orderId: this.orderBook.buys[0].orderId,
-                            filled_quantity: filledQuantity,
+                            filled_quantity: matchedQuantity,
                             status: "FULL_FILLED",
                             filled_price: this.orderBook.buys[0].price,
-                            updateAt: Date.now()
+                            updatedAt: Date.now()
                         }]
                     }
+                    })
+                    const totalScaledAmount = this.mulprec(matchedQuantity,this.orderBook.buys[0].price);
+
+                    parentPort?.postMessage({
+                        type: "walletUpdate",
+                        data:{
+                            type: "update",
+                            symbol: this.symbol,
+                            amount: totalScaledAmount,
+                            debit: this.orderBook.buys[0].userId,
+                            credit: userId
+                        }
                     })
 
                     this.orderBook.buys.shift()

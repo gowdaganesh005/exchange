@@ -143,6 +143,31 @@ exports.Prisma.TradesScalarFieldEnum = {
   timestamp: 'timestamp'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  userId: 'userId',
+  email: 'email',
+  password: 'password',
+  pin: 'pin'
+};
+
+exports.Prisma.WalletScalarFieldEnum = {
+  walletId: 'walletId',
+  userId: 'userId',
+  freeBalance: 'freeBalance',
+  lockedBalance: 'lockedBalance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LedgerScalarFieldEnum = {
+  ledgerId: 'ledgerId',
+  walletId: 'walletId',
+  type: 'type',
+  reason: 'reason',
+  createdAt: 'createdAt',
+  amount: 'amount'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -169,9 +194,17 @@ exports.STATUS = exports.$Enums.STATUS = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.LedgerType = exports.$Enums.LedgerType = {
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
+};
+
 exports.Prisma.ModelName = {
   Orders: 'Orders',
-  Trades: 'Trades'
+  Trades: 'Trades',
+  User: 'User',
+  Wallet: 'Wallet',
+  Ledger: 'Ledger'
 };
 
 /**
