@@ -107,6 +107,7 @@ export class OrderBook{
                         data:{
                             type: "walletUpdate",
                             symbol: this.symbol,
+                            quantity: matchedQuantity,
                             amount: totalScaledAmount,
                             credit: this.orderBook.sells[0].userId,
                             debit: userId
@@ -190,7 +191,8 @@ export class OrderBook{
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             credit: this.orderBook.sells[0].userId,
-                            debit: userId
+                            debit: userId,
+                            quantity: matchedQuantity
                         }
                     })
 
@@ -291,6 +293,7 @@ export class OrderBook{
 
 
                 return {
+                    orderId:orderId,
                     executedQuantity:filledQuantity,
                     fills
                 }
@@ -366,7 +369,8 @@ export class OrderBook{
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             debit: this.orderBook.buys[0].userId,
-                            credit: userId
+                            credit: userId,
+                            quantity: matchedQuantity
                         }
                     })
 
@@ -443,7 +447,8 @@ export class OrderBook{
                             symbol: this.symbol,
                             amount: totalScaledAmount,
                             debit: this.orderBook.buys[0].userId,
-                            credit: userId
+                            credit: userId,
+                            quantity: matchedQuantity
                         }
                     })
 
@@ -543,17 +548,163 @@ export class OrderBook{
 
 
                 return {
+                    orderId:orderId,
                     executedQuantity:filledQuantity,
                     fills
                 }
-            }
         }
+        
+    }
+    
+    public cancelOrder({symbol,side,orderId}:{symbol:string,side:"BUY"|"SELL" ,orderId: string}){
+        try{
+        if(side== "BUY"){
+            const index = this.orderBook.buys.findIndex((a)=>(
+                a.orderId == orderId
+            ))
+            const order = this.orderBook.buys[index]
+            
+            this.orderBook.buys.splice(index,1);
+
+            // remove from consolidated orderbook
+            const index2 = this.consolidatedBook.buys.findIndex((a)=>(
+                a.price==order.price
+            ))
+            this.consolidatedBook.buys[index2].quantity-=order.quantity
+            const corder = this.consolidatedBook.buys[index2]
+            if(this.consolidatedBook.buys[index2].quantity==0) this.consolidatedBook.buys.splice(index2,1);
+
+            const bidsmsg = [[corder.price,corder.quantity]]
+
+            //updating id
+            this.updateId=this.updateId+1;
+            parentPort?.postMessage({
+                type: "dbUpdate",
+                data:{
+                    type: "tradeUpdate",
+                    tradeId: this.updateId.toString(),
+                    symbol: this.symbol,
+                
+                updates:[{                           
+                    orderId,
+                    filled_quantity: order.quantity,
+                    status: "CANCELLED",
+                    filled_price: 0,
+                    updatedAt: Date.now()
+                }]
+            }
+            })
+
+            const totalScaledAmount = this.mulprec(order.quantity,order.price);
+
+            parentPort?.postMessage({
+                type: "dbUpdate",
+                data:{
+                    type: "walletUpdate",
+                    symbol: "USDT",
+                    amount: totalScaledAmount,
+                    credit: order.userId,    
+                }
+            })
+            parentPort?.postMessage({
+                data:{
+                    T: BigInt(Date.now()),
+                    b: bidsmsg,
+                    e: "depth",
+                    i: BigInt(this.updateId++),
+                    s: this.symbol,
+                    a: []
+                },
+                type:"depthUpdates",
+                symbol: this.symbol
+            })
+
+            return ({
+                success: true,
+                message: "Order Cancellation Initiated"
+            })
+
+        }
+        else if(side=='SELL'){
+            const index = this.orderBook.sells.findIndex((a)=>(
+                a.orderId == orderId
+            ))
+            const order = this.orderBook.sells[index]
+            
+            this.orderBook.sells.splice(index,1);
+
+            // remove from consolidated orderbook
+            const index2 = this.consolidatedBook.sells.findIndex((a)=>(
+                a.price==order.price
+            ))
+            this.consolidatedBook.sells[index2].quantity-=order.quantity
+            const corder = this.consolidatedBook.sells[index2]
+            if(this.consolidatedBook.sells[index2].quantity==0) this.consolidatedBook.sells.splice(index2,1);
+
+            const asksmsg = [[corder.price,corder.quantity]]
+
+            //updating id
+            this.updateId=this.updateId+1;
+            parentPort?.postMessage({
+                type: "dbUpdate",
+                data:{
+                    type: "tradeUpdate",
+                    tradeId: this.updateId.toString(),
+                    symbol: this.symbol,
+                
+                updates:[{                           
+                    orderId,
+                    filled_quantity: order.quantity,
+                    status: "CANCELLED",
+                    filled_price: 0,
+                    updatedAt: Date.now()
+                }]
+            }
+            })
+
+            const totalScaledAmount = this.mulprec(order.quantity,order.price);
+
+            parentPort?.postMessage({
+                type: "dbUpdate",
+                data:{
+                    type: "walletUpdate",
+                    symbol: symbol,
+                    amount: totalScaledAmount,
+                    credit: order.userId
+                }
+            })
+            parentPort?.postMessage({
+                data:{
+                    T: BigInt(Date.now()),
+                    b: [],
+                    e: "depth",
+                    i: BigInt(this.updateId++),
+                    s: this.symbol,
+                    a: asksmsg
+                },
+                type:"depthUpdates",
+                symbol: this.symbol
+            })
+            return ({
+                success: true,
+                message: "Order Cancellation Initiated"
+            })
+        
+        }
+    }catch(error:any){
+            return {
+                success: false,
+                message: "Failed Operation to Cancel Order"
+            }
+    }
+    }
 
         /**
          * getCurrentOrderBook
          */
         public getCurrentOrderBook() {
             return {
+                
                 bids: this.consolidatedBook.buys,
                 asks: this.consolidatedBook.sells,
                 timestamp: Date.now(),

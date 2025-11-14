@@ -29,10 +29,10 @@ export type Trades = $Result.DefaultSelection<Prisma.$TradesPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
- * Model Wallet
+ * Model Balances
  * 
  */
-export type Wallet = $Result.DefaultSelection<Prisma.$WalletPayload>
+export type Balances = $Result.DefaultSelection<Prisma.$BalancesPayload>
 /**
  * Model Ledger
  * 
@@ -250,14 +250,14 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.wallet`: Exposes CRUD operations for the **Wallet** model.
+   * `prisma.balances`: Exposes CRUD operations for the **Balances** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Wallets
-    * const wallets = await prisma.wallet.findMany()
+    * // Fetch zero or more Balances
+    * const balances = await prisma.balances.findMany()
     * ```
     */
-  get wallet(): Prisma.WalletDelegate<ExtArgs, ClientOptions>;
+  get balances(): Prisma.BalancesDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.ledger`: Exposes CRUD operations for the **Ledger** model.
@@ -711,7 +711,7 @@ export namespace Prisma {
     Orders: 'Orders',
     Trades: 'Trades',
     User: 'User',
-    Wallet: 'Wallet',
+    Balances: 'Balances',
     Ledger: 'Ledger'
   };
 
@@ -731,7 +731,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "orders" | "trades" | "user" | "wallet" | "ledger"
+      modelProps: "orders" | "trades" | "user" | "balances" | "ledger"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -957,77 +957,77 @@ export namespace Prisma {
           }
         }
       }
-      Wallet: {
-        payload: Prisma.$WalletPayload<ExtArgs>
-        fields: Prisma.WalletFieldRefs
+      Balances: {
+        payload: Prisma.$BalancesPayload<ExtArgs>
+        fields: Prisma.BalancesFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.WalletFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload> | null
+            args: Prisma.BalancesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.WalletFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+            args: Prisma.BalancesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>
           }
           findFirst: {
-            args: Prisma.WalletFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload> | null
+            args: Prisma.BalancesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.WalletFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+            args: Prisma.BalancesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>
           }
           findMany: {
-            args: Prisma.WalletFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>[]
+            args: Prisma.BalancesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>[]
           }
           create: {
-            args: Prisma.WalletCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+            args: Prisma.BalancesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>
           }
           createMany: {
-            args: Prisma.WalletCreateManyArgs<ExtArgs>
+            args: Prisma.BalancesCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.WalletCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>[]
+            args: Prisma.BalancesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>[]
           }
           delete: {
-            args: Prisma.WalletDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+            args: Prisma.BalancesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>
           }
           update: {
-            args: Prisma.WalletUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+            args: Prisma.BalancesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>
           }
           deleteMany: {
-            args: Prisma.WalletDeleteManyArgs<ExtArgs>
+            args: Prisma.BalancesDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.WalletUpdateManyArgs<ExtArgs>
+            args: Prisma.BalancesUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.WalletUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>[]
+            args: Prisma.BalancesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>[]
           }
           upsert: {
-            args: Prisma.WalletUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+            args: Prisma.BalancesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BalancesPayload>
           }
           aggregate: {
-            args: Prisma.WalletAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateWallet>
+            args: Prisma.BalancesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBalances>
           }
           groupBy: {
-            args: Prisma.WalletGroupByArgs<ExtArgs>
-            result: $Utils.Optional<WalletGroupByOutputType>[]
+            args: Prisma.BalancesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BalancesGroupByOutputType>[]
           }
           count: {
-            args: Prisma.WalletCountArgs<ExtArgs>
-            result: $Utils.Optional<WalletCountAggregateOutputType> | number
+            args: Prisma.BalancesCountArgs<ExtArgs>
+            result: $Utils.Optional<BalancesCountAggregateOutputType> | number
           }
         }
       }
@@ -1192,7 +1192,7 @@ export namespace Prisma {
     orders?: OrdersOmit
     trades?: TradesOmit
     user?: UserOmit
-    wallet?: WalletOmit
+    balances?: BalancesOmit
     ledger?: LedgerOmit
   }
 
@@ -1284,32 +1284,72 @@ export namespace Prisma {
 
 
   /**
-   * Count Type WalletCountOutputType
+   * Count Type UserCountOutputType
    */
 
-  export type WalletCountOutputType = {
-    ledgers: number
+  export type UserCountOutputType = {
+    balance: number
+    transactions: number
   }
 
-  export type WalletCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ledgers?: boolean | WalletCountOutputTypeCountLedgersArgs
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    balance?: boolean | UserCountOutputTypeCountBalanceArgs
+    transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
   }
 
   // Custom InputTypes
   /**
-   * WalletCountOutputType without action
+   * UserCountOutputType without action
    */
-  export type WalletCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the WalletCountOutputType
+     * Select specific fields to fetch from the UserCountOutputType
      */
-    select?: WalletCountOutputTypeSelect<ExtArgs> | null
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * WalletCountOutputType without action
+   * UserCountOutputType without action
    */
-  export type WalletCountOutputTypeCountLedgersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountBalanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BalancesWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LedgerWhereInput
+  }
+
+
+  /**
+   * Count Type BalancesCountOutputType
+   */
+
+  export type BalancesCountOutputType = {
+    ledgers: number
+  }
+
+  export type BalancesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ledgers?: boolean | BalancesCountOutputTypeCountLedgersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BalancesCountOutputType without action
+   */
+  export type BalancesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BalancesCountOutputType
+     */
+    select?: BalancesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BalancesCountOutputType without action
+   */
+  export type BalancesCountOutputTypeCountLedgersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LedgerWhereInput
   }
 
@@ -3639,7 +3679,9 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     pin?: boolean
-    wallet?: boolean | User$walletArgs<ExtArgs>
+    balance?: boolean | User$balanceArgs<ExtArgs>
+    transactions?: boolean | User$transactionsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3665,7 +3707,9 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "email" | "password" | "pin", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    wallet?: boolean | User$walletArgs<ExtArgs>
+    balance?: boolean | User$balanceArgs<ExtArgs>
+    transactions?: boolean | User$transactionsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
   export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3673,7 +3717,8 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      wallet: Prisma.$WalletPayload<ExtArgs> | null
+      balance: Prisma.$BalancesPayload<ExtArgs>[]
+      transactions: Prisma.$LedgerPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
@@ -4074,7 +4119,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    wallet<T extends User$walletArgs<ExtArgs> = {}>(args?: Subset<T, User$walletArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    balance<T extends User$balanceArgs<ExtArgs> = {}>(args?: Subset<T, User$balanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transactions<T extends User$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LedgerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4496,22 +4542,51 @@ export namespace Prisma {
   }
 
   /**
-   * User.wallet
+   * User.balance
    */
-  export type User$walletArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$balanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
-    where?: WalletWhereInput
+    include?: BalancesInclude<ExtArgs> | null
+    where?: BalancesWhereInput
+    orderBy?: BalancesOrderByWithRelationInput | BalancesOrderByWithRelationInput[]
+    cursor?: BalancesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BalancesScalarFieldEnum | BalancesScalarFieldEnum[]
+  }
+
+  /**
+   * User.transactions
+   */
+  export type User$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ledger
+     */
+    select?: LedgerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ledger
+     */
+    omit?: LedgerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LedgerInclude<ExtArgs> | null
+    where?: LedgerWhereInput
+    orderBy?: LedgerOrderByWithRelationInput | LedgerOrderByWithRelationInput[]
+    cursor?: LedgerWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LedgerScalarFieldEnum | LedgerScalarFieldEnum[]
   }
 
   /**
@@ -4534,48 +4609,51 @@ export namespace Prisma {
 
 
   /**
-   * Model Wallet
+   * Model Balances
    */
 
-  export type AggregateWallet = {
-    _count: WalletCountAggregateOutputType | null
-    _avg: WalletAvgAggregateOutputType | null
-    _sum: WalletSumAggregateOutputType | null
-    _min: WalletMinAggregateOutputType | null
-    _max: WalletMaxAggregateOutputType | null
+  export type AggregateBalances = {
+    _count: BalancesCountAggregateOutputType | null
+    _avg: BalancesAvgAggregateOutputType | null
+    _sum: BalancesSumAggregateOutputType | null
+    _min: BalancesMinAggregateOutputType | null
+    _max: BalancesMaxAggregateOutputType | null
   }
 
-  export type WalletAvgAggregateOutputType = {
+  export type BalancesAvgAggregateOutputType = {
     freeBalance: number | null
     lockedBalance: number | null
   }
 
-  export type WalletSumAggregateOutputType = {
+  export type BalancesSumAggregateOutputType = {
     freeBalance: bigint | null
     lockedBalance: bigint | null
   }
 
-  export type WalletMinAggregateOutputType = {
-    walletId: string | null
+  export type BalancesMinAggregateOutputType = {
+    balanceId: string | null
     userId: string | null
+    asset: string | null
     freeBalance: bigint | null
     lockedBalance: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type WalletMaxAggregateOutputType = {
-    walletId: string | null
+  export type BalancesMaxAggregateOutputType = {
+    balanceId: string | null
     userId: string | null
+    asset: string | null
     freeBalance: bigint | null
     lockedBalance: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type WalletCountAggregateOutputType = {
-    walletId: number
+  export type BalancesCountAggregateOutputType = {
+    balanceId: number
     userId: number
+    asset: number
     freeBalance: number
     lockedBalance: number
     createdAt: number
@@ -4584,37 +4662,40 @@ export namespace Prisma {
   }
 
 
-  export type WalletAvgAggregateInputType = {
+  export type BalancesAvgAggregateInputType = {
     freeBalance?: true
     lockedBalance?: true
   }
 
-  export type WalletSumAggregateInputType = {
+  export type BalancesSumAggregateInputType = {
     freeBalance?: true
     lockedBalance?: true
   }
 
-  export type WalletMinAggregateInputType = {
-    walletId?: true
+  export type BalancesMinAggregateInputType = {
+    balanceId?: true
     userId?: true
+    asset?: true
     freeBalance?: true
     lockedBalance?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type WalletMaxAggregateInputType = {
-    walletId?: true
+  export type BalancesMaxAggregateInputType = {
+    balanceId?: true
     userId?: true
+    asset?: true
     freeBalance?: true
     lockedBalance?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type WalletCountAggregateInputType = {
-    walletId?: true
+  export type BalancesCountAggregateInputType = {
+    balanceId?: true
     userId?: true
+    asset?: true
     freeBalance?: true
     lockedBalance?: true
     createdAt?: true
@@ -4622,318 +4703,324 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type WalletAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Wallet to aggregate.
+     * Filter which Balances to aggregate.
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Wallets to fetch.
+     * Determine the order of Balances to fetch.
      */
-    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    orderBy?: BalancesOrderByWithRelationInput | BalancesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: WalletWhereUniqueInput
+    cursor?: BalancesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Wallets from the position of the cursor.
+     * Take `±n` Balances from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Wallets.
+     * Skip the first `n` Balances.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Wallets
+     * Count returned Balances
     **/
-    _count?: true | WalletCountAggregateInputType
+    _count?: true | BalancesCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: WalletAvgAggregateInputType
+    _avg?: BalancesAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: WalletSumAggregateInputType
+    _sum?: BalancesSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: WalletMinAggregateInputType
+    _min?: BalancesMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: WalletMaxAggregateInputType
+    _max?: BalancesMaxAggregateInputType
   }
 
-  export type GetWalletAggregateType<T extends WalletAggregateArgs> = {
-        [P in keyof T & keyof AggregateWallet]: P extends '_count' | 'count'
+  export type GetBalancesAggregateType<T extends BalancesAggregateArgs> = {
+        [P in keyof T & keyof AggregateBalances]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateWallet[P]>
-      : GetScalarType<T[P], AggregateWallet[P]>
+        : GetScalarType<T[P], AggregateBalances[P]>
+      : GetScalarType<T[P], AggregateBalances[P]>
   }
 
 
 
 
-  export type WalletGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WalletWhereInput
-    orderBy?: WalletOrderByWithAggregationInput | WalletOrderByWithAggregationInput[]
-    by: WalletScalarFieldEnum[] | WalletScalarFieldEnum
-    having?: WalletScalarWhereWithAggregatesInput
+  export type BalancesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BalancesWhereInput
+    orderBy?: BalancesOrderByWithAggregationInput | BalancesOrderByWithAggregationInput[]
+    by: BalancesScalarFieldEnum[] | BalancesScalarFieldEnum
+    having?: BalancesScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: WalletCountAggregateInputType | true
-    _avg?: WalletAvgAggregateInputType
-    _sum?: WalletSumAggregateInputType
-    _min?: WalletMinAggregateInputType
-    _max?: WalletMaxAggregateInputType
+    _count?: BalancesCountAggregateInputType | true
+    _avg?: BalancesAvgAggregateInputType
+    _sum?: BalancesSumAggregateInputType
+    _min?: BalancesMinAggregateInputType
+    _max?: BalancesMaxAggregateInputType
   }
 
-  export type WalletGroupByOutputType = {
-    walletId: string
+  export type BalancesGroupByOutputType = {
+    balanceId: string
     userId: string
+    asset: string
     freeBalance: bigint
     lockedBalance: bigint
     createdAt: Date
     updatedAt: Date
-    _count: WalletCountAggregateOutputType | null
-    _avg: WalletAvgAggregateOutputType | null
-    _sum: WalletSumAggregateOutputType | null
-    _min: WalletMinAggregateOutputType | null
-    _max: WalletMaxAggregateOutputType | null
+    _count: BalancesCountAggregateOutputType | null
+    _avg: BalancesAvgAggregateOutputType | null
+    _sum: BalancesSumAggregateOutputType | null
+    _min: BalancesMinAggregateOutputType | null
+    _max: BalancesMaxAggregateOutputType | null
   }
 
-  type GetWalletGroupByPayload<T extends WalletGroupByArgs> = Prisma.PrismaPromise<
+  type GetBalancesGroupByPayload<T extends BalancesGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<WalletGroupByOutputType, T['by']> &
+      PickEnumerable<BalancesGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof WalletGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof BalancesGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], WalletGroupByOutputType[P]>
-            : GetScalarType<T[P], WalletGroupByOutputType[P]>
+              : GetScalarType<T[P], BalancesGroupByOutputType[P]>
+            : GetScalarType<T[P], BalancesGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type WalletSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    walletId?: boolean
+  export type BalancesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    balanceId?: boolean
     userId?: boolean
+    asset?: boolean
     freeBalance?: boolean
     lockedBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    ledgers?: boolean | Wallet$ledgersArgs<ExtArgs>
-    _count?: boolean | WalletCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["wallet"]>
+    ledgers?: boolean | Balances$ledgersArgs<ExtArgs>
+    _count?: boolean | BalancesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["balances"]>
 
-  export type WalletSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    walletId?: boolean
+  export type BalancesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    balanceId?: boolean
     userId?: boolean
+    asset?: boolean
     freeBalance?: boolean
     lockedBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["wallet"]>
+  }, ExtArgs["result"]["balances"]>
 
-  export type WalletSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    walletId?: boolean
+  export type BalancesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    balanceId?: boolean
     userId?: boolean
+    asset?: boolean
     freeBalance?: boolean
     lockedBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["wallet"]>
+  }, ExtArgs["result"]["balances"]>
 
-  export type WalletSelectScalar = {
-    walletId?: boolean
+  export type BalancesSelectScalar = {
+    balanceId?: boolean
     userId?: boolean
+    asset?: boolean
     freeBalance?: boolean
     lockedBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type WalletOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"walletId" | "userId" | "freeBalance" | "lockedBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["wallet"]>
-  export type WalletInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"balanceId" | "userId" | "asset" | "freeBalance" | "lockedBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["balances"]>
+  export type BalancesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    ledgers?: boolean | Wallet$ledgersArgs<ExtArgs>
-    _count?: boolean | WalletCountOutputTypeDefaultArgs<ExtArgs>
+    ledgers?: boolean | Balances$ledgersArgs<ExtArgs>
+    _count?: boolean | BalancesCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type WalletIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type WalletIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $WalletPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Wallet"
+  export type $BalancesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Balances"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       ledgers: Prisma.$LedgerPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      walletId: string
+      balanceId: string
       userId: string
+      asset: string
       freeBalance: bigint
       lockedBalance: bigint
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["wallet"]>
+    }, ExtArgs["result"]["balances"]>
     composites: {}
   }
 
-  type WalletGetPayload<S extends boolean | null | undefined | WalletDefaultArgs> = $Result.GetResult<Prisma.$WalletPayload, S>
+  type BalancesGetPayload<S extends boolean | null | undefined | BalancesDefaultArgs> = $Result.GetResult<Prisma.$BalancesPayload, S>
 
-  type WalletCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<WalletFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: WalletCountAggregateInputType | true
+  type BalancesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BalancesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BalancesCountAggregateInputType | true
     }
 
-  export interface WalletDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Wallet'], meta: { name: 'Wallet' } }
+  export interface BalancesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Balances'], meta: { name: 'Balances' } }
     /**
-     * Find zero or one Wallet that matches the filter.
-     * @param {WalletFindUniqueArgs} args - Arguments to find a Wallet
+     * Find zero or one Balances that matches the filter.
+     * @param {BalancesFindUniqueArgs} args - Arguments to find a Balances
      * @example
-     * // Get one Wallet
-     * const wallet = await prisma.wallet.findUnique({
+     * // Get one Balances
+     * const balances = await prisma.balances.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends WalletFindUniqueArgs>(args: SelectSubset<T, WalletFindUniqueArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends BalancesFindUniqueArgs>(args: SelectSubset<T, BalancesFindUniqueArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Wallet that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Balances that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {WalletFindUniqueOrThrowArgs} args - Arguments to find a Wallet
+     * @param {BalancesFindUniqueOrThrowArgs} args - Arguments to find a Balances
      * @example
-     * // Get one Wallet
-     * const wallet = await prisma.wallet.findUniqueOrThrow({
+     * // Get one Balances
+     * const balances = await prisma.balances.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends WalletFindUniqueOrThrowArgs>(args: SelectSubset<T, WalletFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends BalancesFindUniqueOrThrowArgs>(args: SelectSubset<T, BalancesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Wallet that matches the filter.
+     * Find the first Balances that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletFindFirstArgs} args - Arguments to find a Wallet
+     * @param {BalancesFindFirstArgs} args - Arguments to find a Balances
      * @example
-     * // Get one Wallet
-     * const wallet = await prisma.wallet.findFirst({
+     * // Get one Balances
+     * const balances = await prisma.balances.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends WalletFindFirstArgs>(args?: SelectSubset<T, WalletFindFirstArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends BalancesFindFirstArgs>(args?: SelectSubset<T, BalancesFindFirstArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Wallet that matches the filter or
+     * Find the first Balances that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletFindFirstOrThrowArgs} args - Arguments to find a Wallet
+     * @param {BalancesFindFirstOrThrowArgs} args - Arguments to find a Balances
      * @example
-     * // Get one Wallet
-     * const wallet = await prisma.wallet.findFirstOrThrow({
+     * // Get one Balances
+     * const balances = await prisma.balances.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends WalletFindFirstOrThrowArgs>(args?: SelectSubset<T, WalletFindFirstOrThrowArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends BalancesFindFirstOrThrowArgs>(args?: SelectSubset<T, BalancesFindFirstOrThrowArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Wallets that matches the filter.
+     * Find zero or more Balances that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {BalancesFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Wallets
-     * const wallets = await prisma.wallet.findMany()
+     * // Get all Balances
+     * const balances = await prisma.balances.findMany()
      * 
-     * // Get first 10 Wallets
-     * const wallets = await prisma.wallet.findMany({ take: 10 })
+     * // Get first 10 Balances
+     * const balances = await prisma.balances.findMany({ take: 10 })
      * 
-     * // Only select the `walletId`
-     * const walletWithWalletIdOnly = await prisma.wallet.findMany({ select: { walletId: true } })
+     * // Only select the `balanceId`
+     * const balancesWithBalanceIdOnly = await prisma.balances.findMany({ select: { balanceId: true } })
      * 
      */
-    findMany<T extends WalletFindManyArgs>(args?: SelectSubset<T, WalletFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends BalancesFindManyArgs>(args?: SelectSubset<T, BalancesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Wallet.
-     * @param {WalletCreateArgs} args - Arguments to create a Wallet.
+     * Create a Balances.
+     * @param {BalancesCreateArgs} args - Arguments to create a Balances.
      * @example
-     * // Create one Wallet
-     * const Wallet = await prisma.wallet.create({
+     * // Create one Balances
+     * const Balances = await prisma.balances.create({
      *   data: {
-     *     // ... data to create a Wallet
+     *     // ... data to create a Balances
      *   }
      * })
      * 
      */
-    create<T extends WalletCreateArgs>(args: SelectSubset<T, WalletCreateArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends BalancesCreateArgs>(args: SelectSubset<T, BalancesCreateArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Wallets.
-     * @param {WalletCreateManyArgs} args - Arguments to create many Wallets.
+     * Create many Balances.
+     * @param {BalancesCreateManyArgs} args - Arguments to create many Balances.
      * @example
-     * // Create many Wallets
-     * const wallet = await prisma.wallet.createMany({
+     * // Create many Balances
+     * const balances = await prisma.balances.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends WalletCreateManyArgs>(args?: SelectSubset<T, WalletCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends BalancesCreateManyArgs>(args?: SelectSubset<T, BalancesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Wallets and returns the data saved in the database.
-     * @param {WalletCreateManyAndReturnArgs} args - Arguments to create many Wallets.
+     * Create many Balances and returns the data saved in the database.
+     * @param {BalancesCreateManyAndReturnArgs} args - Arguments to create many Balances.
      * @example
-     * // Create many Wallets
-     * const wallet = await prisma.wallet.createManyAndReturn({
+     * // Create many Balances
+     * const balances = await prisma.balances.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Wallets and only return the `walletId`
-     * const walletWithWalletIdOnly = await prisma.wallet.createManyAndReturn({
-     *   select: { walletId: true },
+     * // Create many Balances and only return the `balanceId`
+     * const balancesWithBalanceIdOnly = await prisma.balances.createManyAndReturn({
+     *   select: { balanceId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -4942,28 +5029,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends WalletCreateManyAndReturnArgs>(args?: SelectSubset<T, WalletCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends BalancesCreateManyAndReturnArgs>(args?: SelectSubset<T, BalancesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Wallet.
-     * @param {WalletDeleteArgs} args - Arguments to delete one Wallet.
+     * Delete a Balances.
+     * @param {BalancesDeleteArgs} args - Arguments to delete one Balances.
      * @example
-     * // Delete one Wallet
-     * const Wallet = await prisma.wallet.delete({
+     * // Delete one Balances
+     * const Balances = await prisma.balances.delete({
      *   where: {
-     *     // ... filter to delete one Wallet
+     *     // ... filter to delete one Balances
      *   }
      * })
      * 
      */
-    delete<T extends WalletDeleteArgs>(args: SelectSubset<T, WalletDeleteArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends BalancesDeleteArgs>(args: SelectSubset<T, BalancesDeleteArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Wallet.
-     * @param {WalletUpdateArgs} args - Arguments to update one Wallet.
+     * Update one Balances.
+     * @param {BalancesUpdateArgs} args - Arguments to update one Balances.
      * @example
-     * // Update one Wallet
-     * const wallet = await prisma.wallet.update({
+     * // Update one Balances
+     * const balances = await prisma.balances.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4973,30 +5060,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends WalletUpdateArgs>(args: SelectSubset<T, WalletUpdateArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends BalancesUpdateArgs>(args: SelectSubset<T, BalancesUpdateArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Wallets.
-     * @param {WalletDeleteManyArgs} args - Arguments to filter Wallets to delete.
+     * Delete zero or more Balances.
+     * @param {BalancesDeleteManyArgs} args - Arguments to filter Balances to delete.
      * @example
-     * // Delete a few Wallets
-     * const { count } = await prisma.wallet.deleteMany({
+     * // Delete a few Balances
+     * const { count } = await prisma.balances.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends WalletDeleteManyArgs>(args?: SelectSubset<T, WalletDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends BalancesDeleteManyArgs>(args?: SelectSubset<T, BalancesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Wallets.
+     * Update zero or more Balances.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {BalancesUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Wallets
-     * const wallet = await prisma.wallet.updateMany({
+     * // Update many Balances
+     * const balances = await prisma.balances.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5006,14 +5093,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends WalletUpdateManyArgs>(args: SelectSubset<T, WalletUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends BalancesUpdateManyArgs>(args: SelectSubset<T, BalancesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Wallets and returns the data updated in the database.
-     * @param {WalletUpdateManyAndReturnArgs} args - Arguments to update many Wallets.
+     * Update zero or more Balances and returns the data updated in the database.
+     * @param {BalancesUpdateManyAndReturnArgs} args - Arguments to update many Balances.
      * @example
-     * // Update many Wallets
-     * const wallet = await prisma.wallet.updateManyAndReturn({
+     * // Update many Balances
+     * const balances = await prisma.balances.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5022,9 +5109,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Wallets and only return the `walletId`
-     * const walletWithWalletIdOnly = await prisma.wallet.updateManyAndReturn({
-     *   select: { walletId: true },
+     * // Update zero or more Balances and only return the `balanceId`
+     * const balancesWithBalanceIdOnly = await prisma.balances.updateManyAndReturn({
+     *   select: { balanceId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5036,56 +5123,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends WalletUpdateManyAndReturnArgs>(args: SelectSubset<T, WalletUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends BalancesUpdateManyAndReturnArgs>(args: SelectSubset<T, BalancesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Wallet.
-     * @param {WalletUpsertArgs} args - Arguments to update or create a Wallet.
+     * Create or update one Balances.
+     * @param {BalancesUpsertArgs} args - Arguments to update or create a Balances.
      * @example
-     * // Update or create a Wallet
-     * const wallet = await prisma.wallet.upsert({
+     * // Update or create a Balances
+     * const balances = await prisma.balances.upsert({
      *   create: {
-     *     // ... data to create a Wallet
+     *     // ... data to create a Balances
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Wallet we want to update
+     *     // ... the filter for the Balances we want to update
      *   }
      * })
      */
-    upsert<T extends WalletUpsertArgs>(args: SelectSubset<T, WalletUpsertArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends BalancesUpsertArgs>(args: SelectSubset<T, BalancesUpsertArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Wallets.
+     * Count the number of Balances.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletCountArgs} args - Arguments to filter Wallets to count.
+     * @param {BalancesCountArgs} args - Arguments to filter Balances to count.
      * @example
-     * // Count the number of Wallets
-     * const count = await prisma.wallet.count({
+     * // Count the number of Balances
+     * const count = await prisma.balances.count({
      *   where: {
-     *     // ... the filter for the Wallets we want to count
+     *     // ... the filter for the Balances we want to count
      *   }
      * })
     **/
-    count<T extends WalletCountArgs>(
-      args?: Subset<T, WalletCountArgs>,
+    count<T extends BalancesCountArgs>(
+      args?: Subset<T, BalancesCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], WalletCountAggregateOutputType>
+          : GetScalarType<T['select'], BalancesCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Wallet.
+     * Allows you to perform aggregations operations on a Balances.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {BalancesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5105,13 +5192,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends WalletAggregateArgs>(args: Subset<T, WalletAggregateArgs>): Prisma.PrismaPromise<GetWalletAggregateType<T>>
+    aggregate<T extends BalancesAggregateArgs>(args: Subset<T, BalancesAggregateArgs>): Prisma.PrismaPromise<GetBalancesAggregateType<T>>
 
     /**
-     * Group by Wallet.
+     * Group by Balances.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {WalletGroupByArgs} args - Group by arguments.
+     * @param {BalancesGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5126,14 +5213,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends WalletGroupByArgs,
+      T extends BalancesGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: WalletGroupByArgs['orderBy'] }
-        : { orderBy?: WalletGroupByArgs['orderBy'] },
+        ? { orderBy: BalancesGroupByArgs['orderBy'] }
+        : { orderBy?: BalancesGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5182,23 +5269,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, WalletGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWalletGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BalancesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBalancesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Wallet model
+   * Fields of the Balances model
    */
-  readonly fields: WalletFieldRefs;
+  readonly fields: BalancesFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Wallet.
+   * The delegate class that acts as a "Promise-like" for Balances.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__WalletClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__BalancesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    ledgers<T extends Wallet$ledgersArgs<ExtArgs> = {}>(args?: Subset<T, Wallet$ledgersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LedgerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ledgers<T extends Balances$ledgersArgs<ExtArgs> = {}>(args?: Subset<T, Balances$ledgersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LedgerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5225,414 +5312,415 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Wallet model
+   * Fields of the Balances model
    */
-  interface WalletFieldRefs {
-    readonly walletId: FieldRef<"Wallet", 'String'>
-    readonly userId: FieldRef<"Wallet", 'String'>
-    readonly freeBalance: FieldRef<"Wallet", 'BigInt'>
-    readonly lockedBalance: FieldRef<"Wallet", 'BigInt'>
-    readonly createdAt: FieldRef<"Wallet", 'DateTime'>
-    readonly updatedAt: FieldRef<"Wallet", 'DateTime'>
+  interface BalancesFieldRefs {
+    readonly balanceId: FieldRef<"Balances", 'String'>
+    readonly userId: FieldRef<"Balances", 'String'>
+    readonly asset: FieldRef<"Balances", 'String'>
+    readonly freeBalance: FieldRef<"Balances", 'BigInt'>
+    readonly lockedBalance: FieldRef<"Balances", 'BigInt'>
+    readonly createdAt: FieldRef<"Balances", 'DateTime'>
+    readonly updatedAt: FieldRef<"Balances", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Wallet findUnique
+   * Balances findUnique
    */
-  export type WalletFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * Filter, which Wallet to fetch.
+     * Filter, which Balances to fetch.
      */
-    where: WalletWhereUniqueInput
+    where: BalancesWhereUniqueInput
   }
 
   /**
-   * Wallet findUniqueOrThrow
+   * Balances findUniqueOrThrow
    */
-  export type WalletFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * Filter, which Wallet to fetch.
+     * Filter, which Balances to fetch.
      */
-    where: WalletWhereUniqueInput
+    where: BalancesWhereUniqueInput
   }
 
   /**
-   * Wallet findFirst
+   * Balances findFirst
    */
-  export type WalletFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * Filter, which Wallet to fetch.
+     * Filter, which Balances to fetch.
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Wallets to fetch.
+     * Determine the order of Balances to fetch.
      */
-    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    orderBy?: BalancesOrderByWithRelationInput | BalancesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Wallets.
+     * Sets the position for searching for Balances.
      */
-    cursor?: WalletWhereUniqueInput
+    cursor?: BalancesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Wallets from the position of the cursor.
+     * Take `±n` Balances from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Wallets.
+     * Skip the first `n` Balances.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Wallets.
+     * Filter by unique combinations of Balances.
      */
-    distinct?: WalletScalarFieldEnum | WalletScalarFieldEnum[]
+    distinct?: BalancesScalarFieldEnum | BalancesScalarFieldEnum[]
   }
 
   /**
-   * Wallet findFirstOrThrow
+   * Balances findFirstOrThrow
    */
-  export type WalletFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * Filter, which Wallet to fetch.
+     * Filter, which Balances to fetch.
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Wallets to fetch.
+     * Determine the order of Balances to fetch.
      */
-    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    orderBy?: BalancesOrderByWithRelationInput | BalancesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Wallets.
+     * Sets the position for searching for Balances.
      */
-    cursor?: WalletWhereUniqueInput
+    cursor?: BalancesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Wallets from the position of the cursor.
+     * Take `±n` Balances from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Wallets.
+     * Skip the first `n` Balances.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Wallets.
+     * Filter by unique combinations of Balances.
      */
-    distinct?: WalletScalarFieldEnum | WalletScalarFieldEnum[]
+    distinct?: BalancesScalarFieldEnum | BalancesScalarFieldEnum[]
   }
 
   /**
-   * Wallet findMany
+   * Balances findMany
    */
-  export type WalletFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * Filter, which Wallets to fetch.
+     * Filter, which Balances to fetch.
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Wallets to fetch.
+     * Determine the order of Balances to fetch.
      */
-    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    orderBy?: BalancesOrderByWithRelationInput | BalancesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Wallets.
+     * Sets the position for listing Balances.
      */
-    cursor?: WalletWhereUniqueInput
+    cursor?: BalancesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Wallets from the position of the cursor.
+     * Take `±n` Balances from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Wallets.
+     * Skip the first `n` Balances.
      */
     skip?: number
-    distinct?: WalletScalarFieldEnum | WalletScalarFieldEnum[]
+    distinct?: BalancesScalarFieldEnum | BalancesScalarFieldEnum[]
   }
 
   /**
-   * Wallet create
+   * Balances create
    */
-  export type WalletCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * The data needed to create a Wallet.
+     * The data needed to create a Balances.
      */
-    data: XOR<WalletCreateInput, WalletUncheckedCreateInput>
+    data: XOR<BalancesCreateInput, BalancesUncheckedCreateInput>
   }
 
   /**
-   * Wallet createMany
+   * Balances createMany
    */
-  export type WalletCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Wallets.
+     * The data used to create many Balances.
      */
-    data: WalletCreateManyInput | WalletCreateManyInput[]
+    data: BalancesCreateManyInput | BalancesCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Wallet createManyAndReturn
+   * Balances createManyAndReturn
    */
-  export type WalletCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelectCreateManyAndReturn<ExtArgs> | null
+    select?: BalancesSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
-     * The data used to create many Wallets.
+     * The data used to create many Balances.
      */
-    data: WalletCreateManyInput | WalletCreateManyInput[]
+    data: BalancesCreateManyInput | BalancesCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: BalancesIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Wallet update
+   * Balances update
    */
-  export type WalletUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * The data needed to update a Wallet.
+     * The data needed to update a Balances.
      */
-    data: XOR<WalletUpdateInput, WalletUncheckedUpdateInput>
+    data: XOR<BalancesUpdateInput, BalancesUncheckedUpdateInput>
     /**
-     * Choose, which Wallet to update.
+     * Choose, which Balances to update.
      */
-    where: WalletWhereUniqueInput
+    where: BalancesWhereUniqueInput
   }
 
   /**
-   * Wallet updateMany
+   * Balances updateMany
    */
-  export type WalletUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Wallets.
+     * The data used to update Balances.
      */
-    data: XOR<WalletUpdateManyMutationInput, WalletUncheckedUpdateManyInput>
+    data: XOR<BalancesUpdateManyMutationInput, BalancesUncheckedUpdateManyInput>
     /**
-     * Filter which Wallets to update
+     * Filter which Balances to update
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
-     * Limit how many Wallets to update.
+     * Limit how many Balances to update.
      */
     limit?: number
   }
 
   /**
-   * Wallet updateManyAndReturn
+   * Balances updateManyAndReturn
    */
-  export type WalletUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: BalancesSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
-     * The data used to update Wallets.
+     * The data used to update Balances.
      */
-    data: XOR<WalletUpdateManyMutationInput, WalletUncheckedUpdateManyInput>
+    data: XOR<BalancesUpdateManyMutationInput, BalancesUncheckedUpdateManyInput>
     /**
-     * Filter which Wallets to update
+     * Filter which Balances to update
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
-     * Limit how many Wallets to update.
+     * Limit how many Balances to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: BalancesIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Wallet upsert
+   * Balances upsert
    */
-  export type WalletUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * The filter to search for the Wallet to update in case it exists.
+     * The filter to search for the Balances to update in case it exists.
      */
-    where: WalletWhereUniqueInput
+    where: BalancesWhereUniqueInput
     /**
-     * In case the Wallet found by the `where` argument doesn't exist, create a new Wallet with this data.
+     * In case the Balances found by the `where` argument doesn't exist, create a new Balances with this data.
      */
-    create: XOR<WalletCreateInput, WalletUncheckedCreateInput>
+    create: XOR<BalancesCreateInput, BalancesUncheckedCreateInput>
     /**
-     * In case the Wallet was found with the provided `where` argument, update it with this data.
+     * In case the Balances was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<WalletUpdateInput, WalletUncheckedUpdateInput>
+    update: XOR<BalancesUpdateInput, BalancesUncheckedUpdateInput>
   }
 
   /**
-   * Wallet delete
+   * Balances delete
    */
-  export type WalletDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
     /**
-     * Filter which Wallet to delete.
+     * Filter which Balances to delete.
      */
-    where: WalletWhereUniqueInput
+    where: BalancesWhereUniqueInput
   }
 
   /**
-   * Wallet deleteMany
+   * Balances deleteMany
    */
-  export type WalletDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Wallets to delete
+     * Filter which Balances to delete
      */
-    where?: WalletWhereInput
+    where?: BalancesWhereInput
     /**
-     * Limit how many Wallets to delete.
+     * Limit how many Balances to delete.
      */
     limit?: number
   }
 
   /**
-   * Wallet.ledgers
+   * Balances.ledgers
    */
-  export type Wallet$ledgersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Balances$ledgersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Ledger
      */
@@ -5654,21 +5742,21 @@ export namespace Prisma {
   }
 
   /**
-   * Wallet without action
+   * Balances without action
    */
-  export type WalletDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BalancesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wallet
+     * Select specific fields to fetch from the Balances
      */
-    select?: WalletSelect<ExtArgs> | null
+    select?: BalancesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Wallet
+     * Omit specific fields from the Balances
      */
-    omit?: WalletOmit<ExtArgs> | null
+    omit?: BalancesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WalletInclude<ExtArgs> | null
+    include?: BalancesInclude<ExtArgs> | null
   }
 
 
@@ -5694,27 +5782,30 @@ export namespace Prisma {
 
   export type LedgerMinAggregateOutputType = {
     ledgerId: string | null
-    walletId: string | null
+    balanceId: string | null
+    userId: string | null
     type: $Enums.LedgerType | null
-    reason: string | null
+    symbol: string | null
     createdAt: Date | null
     amount: bigint | null
   }
 
   export type LedgerMaxAggregateOutputType = {
     ledgerId: string | null
-    walletId: string | null
+    balanceId: string | null
+    userId: string | null
     type: $Enums.LedgerType | null
-    reason: string | null
+    symbol: string | null
     createdAt: Date | null
     amount: bigint | null
   }
 
   export type LedgerCountAggregateOutputType = {
     ledgerId: number
-    walletId: number
+    balanceId: number
+    userId: number
     type: number
-    reason: number
+    symbol: number
     createdAt: number
     amount: number
     _all: number
@@ -5731,27 +5822,30 @@ export namespace Prisma {
 
   export type LedgerMinAggregateInputType = {
     ledgerId?: true
-    walletId?: true
+    balanceId?: true
+    userId?: true
     type?: true
-    reason?: true
+    symbol?: true
     createdAt?: true
     amount?: true
   }
 
   export type LedgerMaxAggregateInputType = {
     ledgerId?: true
-    walletId?: true
+    balanceId?: true
+    userId?: true
     type?: true
-    reason?: true
+    symbol?: true
     createdAt?: true
     amount?: true
   }
 
   export type LedgerCountAggregateInputType = {
     ledgerId?: true
-    walletId?: true
+    balanceId?: true
+    userId?: true
     type?: true
-    reason?: true
+    symbol?: true
     createdAt?: true
     amount?: true
     _all?: true
@@ -5845,9 +5939,10 @@ export namespace Prisma {
 
   export type LedgerGroupByOutputType = {
     ledgerId: string
-    walletId: string
+    balanceId: string
+    userId: string
     type: $Enums.LedgerType
-    reason: string
+    symbol: string
     createdAt: Date
     amount: bigint
     _count: LedgerCountAggregateOutputType | null
@@ -5873,64 +5968,76 @@ export namespace Prisma {
 
   export type LedgerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     ledgerId?: boolean
-    walletId?: boolean
+    balanceId?: boolean
+    userId?: boolean
     type?: boolean
-    reason?: boolean
+    symbol?: boolean
     createdAt?: boolean
     amount?: boolean
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ledger"]>
 
   export type LedgerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     ledgerId?: boolean
-    walletId?: boolean
+    balanceId?: boolean
+    userId?: boolean
     type?: boolean
-    reason?: boolean
+    symbol?: boolean
     createdAt?: boolean
     amount?: boolean
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ledger"]>
 
   export type LedgerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     ledgerId?: boolean
-    walletId?: boolean
+    balanceId?: boolean
+    userId?: boolean
     type?: boolean
-    reason?: boolean
+    symbol?: boolean
     createdAt?: boolean
     amount?: boolean
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ledger"]>
 
   export type LedgerSelectScalar = {
     ledgerId?: boolean
-    walletId?: boolean
+    balanceId?: boolean
+    userId?: boolean
     type?: boolean
-    reason?: boolean
+    symbol?: boolean
     createdAt?: boolean
     amount?: boolean
   }
 
-  export type LedgerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ledgerId" | "walletId" | "type" | "reason" | "createdAt" | "amount", ExtArgs["result"]["ledger"]>
+  export type LedgerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ledgerId" | "balanceId" | "userId" | "type" | "symbol" | "createdAt" | "amount", ExtArgs["result"]["ledger"]>
   export type LedgerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }
   export type LedgerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }
   export type LedgerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }
 
   export type $LedgerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Ledger"
     objects: {
-      wallet: Prisma.$WalletPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      balance: Prisma.$BalancesPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       ledgerId: string
-      walletId: string
+      balanceId: string
+      userId: string
       type: $Enums.LedgerType
-      reason: string
+      symbol: string
       createdAt: Date
       amount: bigint
     }, ExtArgs["result"]["ledger"]>
@@ -6327,7 +6434,8 @@ export namespace Prisma {
    */
   export interface Prisma__LedgerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    wallet<T extends WalletDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WalletDefaultArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    balance<T extends BalancesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BalancesDefaultArgs<ExtArgs>>): Prisma__BalancesClient<$Result.GetResult<Prisma.$BalancesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6358,9 +6466,10 @@ export namespace Prisma {
    */
   interface LedgerFieldRefs {
     readonly ledgerId: FieldRef<"Ledger", 'String'>
-    readonly walletId: FieldRef<"Ledger", 'String'>
+    readonly balanceId: FieldRef<"Ledger", 'String'>
+    readonly userId: FieldRef<"Ledger", 'String'>
     readonly type: FieldRef<"Ledger", 'LedgerType'>
-    readonly reason: FieldRef<"Ledger", 'String'>
+    readonly symbol: FieldRef<"Ledger", 'String'>
     readonly createdAt: FieldRef<"Ledger", 'DateTime'>
     readonly amount: FieldRef<"Ledger", 'BigInt'>
   }
@@ -6830,23 +6939,25 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-  export const WalletScalarFieldEnum: {
-    walletId: 'walletId',
+  export const BalancesScalarFieldEnum: {
+    balanceId: 'balanceId',
     userId: 'userId',
+    asset: 'asset',
     freeBalance: 'freeBalance',
     lockedBalance: 'lockedBalance',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+  export type BalancesScalarFieldEnum = (typeof BalancesScalarFieldEnum)[keyof typeof BalancesScalarFieldEnum]
 
 
   export const LedgerScalarFieldEnum: {
     ledgerId: 'ledgerId',
-    walletId: 'walletId',
+    balanceId: 'balanceId',
+    userId: 'userId',
     type: 'type',
-    reason: 'reason',
+    symbol: 'symbol',
     createdAt: 'createdAt',
     amount: 'amount'
   };
@@ -7158,7 +7269,8 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     pin?: StringFilter<"User"> | string
-    wallet?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
+    balance?: BalancesListRelationFilter
+    transactions?: LedgerListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7166,7 +7278,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     pin?: SortOrder
-    wallet?: WalletOrderByWithRelationInput
+    balance?: BalancesOrderByRelationAggregateInput
+    transactions?: LedgerOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7177,7 +7290,8 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     pin?: StringFilter<"User"> | string
-    wallet?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
+    balance?: BalancesListRelationFilter
+    transactions?: LedgerListRelationFilter
   }, "userId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7200,23 +7314,25 @@ export namespace Prisma {
     pin?: StringWithAggregatesFilter<"User"> | string
   }
 
-  export type WalletWhereInput = {
-    AND?: WalletWhereInput | WalletWhereInput[]
-    OR?: WalletWhereInput[]
-    NOT?: WalletWhereInput | WalletWhereInput[]
-    walletId?: StringFilter<"Wallet"> | string
-    userId?: StringFilter<"Wallet"> | string
-    freeBalance?: BigIntFilter<"Wallet"> | bigint | number
-    lockedBalance?: BigIntFilter<"Wallet"> | bigint | number
-    createdAt?: DateTimeFilter<"Wallet"> | Date | string
-    updatedAt?: DateTimeFilter<"Wallet"> | Date | string
+  export type BalancesWhereInput = {
+    AND?: BalancesWhereInput | BalancesWhereInput[]
+    OR?: BalancesWhereInput[]
+    NOT?: BalancesWhereInput | BalancesWhereInput[]
+    balanceId?: StringFilter<"Balances"> | string
+    userId?: StringFilter<"Balances"> | string
+    asset?: StringFilter<"Balances"> | string
+    freeBalance?: BigIntFilter<"Balances"> | bigint | number
+    lockedBalance?: BigIntFilter<"Balances"> | bigint | number
+    createdAt?: DateTimeFilter<"Balances"> | Date | string
+    updatedAt?: DateTimeFilter<"Balances"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     ledgers?: LedgerListRelationFilter
   }
 
-  export type WalletOrderByWithRelationInput = {
-    walletId?: SortOrder
+  export type BalancesOrderByWithRelationInput = {
+    balanceId?: SortOrder
     userId?: SortOrder
+    asset?: SortOrder
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
     createdAt?: SortOrder
@@ -7225,44 +7341,48 @@ export namespace Prisma {
     ledgers?: LedgerOrderByRelationAggregateInput
   }
 
-  export type WalletWhereUniqueInput = Prisma.AtLeast<{
-    walletId?: string
-    userId?: string
-    AND?: WalletWhereInput | WalletWhereInput[]
-    OR?: WalletWhereInput[]
-    NOT?: WalletWhereInput | WalletWhereInput[]
-    freeBalance?: BigIntFilter<"Wallet"> | bigint | number
-    lockedBalance?: BigIntFilter<"Wallet"> | bigint | number
-    createdAt?: DateTimeFilter<"Wallet"> | Date | string
-    updatedAt?: DateTimeFilter<"Wallet"> | Date | string
+  export type BalancesWhereUniqueInput = Prisma.AtLeast<{
+    balanceId?: string
+    userId_asset?: BalancesUserIdAssetCompoundUniqueInput
+    AND?: BalancesWhereInput | BalancesWhereInput[]
+    OR?: BalancesWhereInput[]
+    NOT?: BalancesWhereInput | BalancesWhereInput[]
+    userId?: StringFilter<"Balances"> | string
+    asset?: StringFilter<"Balances"> | string
+    freeBalance?: BigIntFilter<"Balances"> | bigint | number
+    lockedBalance?: BigIntFilter<"Balances"> | bigint | number
+    createdAt?: DateTimeFilter<"Balances"> | Date | string
+    updatedAt?: DateTimeFilter<"Balances"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     ledgers?: LedgerListRelationFilter
-  }, "walletId" | "userId">
+  }, "balanceId" | "userId_asset">
 
-  export type WalletOrderByWithAggregationInput = {
-    walletId?: SortOrder
+  export type BalancesOrderByWithAggregationInput = {
+    balanceId?: SortOrder
     userId?: SortOrder
+    asset?: SortOrder
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: WalletCountOrderByAggregateInput
-    _avg?: WalletAvgOrderByAggregateInput
-    _max?: WalletMaxOrderByAggregateInput
-    _min?: WalletMinOrderByAggregateInput
-    _sum?: WalletSumOrderByAggregateInput
+    _count?: BalancesCountOrderByAggregateInput
+    _avg?: BalancesAvgOrderByAggregateInput
+    _max?: BalancesMaxOrderByAggregateInput
+    _min?: BalancesMinOrderByAggregateInput
+    _sum?: BalancesSumOrderByAggregateInput
   }
 
-  export type WalletScalarWhereWithAggregatesInput = {
-    AND?: WalletScalarWhereWithAggregatesInput | WalletScalarWhereWithAggregatesInput[]
-    OR?: WalletScalarWhereWithAggregatesInput[]
-    NOT?: WalletScalarWhereWithAggregatesInput | WalletScalarWhereWithAggregatesInput[]
-    walletId?: StringWithAggregatesFilter<"Wallet"> | string
-    userId?: StringWithAggregatesFilter<"Wallet"> | string
-    freeBalance?: BigIntWithAggregatesFilter<"Wallet"> | bigint | number
-    lockedBalance?: BigIntWithAggregatesFilter<"Wallet"> | bigint | number
-    createdAt?: DateTimeWithAggregatesFilter<"Wallet"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Wallet"> | Date | string
+  export type BalancesScalarWhereWithAggregatesInput = {
+    AND?: BalancesScalarWhereWithAggregatesInput | BalancesScalarWhereWithAggregatesInput[]
+    OR?: BalancesScalarWhereWithAggregatesInput[]
+    NOT?: BalancesScalarWhereWithAggregatesInput | BalancesScalarWhereWithAggregatesInput[]
+    balanceId?: StringWithAggregatesFilter<"Balances"> | string
+    userId?: StringWithAggregatesFilter<"Balances"> | string
+    asset?: StringWithAggregatesFilter<"Balances"> | string
+    freeBalance?: BigIntWithAggregatesFilter<"Balances"> | bigint | number
+    lockedBalance?: BigIntWithAggregatesFilter<"Balances"> | bigint | number
+    createdAt?: DateTimeWithAggregatesFilter<"Balances"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Balances"> | Date | string
   }
 
   export type LedgerWhereInput = {
@@ -7270,22 +7390,26 @@ export namespace Prisma {
     OR?: LedgerWhereInput[]
     NOT?: LedgerWhereInput | LedgerWhereInput[]
     ledgerId?: StringFilter<"Ledger"> | string
-    walletId?: StringFilter<"Ledger"> | string
+    balanceId?: StringFilter<"Ledger"> | string
+    userId?: StringFilter<"Ledger"> | string
     type?: EnumLedgerTypeFilter<"Ledger"> | $Enums.LedgerType
-    reason?: StringFilter<"Ledger"> | string
+    symbol?: StringFilter<"Ledger"> | string
     createdAt?: DateTimeFilter<"Ledger"> | Date | string
     amount?: BigIntFilter<"Ledger"> | bigint | number
-    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    balance?: XOR<BalancesScalarRelationFilter, BalancesWhereInput>
   }
 
   export type LedgerOrderByWithRelationInput = {
     ledgerId?: SortOrder
-    walletId?: SortOrder
+    balanceId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
-    reason?: SortOrder
+    symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
-    wallet?: WalletOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    balance?: BalancesOrderByWithRelationInput
   }
 
   export type LedgerWhereUniqueInput = Prisma.AtLeast<{
@@ -7293,19 +7417,22 @@ export namespace Prisma {
     AND?: LedgerWhereInput | LedgerWhereInput[]
     OR?: LedgerWhereInput[]
     NOT?: LedgerWhereInput | LedgerWhereInput[]
-    walletId?: StringFilter<"Ledger"> | string
+    balanceId?: StringFilter<"Ledger"> | string
+    userId?: StringFilter<"Ledger"> | string
     type?: EnumLedgerTypeFilter<"Ledger"> | $Enums.LedgerType
-    reason?: StringFilter<"Ledger"> | string
+    symbol?: StringFilter<"Ledger"> | string
     createdAt?: DateTimeFilter<"Ledger"> | Date | string
     amount?: BigIntFilter<"Ledger"> | bigint | number
-    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    balance?: XOR<BalancesScalarRelationFilter, BalancesWhereInput>
   }, "ledgerId">
 
   export type LedgerOrderByWithAggregationInput = {
     ledgerId?: SortOrder
-    walletId?: SortOrder
+    balanceId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
-    reason?: SortOrder
+    symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
     _count?: LedgerCountOrderByAggregateInput
@@ -7320,9 +7447,10 @@ export namespace Prisma {
     OR?: LedgerScalarWhereWithAggregatesInput[]
     NOT?: LedgerScalarWhereWithAggregatesInput | LedgerScalarWhereWithAggregatesInput[]
     ledgerId?: StringWithAggregatesFilter<"Ledger"> | string
-    walletId?: StringWithAggregatesFilter<"Ledger"> | string
+    balanceId?: StringWithAggregatesFilter<"Ledger"> | string
+    userId?: StringWithAggregatesFilter<"Ledger"> | string
     type?: EnumLedgerTypeWithAggregatesFilter<"Ledger"> | $Enums.LedgerType
-    reason?: StringWithAggregatesFilter<"Ledger"> | string
+    symbol?: StringWithAggregatesFilter<"Ledger"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Ledger"> | Date | string
     amount?: BigIntWithAggregatesFilter<"Ledger"> | bigint | number
   }
@@ -7493,7 +7621,8 @@ export namespace Prisma {
     email: string
     password: string
     pin: string
-    wallet?: WalletCreateNestedOneWithoutUserInput
+    balance?: BalancesCreateNestedManyWithoutUserInput
+    transactions?: LedgerCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7501,7 +7630,8 @@ export namespace Prisma {
     email: string
     password: string
     pin: string
-    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    balance?: BalancesUncheckedCreateNestedManyWithoutUserInput
+    transactions?: LedgerUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7509,7 +7639,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     pin?: StringFieldUpdateOperationsInput | string
-    wallet?: WalletUpdateOneWithoutUserNestedInput
+    balance?: BalancesUpdateManyWithoutUserNestedInput
+    transactions?: LedgerUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7517,7 +7648,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     pin?: StringFieldUpdateOperationsInput | string
-    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    balance?: BalancesUncheckedUpdateManyWithoutUserNestedInput
+    transactions?: LedgerUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7541,66 +7673,73 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
   }
 
-  export type WalletCreateInput = {
-    walletId?: string
+  export type BalancesCreateInput = {
+    balanceId?: string
+    asset: string
     freeBalance?: bigint | number
     lockedBalance?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutWalletInput
-    ledgers?: LedgerCreateNestedManyWithoutWalletInput
+    user: UserCreateNestedOneWithoutBalanceInput
+    ledgers?: LedgerCreateNestedManyWithoutBalanceInput
   }
 
-  export type WalletUncheckedCreateInput = {
-    walletId?: string
+  export type BalancesUncheckedCreateInput = {
+    balanceId?: string
     userId: string
+    asset: string
     freeBalance?: bigint | number
     lockedBalance?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ledgers?: LedgerUncheckedCreateNestedManyWithoutWalletInput
+    ledgers?: LedgerUncheckedCreateNestedManyWithoutBalanceInput
   }
 
-  export type WalletUpdateInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
+  export type BalancesUpdateInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
     freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWalletNestedInput
-    ledgers?: LedgerUpdateManyWithoutWalletNestedInput
+    user?: UserUpdateOneRequiredWithoutBalanceNestedInput
+    ledgers?: LedgerUpdateManyWithoutBalanceNestedInput
   }
 
-  export type WalletUncheckedUpdateInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
+  export type BalancesUncheckedUpdateInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
     freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ledgers?: LedgerUncheckedUpdateManyWithoutWalletNestedInput
+    ledgers?: LedgerUncheckedUpdateManyWithoutBalanceNestedInput
   }
 
-  export type WalletCreateManyInput = {
-    walletId?: string
+  export type BalancesCreateManyInput = {
+    balanceId?: string
     userId: string
+    asset: string
     freeBalance?: bigint | number
     lockedBalance?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type WalletUpdateManyMutationInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
+  export type BalancesUpdateManyMutationInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
     freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WalletUncheckedUpdateManyInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
+  export type BalancesUncheckedUpdateManyInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
     freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7610,17 +7749,19 @@ export namespace Prisma {
   export type LedgerCreateInput = {
     ledgerId?: string
     type: $Enums.LedgerType
-    reason: string
+    symbol: string
     createdAt?: Date | string
     amount: bigint | number
-    wallet: WalletCreateNestedOneWithoutLedgersInput
+    user: UserCreateNestedOneWithoutTransactionsInput
+    balance: BalancesCreateNestedOneWithoutLedgersInput
   }
 
   export type LedgerUncheckedCreateInput = {
     ledgerId?: string
-    walletId: string
+    balanceId: string
+    userId: string
     type: $Enums.LedgerType
-    reason: string
+    symbol: string
     createdAt?: Date | string
     amount: bigint | number
   }
@@ -7628,26 +7769,29 @@ export namespace Prisma {
   export type LedgerUpdateInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
-    wallet?: WalletUpdateOneRequiredWithoutLedgersNestedInput
+    user?: UserUpdateOneRequiredWithoutTransactionsNestedInput
+    balance?: BalancesUpdateOneRequiredWithoutLedgersNestedInput
   }
 
   export type LedgerUncheckedUpdateInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
-    walletId?: StringFieldUpdateOperationsInput | string
+    balanceId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type LedgerCreateManyInput = {
     ledgerId?: string
-    walletId: string
+    balanceId: string
+    userId: string
     type: $Enums.LedgerType
-    reason: string
+    symbol: string
     createdAt?: Date | string
     amount: bigint | number
   }
@@ -7655,16 +7799,17 @@ export namespace Prisma {
   export type LedgerUpdateManyMutationInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type LedgerUncheckedUpdateManyInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
-    walletId?: StringFieldUpdateOperationsInput | string
+    balanceId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
   }
@@ -7913,9 +8058,24 @@ export namespace Prisma {
     volume?: SortOrder
   }
 
-  export type WalletNullableScalarRelationFilter = {
-    is?: WalletWhereInput | null
-    isNot?: WalletWhereInput | null
+  export type BalancesListRelationFilter = {
+    every?: BalancesWhereInput
+    some?: BalancesWhereInput
+    none?: BalancesWhereInput
+  }
+
+  export type LedgerListRelationFilter = {
+    every?: LedgerWhereInput
+    some?: LedgerWhereInput
+    none?: LedgerWhereInput
+  }
+
+  export type BalancesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LedgerOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -7955,49 +8115,47 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
-  export type LedgerListRelationFilter = {
-    every?: LedgerWhereInput
-    some?: LedgerWhereInput
-    none?: LedgerWhereInput
+  export type BalancesUserIdAssetCompoundUniqueInput = {
+    userId: string
+    asset: string
   }
 
-  export type LedgerOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type WalletCountOrderByAggregateInput = {
-    walletId?: SortOrder
+  export type BalancesCountOrderByAggregateInput = {
+    balanceId?: SortOrder
     userId?: SortOrder
+    asset?: SortOrder
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type WalletAvgOrderByAggregateInput = {
+  export type BalancesAvgOrderByAggregateInput = {
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
   }
 
-  export type WalletMaxOrderByAggregateInput = {
-    walletId?: SortOrder
+  export type BalancesMaxOrderByAggregateInput = {
+    balanceId?: SortOrder
     userId?: SortOrder
+    asset?: SortOrder
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type WalletMinOrderByAggregateInput = {
-    walletId?: SortOrder
+  export type BalancesMinOrderByAggregateInput = {
+    balanceId?: SortOrder
     userId?: SortOrder
+    asset?: SortOrder
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type WalletSumOrderByAggregateInput = {
+  export type BalancesSumOrderByAggregateInput = {
     freeBalance?: SortOrder
     lockedBalance?: SortOrder
   }
@@ -8025,16 +8183,17 @@ export namespace Prisma {
     not?: NestedEnumLedgerTypeFilter<$PrismaModel> | $Enums.LedgerType
   }
 
-  export type WalletScalarRelationFilter = {
-    is?: WalletWhereInput
-    isNot?: WalletWhereInput
+  export type BalancesScalarRelationFilter = {
+    is?: BalancesWhereInput
+    isNot?: BalancesWhereInput
   }
 
   export type LedgerCountOrderByAggregateInput = {
     ledgerId?: SortOrder
-    walletId?: SortOrder
+    balanceId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
-    reason?: SortOrder
+    symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
   }
@@ -8045,18 +8204,20 @@ export namespace Prisma {
 
   export type LedgerMaxOrderByAggregateInput = {
     ledgerId?: SortOrder
-    walletId?: SortOrder
+    balanceId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
-    reason?: SortOrder
+    symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
   }
 
   export type LedgerMinOrderByAggregateInput = {
     ledgerId?: SortOrder
-    walletId?: SortOrder
+    balanceId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
-    reason?: SortOrder
+    symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
   }
@@ -8103,55 +8264,107 @@ export namespace Prisma {
     set?: $Enums.STATUS
   }
 
-  export type WalletCreateNestedOneWithoutUserInput = {
-    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
-    connect?: WalletWhereUniqueInput
+  export type BalancesCreateNestedManyWithoutUserInput = {
+    create?: XOR<BalancesCreateWithoutUserInput, BalancesUncheckedCreateWithoutUserInput> | BalancesCreateWithoutUserInput[] | BalancesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BalancesCreateOrConnectWithoutUserInput | BalancesCreateOrConnectWithoutUserInput[]
+    createMany?: BalancesCreateManyUserInputEnvelope
+    connect?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
   }
 
-  export type WalletUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
-    connect?: WalletWhereUniqueInput
-  }
-
-  export type WalletUpdateOneWithoutUserNestedInput = {
-    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
-    upsert?: WalletUpsertWithoutUserInput
-    disconnect?: WalletWhereInput | boolean
-    delete?: WalletWhereInput | boolean
-    connect?: WalletWhereUniqueInput
-    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
-  }
-
-  export type WalletUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
-    upsert?: WalletUpsertWithoutUserInput
-    disconnect?: WalletWhereInput | boolean
-    delete?: WalletWhereInput | boolean
-    connect?: WalletWhereUniqueInput
-    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
-  }
-
-  export type UserCreateNestedOneWithoutWalletInput = {
-    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type LedgerCreateNestedManyWithoutWalletInput = {
-    create?: XOR<LedgerCreateWithoutWalletInput, LedgerUncheckedCreateWithoutWalletInput> | LedgerCreateWithoutWalletInput[] | LedgerUncheckedCreateWithoutWalletInput[]
-    connectOrCreate?: LedgerCreateOrConnectWithoutWalletInput | LedgerCreateOrConnectWithoutWalletInput[]
-    createMany?: LedgerCreateManyWalletInputEnvelope
+  export type LedgerCreateNestedManyWithoutUserInput = {
+    create?: XOR<LedgerCreateWithoutUserInput, LedgerUncheckedCreateWithoutUserInput> | LedgerCreateWithoutUserInput[] | LedgerUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutUserInput | LedgerCreateOrConnectWithoutUserInput[]
+    createMany?: LedgerCreateManyUserInputEnvelope
     connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
   }
 
-  export type LedgerUncheckedCreateNestedManyWithoutWalletInput = {
-    create?: XOR<LedgerCreateWithoutWalletInput, LedgerUncheckedCreateWithoutWalletInput> | LedgerCreateWithoutWalletInput[] | LedgerUncheckedCreateWithoutWalletInput[]
-    connectOrCreate?: LedgerCreateOrConnectWithoutWalletInput | LedgerCreateOrConnectWithoutWalletInput[]
-    createMany?: LedgerCreateManyWalletInputEnvelope
+  export type BalancesUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BalancesCreateWithoutUserInput, BalancesUncheckedCreateWithoutUserInput> | BalancesCreateWithoutUserInput[] | BalancesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BalancesCreateOrConnectWithoutUserInput | BalancesCreateOrConnectWithoutUserInput[]
+    createMany?: BalancesCreateManyUserInputEnvelope
+    connect?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+  }
+
+  export type LedgerUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LedgerCreateWithoutUserInput, LedgerUncheckedCreateWithoutUserInput> | LedgerCreateWithoutUserInput[] | LedgerUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutUserInput | LedgerCreateOrConnectWithoutUserInput[]
+    createMany?: LedgerCreateManyUserInputEnvelope
+    connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+  }
+
+  export type BalancesUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BalancesCreateWithoutUserInput, BalancesUncheckedCreateWithoutUserInput> | BalancesCreateWithoutUserInput[] | BalancesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BalancesCreateOrConnectWithoutUserInput | BalancesCreateOrConnectWithoutUserInput[]
+    upsert?: BalancesUpsertWithWhereUniqueWithoutUserInput | BalancesUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BalancesCreateManyUserInputEnvelope
+    set?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    disconnect?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    delete?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    connect?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    update?: BalancesUpdateWithWhereUniqueWithoutUserInput | BalancesUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BalancesUpdateManyWithWhereWithoutUserInput | BalancesUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BalancesScalarWhereInput | BalancesScalarWhereInput[]
+  }
+
+  export type LedgerUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LedgerCreateWithoutUserInput, LedgerUncheckedCreateWithoutUserInput> | LedgerCreateWithoutUserInput[] | LedgerUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutUserInput | LedgerCreateOrConnectWithoutUserInput[]
+    upsert?: LedgerUpsertWithWhereUniqueWithoutUserInput | LedgerUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LedgerCreateManyUserInputEnvelope
+    set?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    disconnect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    delete?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    update?: LedgerUpdateWithWhereUniqueWithoutUserInput | LedgerUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LedgerUpdateManyWithWhereWithoutUserInput | LedgerUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LedgerScalarWhereInput | LedgerScalarWhereInput[]
+  }
+
+  export type BalancesUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BalancesCreateWithoutUserInput, BalancesUncheckedCreateWithoutUserInput> | BalancesCreateWithoutUserInput[] | BalancesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BalancesCreateOrConnectWithoutUserInput | BalancesCreateOrConnectWithoutUserInput[]
+    upsert?: BalancesUpsertWithWhereUniqueWithoutUserInput | BalancesUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BalancesCreateManyUserInputEnvelope
+    set?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    disconnect?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    delete?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    connect?: BalancesWhereUniqueInput | BalancesWhereUniqueInput[]
+    update?: BalancesUpdateWithWhereUniqueWithoutUserInput | BalancesUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BalancesUpdateManyWithWhereWithoutUserInput | BalancesUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BalancesScalarWhereInput | BalancesScalarWhereInput[]
+  }
+
+  export type LedgerUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LedgerCreateWithoutUserInput, LedgerUncheckedCreateWithoutUserInput> | LedgerCreateWithoutUserInput[] | LedgerUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutUserInput | LedgerCreateOrConnectWithoutUserInput[]
+    upsert?: LedgerUpsertWithWhereUniqueWithoutUserInput | LedgerUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LedgerCreateManyUserInputEnvelope
+    set?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    disconnect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    delete?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+    update?: LedgerUpdateWithWhereUniqueWithoutUserInput | LedgerUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LedgerUpdateManyWithWhereWithoutUserInput | LedgerUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LedgerScalarWhereInput | LedgerScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutBalanceInput = {
+    create?: XOR<UserCreateWithoutBalanceInput, UserUncheckedCreateWithoutBalanceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBalanceInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type LedgerCreateNestedManyWithoutBalanceInput = {
+    create?: XOR<LedgerCreateWithoutBalanceInput, LedgerUncheckedCreateWithoutBalanceInput> | LedgerCreateWithoutBalanceInput[] | LedgerUncheckedCreateWithoutBalanceInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutBalanceInput | LedgerCreateOrConnectWithoutBalanceInput[]
+    createMany?: LedgerCreateManyBalanceInputEnvelope
+    connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
+  }
+
+  export type LedgerUncheckedCreateNestedManyWithoutBalanceInput = {
+    create?: XOR<LedgerCreateWithoutBalanceInput, LedgerUncheckedCreateWithoutBalanceInput> | LedgerCreateWithoutBalanceInput[] | LedgerUncheckedCreateWithoutBalanceInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutBalanceInput | LedgerCreateOrConnectWithoutBalanceInput[]
+    createMany?: LedgerCreateManyBalanceInputEnvelope
     connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
   }
 
@@ -8163,58 +8376,72 @@ export namespace Prisma {
     divide?: bigint | number
   }
 
-  export type UserUpdateOneRequiredWithoutWalletNestedInput = {
-    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
-    upsert?: UserUpsertWithoutWalletInput
+  export type UserUpdateOneRequiredWithoutBalanceNestedInput = {
+    create?: XOR<UserCreateWithoutBalanceInput, UserUncheckedCreateWithoutBalanceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBalanceInput
+    upsert?: UserUpsertWithoutBalanceInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWalletInput, UserUpdateWithoutWalletInput>, UserUncheckedUpdateWithoutWalletInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBalanceInput, UserUpdateWithoutBalanceInput>, UserUncheckedUpdateWithoutBalanceInput>
   }
 
-  export type LedgerUpdateManyWithoutWalletNestedInput = {
-    create?: XOR<LedgerCreateWithoutWalletInput, LedgerUncheckedCreateWithoutWalletInput> | LedgerCreateWithoutWalletInput[] | LedgerUncheckedCreateWithoutWalletInput[]
-    connectOrCreate?: LedgerCreateOrConnectWithoutWalletInput | LedgerCreateOrConnectWithoutWalletInput[]
-    upsert?: LedgerUpsertWithWhereUniqueWithoutWalletInput | LedgerUpsertWithWhereUniqueWithoutWalletInput[]
-    createMany?: LedgerCreateManyWalletInputEnvelope
+  export type LedgerUpdateManyWithoutBalanceNestedInput = {
+    create?: XOR<LedgerCreateWithoutBalanceInput, LedgerUncheckedCreateWithoutBalanceInput> | LedgerCreateWithoutBalanceInput[] | LedgerUncheckedCreateWithoutBalanceInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutBalanceInput | LedgerCreateOrConnectWithoutBalanceInput[]
+    upsert?: LedgerUpsertWithWhereUniqueWithoutBalanceInput | LedgerUpsertWithWhereUniqueWithoutBalanceInput[]
+    createMany?: LedgerCreateManyBalanceInputEnvelope
     set?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
     disconnect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
     delete?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
     connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
-    update?: LedgerUpdateWithWhereUniqueWithoutWalletInput | LedgerUpdateWithWhereUniqueWithoutWalletInput[]
-    updateMany?: LedgerUpdateManyWithWhereWithoutWalletInput | LedgerUpdateManyWithWhereWithoutWalletInput[]
+    update?: LedgerUpdateWithWhereUniqueWithoutBalanceInput | LedgerUpdateWithWhereUniqueWithoutBalanceInput[]
+    updateMany?: LedgerUpdateManyWithWhereWithoutBalanceInput | LedgerUpdateManyWithWhereWithoutBalanceInput[]
     deleteMany?: LedgerScalarWhereInput | LedgerScalarWhereInput[]
   }
 
-  export type LedgerUncheckedUpdateManyWithoutWalletNestedInput = {
-    create?: XOR<LedgerCreateWithoutWalletInput, LedgerUncheckedCreateWithoutWalletInput> | LedgerCreateWithoutWalletInput[] | LedgerUncheckedCreateWithoutWalletInput[]
-    connectOrCreate?: LedgerCreateOrConnectWithoutWalletInput | LedgerCreateOrConnectWithoutWalletInput[]
-    upsert?: LedgerUpsertWithWhereUniqueWithoutWalletInput | LedgerUpsertWithWhereUniqueWithoutWalletInput[]
-    createMany?: LedgerCreateManyWalletInputEnvelope
+  export type LedgerUncheckedUpdateManyWithoutBalanceNestedInput = {
+    create?: XOR<LedgerCreateWithoutBalanceInput, LedgerUncheckedCreateWithoutBalanceInput> | LedgerCreateWithoutBalanceInput[] | LedgerUncheckedCreateWithoutBalanceInput[]
+    connectOrCreate?: LedgerCreateOrConnectWithoutBalanceInput | LedgerCreateOrConnectWithoutBalanceInput[]
+    upsert?: LedgerUpsertWithWhereUniqueWithoutBalanceInput | LedgerUpsertWithWhereUniqueWithoutBalanceInput[]
+    createMany?: LedgerCreateManyBalanceInputEnvelope
     set?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
     disconnect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
     delete?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
     connect?: LedgerWhereUniqueInput | LedgerWhereUniqueInput[]
-    update?: LedgerUpdateWithWhereUniqueWithoutWalletInput | LedgerUpdateWithWhereUniqueWithoutWalletInput[]
-    updateMany?: LedgerUpdateManyWithWhereWithoutWalletInput | LedgerUpdateManyWithWhereWithoutWalletInput[]
+    update?: LedgerUpdateWithWhereUniqueWithoutBalanceInput | LedgerUpdateWithWhereUniqueWithoutBalanceInput[]
+    updateMany?: LedgerUpdateManyWithWhereWithoutBalanceInput | LedgerUpdateManyWithWhereWithoutBalanceInput[]
     deleteMany?: LedgerScalarWhereInput | LedgerScalarWhereInput[]
   }
 
-  export type WalletCreateNestedOneWithoutLedgersInput = {
-    create?: XOR<WalletCreateWithoutLedgersInput, WalletUncheckedCreateWithoutLedgersInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutLedgersInput
-    connect?: WalletWhereUniqueInput
+  export type UserCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<UserCreateWithoutTransactionsInput, UserUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BalancesCreateNestedOneWithoutLedgersInput = {
+    create?: XOR<BalancesCreateWithoutLedgersInput, BalancesUncheckedCreateWithoutLedgersInput>
+    connectOrCreate?: BalancesCreateOrConnectWithoutLedgersInput
+    connect?: BalancesWhereUniqueInput
   }
 
   export type EnumLedgerTypeFieldUpdateOperationsInput = {
     set?: $Enums.LedgerType
   }
 
-  export type WalletUpdateOneRequiredWithoutLedgersNestedInput = {
-    create?: XOR<WalletCreateWithoutLedgersInput, WalletUncheckedCreateWithoutLedgersInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutLedgersInput
-    upsert?: WalletUpsertWithoutLedgersInput
-    connect?: WalletWhereUniqueInput
-    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutLedgersInput, WalletUpdateWithoutLedgersInput>, WalletUncheckedUpdateWithoutLedgersInput>
+  export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutTransactionsInput, UserUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTransactionsInput
+    upsert?: UserUpsertWithoutTransactionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTransactionsInput, UserUpdateWithoutTransactionsInput>, UserUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type BalancesUpdateOneRequiredWithoutLedgersNestedInput = {
+    create?: XOR<BalancesCreateWithoutLedgersInput, BalancesUncheckedCreateWithoutLedgersInput>
+    connectOrCreate?: BalancesCreateOrConnectWithoutLedgersInput
+    upsert?: BalancesUpsertWithoutLedgersInput
+    connect?: BalancesWhereUniqueInput
+    update?: XOR<XOR<BalancesUpdateToOneWithWhereWithoutLedgersInput, BalancesUpdateWithoutLedgersInput>, BalancesUncheckedUpdateWithoutLedgersInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8406,142 +8633,107 @@ export namespace Prisma {
     _max?: NestedEnumLedgerTypeFilter<$PrismaModel>
   }
 
-  export type WalletCreateWithoutUserInput = {
-    walletId?: string
+  export type BalancesCreateWithoutUserInput = {
+    balanceId?: string
+    asset: string
     freeBalance?: bigint | number
     lockedBalance?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ledgers?: LedgerCreateNestedManyWithoutWalletInput
+    ledgers?: LedgerCreateNestedManyWithoutBalanceInput
   }
 
-  export type WalletUncheckedCreateWithoutUserInput = {
-    walletId?: string
+  export type BalancesUncheckedCreateWithoutUserInput = {
+    balanceId?: string
+    asset: string
     freeBalance?: bigint | number
     lockedBalance?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ledgers?: LedgerUncheckedCreateNestedManyWithoutWalletInput
+    ledgers?: LedgerUncheckedCreateNestedManyWithoutBalanceInput
   }
 
-  export type WalletCreateOrConnectWithoutUserInput = {
-    where: WalletWhereUniqueInput
-    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+  export type BalancesCreateOrConnectWithoutUserInput = {
+    where: BalancesWhereUniqueInput
+    create: XOR<BalancesCreateWithoutUserInput, BalancesUncheckedCreateWithoutUserInput>
   }
 
-  export type WalletUpsertWithoutUserInput = {
-    update: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
-    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-    where?: WalletWhereInput
-  }
-
-  export type WalletUpdateToOneWithWhereWithoutUserInput = {
-    where?: WalletWhereInput
-    data: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
-  }
-
-  export type WalletUpdateWithoutUserInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
-    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ledgers?: LedgerUpdateManyWithoutWalletNestedInput
-  }
-
-  export type WalletUncheckedUpdateWithoutUserInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
-    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ledgers?: LedgerUncheckedUpdateManyWithoutWalletNestedInput
-  }
-
-  export type UserCreateWithoutWalletInput = {
-    userId?: string
-    email: string
-    password: string
-    pin: string
-  }
-
-  export type UserUncheckedCreateWithoutWalletInput = {
-    userId?: string
-    email: string
-    password: string
-    pin: string
-  }
-
-  export type UserCreateOrConnectWithoutWalletInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-  }
-
-  export type LedgerCreateWithoutWalletInput = {
-    ledgerId?: string
-    type: $Enums.LedgerType
-    reason: string
-    createdAt?: Date | string
-    amount: bigint | number
-  }
-
-  export type LedgerUncheckedCreateWithoutWalletInput = {
-    ledgerId?: string
-    type: $Enums.LedgerType
-    reason: string
-    createdAt?: Date | string
-    amount: bigint | number
-  }
-
-  export type LedgerCreateOrConnectWithoutWalletInput = {
-    where: LedgerWhereUniqueInput
-    create: XOR<LedgerCreateWithoutWalletInput, LedgerUncheckedCreateWithoutWalletInput>
-  }
-
-  export type LedgerCreateManyWalletInputEnvelope = {
-    data: LedgerCreateManyWalletInput | LedgerCreateManyWalletInput[]
+  export type BalancesCreateManyUserInputEnvelope = {
+    data: BalancesCreateManyUserInput | BalancesCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutWalletInput = {
-    update: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
-    create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-    where?: UserWhereInput
+  export type LedgerCreateWithoutUserInput = {
+    ledgerId?: string
+    type: $Enums.LedgerType
+    symbol: string
+    createdAt?: Date | string
+    amount: bigint | number
+    balance: BalancesCreateNestedOneWithoutLedgersInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutWalletInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
+  export type LedgerUncheckedCreateWithoutUserInput = {
+    ledgerId?: string
+    balanceId: string
+    type: $Enums.LedgerType
+    symbol: string
+    createdAt?: Date | string
+    amount: bigint | number
   }
 
-  export type UserUpdateWithoutWalletInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    pin?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UserUncheckedUpdateWithoutWalletInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    pin?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LedgerUpsertWithWhereUniqueWithoutWalletInput = {
+  export type LedgerCreateOrConnectWithoutUserInput = {
     where: LedgerWhereUniqueInput
-    update: XOR<LedgerUpdateWithoutWalletInput, LedgerUncheckedUpdateWithoutWalletInput>
-    create: XOR<LedgerCreateWithoutWalletInput, LedgerUncheckedCreateWithoutWalletInput>
+    create: XOR<LedgerCreateWithoutUserInput, LedgerUncheckedCreateWithoutUserInput>
   }
 
-  export type LedgerUpdateWithWhereUniqueWithoutWalletInput = {
+  export type LedgerCreateManyUserInputEnvelope = {
+    data: LedgerCreateManyUserInput | LedgerCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BalancesUpsertWithWhereUniqueWithoutUserInput = {
+    where: BalancesWhereUniqueInput
+    update: XOR<BalancesUpdateWithoutUserInput, BalancesUncheckedUpdateWithoutUserInput>
+    create: XOR<BalancesCreateWithoutUserInput, BalancesUncheckedCreateWithoutUserInput>
+  }
+
+  export type BalancesUpdateWithWhereUniqueWithoutUserInput = {
+    where: BalancesWhereUniqueInput
+    data: XOR<BalancesUpdateWithoutUserInput, BalancesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BalancesUpdateManyWithWhereWithoutUserInput = {
+    where: BalancesScalarWhereInput
+    data: XOR<BalancesUpdateManyMutationInput, BalancesUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BalancesScalarWhereInput = {
+    AND?: BalancesScalarWhereInput | BalancesScalarWhereInput[]
+    OR?: BalancesScalarWhereInput[]
+    NOT?: BalancesScalarWhereInput | BalancesScalarWhereInput[]
+    balanceId?: StringFilter<"Balances"> | string
+    userId?: StringFilter<"Balances"> | string
+    asset?: StringFilter<"Balances"> | string
+    freeBalance?: BigIntFilter<"Balances"> | bigint | number
+    lockedBalance?: BigIntFilter<"Balances"> | bigint | number
+    createdAt?: DateTimeFilter<"Balances"> | Date | string
+    updatedAt?: DateTimeFilter<"Balances"> | Date | string
+  }
+
+  export type LedgerUpsertWithWhereUniqueWithoutUserInput = {
     where: LedgerWhereUniqueInput
-    data: XOR<LedgerUpdateWithoutWalletInput, LedgerUncheckedUpdateWithoutWalletInput>
+    update: XOR<LedgerUpdateWithoutUserInput, LedgerUncheckedUpdateWithoutUserInput>
+    create: XOR<LedgerCreateWithoutUserInput, LedgerUncheckedCreateWithoutUserInput>
   }
 
-  export type LedgerUpdateManyWithWhereWithoutWalletInput = {
+  export type LedgerUpdateWithWhereUniqueWithoutUserInput = {
+    where: LedgerWhereUniqueInput
+    data: XOR<LedgerUpdateWithoutUserInput, LedgerUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LedgerUpdateManyWithWhereWithoutUserInput = {
     where: LedgerScalarWhereInput
-    data: XOR<LedgerUpdateManyMutationInput, LedgerUncheckedUpdateManyWithoutWalletInput>
+    data: XOR<LedgerUpdateManyMutationInput, LedgerUncheckedUpdateManyWithoutUserInput>
   }
 
   export type LedgerScalarWhereInput = {
@@ -8549,93 +8741,316 @@ export namespace Prisma {
     OR?: LedgerScalarWhereInput[]
     NOT?: LedgerScalarWhereInput | LedgerScalarWhereInput[]
     ledgerId?: StringFilter<"Ledger"> | string
-    walletId?: StringFilter<"Ledger"> | string
+    balanceId?: StringFilter<"Ledger"> | string
+    userId?: StringFilter<"Ledger"> | string
     type?: EnumLedgerTypeFilter<"Ledger"> | $Enums.LedgerType
-    reason?: StringFilter<"Ledger"> | string
+    symbol?: StringFilter<"Ledger"> | string
     createdAt?: DateTimeFilter<"Ledger"> | Date | string
     amount?: BigIntFilter<"Ledger"> | bigint | number
   }
 
-  export type WalletCreateWithoutLedgersInput = {
-    walletId?: string
-    freeBalance?: bigint | number
-    lockedBalance?: bigint | number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutWalletInput
+  export type UserCreateWithoutBalanceInput = {
+    userId?: string
+    email: string
+    password: string
+    pin: string
+    transactions?: LedgerCreateNestedManyWithoutUserInput
   }
 
-  export type WalletUncheckedCreateWithoutLedgersInput = {
-    walletId?: string
-    userId: string
-    freeBalance?: bigint | number
-    lockedBalance?: bigint | number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type UserUncheckedCreateWithoutBalanceInput = {
+    userId?: string
+    email: string
+    password: string
+    pin: string
+    transactions?: LedgerUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type WalletCreateOrConnectWithoutLedgersInput = {
-    where: WalletWhereUniqueInput
-    create: XOR<WalletCreateWithoutLedgersInput, WalletUncheckedCreateWithoutLedgersInput>
+  export type UserCreateOrConnectWithoutBalanceInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBalanceInput, UserUncheckedCreateWithoutBalanceInput>
   }
 
-  export type WalletUpsertWithoutLedgersInput = {
-    update: XOR<WalletUpdateWithoutLedgersInput, WalletUncheckedUpdateWithoutLedgersInput>
-    create: XOR<WalletCreateWithoutLedgersInput, WalletUncheckedCreateWithoutLedgersInput>
-    where?: WalletWhereInput
-  }
-
-  export type WalletUpdateToOneWithWhereWithoutLedgersInput = {
-    where?: WalletWhereInput
-    data: XOR<WalletUpdateWithoutLedgersInput, WalletUncheckedUpdateWithoutLedgersInput>
-  }
-
-  export type WalletUpdateWithoutLedgersInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
-    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWalletNestedInput
-  }
-
-  export type WalletUncheckedUpdateWithoutLedgersInput = {
-    walletId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LedgerCreateManyWalletInput = {
+  export type LedgerCreateWithoutBalanceInput = {
     ledgerId?: string
     type: $Enums.LedgerType
-    reason: string
+    symbol: string
+    createdAt?: Date | string
+    amount: bigint | number
+    user: UserCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type LedgerUncheckedCreateWithoutBalanceInput = {
+    ledgerId?: string
+    userId: string
+    type: $Enums.LedgerType
+    symbol: string
     createdAt?: Date | string
     amount: bigint | number
   }
 
-  export type LedgerUpdateWithoutWalletInput = {
+  export type LedgerCreateOrConnectWithoutBalanceInput = {
+    where: LedgerWhereUniqueInput
+    create: XOR<LedgerCreateWithoutBalanceInput, LedgerUncheckedCreateWithoutBalanceInput>
+  }
+
+  export type LedgerCreateManyBalanceInputEnvelope = {
+    data: LedgerCreateManyBalanceInput | LedgerCreateManyBalanceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutBalanceInput = {
+    update: XOR<UserUpdateWithoutBalanceInput, UserUncheckedUpdateWithoutBalanceInput>
+    create: XOR<UserCreateWithoutBalanceInput, UserUncheckedCreateWithoutBalanceInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBalanceInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBalanceInput, UserUncheckedUpdateWithoutBalanceInput>
+  }
+
+  export type UserUpdateWithoutBalanceInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    pin?: StringFieldUpdateOperationsInput | string
+    transactions?: LedgerUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBalanceInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    pin?: StringFieldUpdateOperationsInput | string
+    transactions?: LedgerUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type LedgerUpsertWithWhereUniqueWithoutBalanceInput = {
+    where: LedgerWhereUniqueInput
+    update: XOR<LedgerUpdateWithoutBalanceInput, LedgerUncheckedUpdateWithoutBalanceInput>
+    create: XOR<LedgerCreateWithoutBalanceInput, LedgerUncheckedCreateWithoutBalanceInput>
+  }
+
+  export type LedgerUpdateWithWhereUniqueWithoutBalanceInput = {
+    where: LedgerWhereUniqueInput
+    data: XOR<LedgerUpdateWithoutBalanceInput, LedgerUncheckedUpdateWithoutBalanceInput>
+  }
+
+  export type LedgerUpdateManyWithWhereWithoutBalanceInput = {
+    where: LedgerScalarWhereInput
+    data: XOR<LedgerUpdateManyMutationInput, LedgerUncheckedUpdateManyWithoutBalanceInput>
+  }
+
+  export type UserCreateWithoutTransactionsInput = {
+    userId?: string
+    email: string
+    password: string
+    pin: string
+    balance?: BalancesCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTransactionsInput = {
+    userId?: string
+    email: string
+    password: string
+    pin: string
+    balance?: BalancesUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTransactionsInput, UserUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type BalancesCreateWithoutLedgersInput = {
+    balanceId?: string
+    asset: string
+    freeBalance?: bigint | number
+    lockedBalance?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBalanceInput
+  }
+
+  export type BalancesUncheckedCreateWithoutLedgersInput = {
+    balanceId?: string
+    userId: string
+    asset: string
+    freeBalance?: bigint | number
+    lockedBalance?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BalancesCreateOrConnectWithoutLedgersInput = {
+    where: BalancesWhereUniqueInput
+    create: XOR<BalancesCreateWithoutLedgersInput, BalancesUncheckedCreateWithoutLedgersInput>
+  }
+
+  export type UserUpsertWithoutTransactionsInput = {
+    update: XOR<UserUpdateWithoutTransactionsInput, UserUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<UserCreateWithoutTransactionsInput, UserUncheckedCreateWithoutTransactionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTransactionsInput, UserUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type UserUpdateWithoutTransactionsInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    pin?: StringFieldUpdateOperationsInput | string
+    balance?: BalancesUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTransactionsInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    pin?: StringFieldUpdateOperationsInput | string
+    balance?: BalancesUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BalancesUpsertWithoutLedgersInput = {
+    update: XOR<BalancesUpdateWithoutLedgersInput, BalancesUncheckedUpdateWithoutLedgersInput>
+    create: XOR<BalancesCreateWithoutLedgersInput, BalancesUncheckedCreateWithoutLedgersInput>
+    where?: BalancesWhereInput
+  }
+
+  export type BalancesUpdateToOneWithWhereWithoutLedgersInput = {
+    where?: BalancesWhereInput
+    data: XOR<BalancesUpdateWithoutLedgersInput, BalancesUncheckedUpdateWithoutLedgersInput>
+  }
+
+  export type BalancesUpdateWithoutLedgersInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBalanceNestedInput
+  }
+
+  export type BalancesUncheckedUpdateWithoutLedgersInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BalancesCreateManyUserInput = {
+    balanceId?: string
+    asset: string
+    freeBalance?: bigint | number
+    lockedBalance?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LedgerCreateManyUserInput = {
+    ledgerId?: string
+    balanceId: string
+    type: $Enums.LedgerType
+    symbol: string
+    createdAt?: Date | string
+    amount: bigint | number
+  }
+
+  export type BalancesUpdateWithoutUserInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ledgers?: LedgerUpdateManyWithoutBalanceNestedInput
+  }
+
+  export type BalancesUncheckedUpdateWithoutUserInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ledgers?: LedgerUncheckedUpdateManyWithoutBalanceNestedInput
+  }
+
+  export type BalancesUncheckedUpdateManyWithoutUserInput = {
+    balanceId?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    freeBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    lockedBalance?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LedgerUpdateWithoutUserInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    balance?: BalancesUpdateOneRequiredWithoutLedgersNestedInput
+  }
+
+  export type LedgerUncheckedUpdateWithoutUserInput = {
+    ledgerId?: StringFieldUpdateOperationsInput | string
+    balanceId?: StringFieldUpdateOperationsInput | string
+    type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
-  export type LedgerUncheckedUpdateWithoutWalletInput = {
+  export type LedgerUncheckedUpdateManyWithoutUserInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
+    balanceId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
-  export type LedgerUncheckedUpdateManyWithoutWalletInput = {
+  export type LedgerCreateManyBalanceInput = {
+    ledgerId?: string
+    userId: string
+    type: $Enums.LedgerType
+    symbol: string
+    createdAt?: Date | string
+    amount: bigint | number
+  }
+
+  export type LedgerUpdateWithoutBalanceInput = {
     ledgerId?: StringFieldUpdateOperationsInput | string
     type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
-    reason?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    user?: UserUpdateOneRequiredWithoutTransactionsNestedInput
+  }
+
+  export type LedgerUncheckedUpdateWithoutBalanceInput = {
+    ledgerId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
+    symbol?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type LedgerUncheckedUpdateManyWithoutBalanceInput = {
+    ledgerId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumLedgerTypeFieldUpdateOperationsInput | $Enums.LedgerType
+    symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
   }

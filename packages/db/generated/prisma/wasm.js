@@ -150,9 +150,10 @@ exports.Prisma.UserScalarFieldEnum = {
   pin: 'pin'
 };
 
-exports.Prisma.WalletScalarFieldEnum = {
-  walletId: 'walletId',
+exports.Prisma.BalancesScalarFieldEnum = {
+  balanceId: 'balanceId',
   userId: 'userId',
+  asset: 'asset',
   freeBalance: 'freeBalance',
   lockedBalance: 'lockedBalance',
   createdAt: 'createdAt',
@@ -161,9 +162,10 @@ exports.Prisma.WalletScalarFieldEnum = {
 
 exports.Prisma.LedgerScalarFieldEnum = {
   ledgerId: 'ledgerId',
-  walletId: 'walletId',
+  balanceId: 'balanceId',
+  userId: 'userId',
   type: 'type',
-  reason: 'reason',
+  symbol: 'symbol',
   createdAt: 'createdAt',
   amount: 'amount'
 };
@@ -203,7 +205,7 @@ exports.Prisma.ModelName = {
   Orders: 'Orders',
   Trades: 'Trades',
   User: 'User',
-  Wallet: 'Wallet',
+  Balances: 'Balances',
   Ledger: 'Ledger'
 };
 

@@ -64,30 +64,36 @@ model Trades {
 }
 
 model User {
-  userId   String  @unique @default(uuid())
-  email    String  @unique
-  password String
-  pin      String
-  wallet   Wallet?
+  userId       String     @unique @default(uuid())
+  email        String     @unique
+  password     String
+  pin          String
+  balance      Balances[]
+  transactions Ledger[]
 }
 
-model Wallet {
-  walletId      String   @unique @default(uuid())
-  userId        String   @unique
+model Balances {
+  balanceId     String   @unique @default(uuid())
+  userId        String
   user          User     @relation(fields: [userId], references: [userId])
+  asset         String
   freeBalance   BigInt   @default(0)
   lockedBalance BigInt   @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   ledgers       Ledger[]
+
+  @@unique([userId, asset])
 }
 
 model Ledger {
   ledgerId  String     @id @default(uuid())
-  walletId  String
-  wallet    Wallet     @relation(fields: [walletId], references: [walletId])
+  balanceId String
+  user      User       @relation(fields: [userId], references: [userId])
+  userId    String
+  balance   Balances   @relation(fields: [balanceId], references: [balanceId])
   type      LedgerType
-  reason    String
+  symbol    String
   createdAt DateTime   @default(now())
   amount    BigInt
 }

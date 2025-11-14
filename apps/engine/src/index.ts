@@ -86,6 +86,11 @@ function startAllOrderBooks(){
             const dbUpdateData = data.data
             await redisClient.pushToDb(dbUpdateData)
 
+        }else if(data.type === "cancel"){
+            const {response} = data
+            if(response){
+                await redisClient.publishToApi()
+            }
         }
 
     })

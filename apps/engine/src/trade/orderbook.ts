@@ -17,7 +17,11 @@ parentPort?.on("message",(data)=>{
             parentPort?.postMessage({type:"order",clientId:data.clientId,response})
         }
     }
-})
+    if(data.type == "cancel"){
+       const response =  OB_BTCUSDT.cancelOrder(data.data)
+       parentPort?.postMessage({type:"cancel",data:response})
+    }
+})   
 
 
 

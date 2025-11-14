@@ -21,8 +21,10 @@ authHandler.post("/signup",async (req:any,res:any)=>{
                 email:email,
                 password: hashedPassword,
                 pin: pin,
-                wallet:{
-                    create:{}
+                balance:{
+                    create:{
+                        asset:"USDT"
+                    }
                 }
             },
             select:{
@@ -61,7 +63,7 @@ authHandler.post("/signin",async (req:any,res:any)=>{
                 userId: true,
                 email: true,
                 password: true,
-                wallet: { select: {freeBalance:true,lockedBalance:true}}
+                balance: { select: {freeBalance:true,lockedBalance:true}}
             }})
         if(user){
             const isValid = await argon2.verify(user?.password,password)
@@ -69,7 +71,7 @@ authHandler.post("/signin",async (req:any,res:any)=>{
                 req.session.user = {
                     userId: user.userId,
                     email: user.email,
-                    walletBalance: user.wallet?.freeBalance ?? 0
+                    walletBalance: user.balance[0]?.freeBalance ?? 0
                 }
                 return res.status(200).send("Login Successful")
             }else{

@@ -69,37 +69,78 @@ async function ProcessRequest(){
                 }
             }
             else if(data.type=="walletUpdate"){
+                if(data.debit){
                 try{
                     await client.$transaction(async (tx)=>{
                         //credit to the reciever balance 
-                        const crediter = await tx.wallet.update({
+                        const USDTcrediter = await tx.balances.update({
                             where:{
-                                userId:data.credit
+                                userId_asset:{
+                                    userId:data.credit,
+                                    asset: "USDT"
+                                }
+                                
                             },
                             data:{
                                 freeBalance: {
                                     increment: data.amount
                                 }
                             },
+                           
                             select:{
-                                walletId: true
+                                balanceId: true,
+                                freeBalance: true,
+                                lockedBalance: true
                             }
                         })
 
                         // creditere ledger entry
                         await tx.ledger.create({
                             data:{
-                                walletId: crediter.walletId,
+                                userId: data.credit,
+                                balanceId: USDTcrediter.balanceId,
                                 amount:data.amount,
                                 type:"CREDIT",
-                                reason:"Order Complete"
+                                symbol:"USDT"
+
+                            }
+                        })
+
+                        // Asset transfering from the user
+                        const asssetDebit = await tx.balances.upsert({
+                            where:{
+                                userId_asset:{
+                                    userId: data.credit,
+                                    asset: data.symbol
+                                }
+                            },
+                            update:{
+                                lockedBalance: { decrement:data.quantity }
+                            },
+                            create:{
+                                userId:data.credit,
+                                asset: data.symbol,
+                            }
+                        })
+
+                        await tx.ledger.create({
+                            data:{
+                                userId: data.credit,
+                                balanceId: asssetDebit.balanceId,
+                                amount:data.quantity,
+                                type:"DEBIT",
+                                symbol:data.symbol
 
                             }
                         })
                         // debit from the recivers balance
-                        const debiter = await tx.wallet.update({
+                        const USDTdebiter = await tx.balances.update({
                             where:{
-                                userId: data.debit
+                                userId_asset:{
+                                    userId: data.debit,
+                                    asset: "USDT"
+                                }
+                                
                             },
                             data:{
                                 lockedBalance:{
@@ -107,7 +148,9 @@ async function ProcessRequest(){
                                 }
                             },
                             select:{
-                                walletId: true
+                                balanceId: true,
+                                freeBalance: true,
+                                lockedBalance: true
                             }
                         })
 
@@ -115,18 +158,76 @@ async function ProcessRequest(){
 
                         await tx.ledger.create({
                             data:{
-                                walletId:debiter.walletId,
+                                userId: data.debit,
+                                balanceId:USDTdebiter.balanceId,
                                 amount: data.amount,
-                                reason:"Order Complete",
+                                symbol:"USDT",
                                 type:"DEBIT"
                             }
                         })
 
+                        // Crediting the asset to the buyer
+
+                        const assetCrediter = await tx.balances.upsert({
+                            where:{
+                                userId_asset:{
+                                    userId:data.debit,
+                                    asset: data.symbol
+                                }
+                            },
+                            update:{
+                                freeBalance:{
+                                    increment: data.quantity,
+                                }
+                            },
+                            create:{
+                                userId:data.debit,
+                                asset: data.symbol
+                            }
+                        })
+
+                        await tx.ledger.create({
+                            data:{
+                                userId: data.debit,
+                                balanceId: assetCrediter.balanceId,
+                                symbol: data.symbol,
+                                type:"CREDIT",
+                                amount: data.quantity
+
+                            }
+                        })
+
                     })
+
+                    
                 }catch(error:any){
                     console.log("Error Updating Balance :: Transaction Failed :: ",error)
                 }
             }
+        }else{
+            try{
+                await client.$transaction(async (tx)=>{
+                    await tx.balances.update({
+                        where:{
+                            userId_asset:{
+                                userId: data.credit,
+                                asset: data.symbol,
+                            }
+                        },
+                        data:{
+                            lockedBalance:{
+                                decrement: data.amount,
+                            },
+                            freeBalance:{
+                                increment: data.amount
+                            }
+                        }
+                    })
+                })
+            }catch(error:any){
+                console.log("ERROR: :: ",error)
+            }
+        }
         }
 
     }
