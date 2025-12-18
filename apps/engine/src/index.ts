@@ -87,9 +87,9 @@ function startAllOrderBooks(){
             await redisClient.pushToDb(dbUpdateData)
 
         }else if(data.type === "cancel"){
-            const {response} = data
+            const {clientId,response} = data
             if(response){
-                await redisClient.publishToApi()
+                await redisClient.publishToApi(clientId,response)
             }
         }
 

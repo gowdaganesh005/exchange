@@ -14,12 +14,14 @@ authHandler.post("/signup",async (req:any,res:any)=>{
     
     let user;
     try{
-        const { email , password, pin } = signupSchema.parse(req.body)
+        const { email ,name, password, pin } = signupSchema.parse(req.body)
+        console.log(name)
         const hashedPassword = await argon2.hash(password)
         user = await client.user.create({
             data:{
                 email:email,
                 password: hashedPassword,
+                name,
                 pin: pin,
                 balance:{
                     create:{
@@ -55,7 +57,7 @@ authHandler.post("/signup",async (req:any,res:any)=>{
 
 authHandler.post("/signin",async (req:any,res:any)=>{
     try{
-        const {email,password} = signinSchema.parse(req.body)
+        const {email,password,pin} = signinSchema.parse(req.body)
         const user = await client.user.findFirst({where:{
             email
         },
@@ -63,15 +65,17 @@ authHandler.post("/signin",async (req:any,res:any)=>{
                 userId: true,
                 email: true,
                 password: true,
+                pin:true,
                 balance: { select: {freeBalance:true,lockedBalance:true}}
             }})
         if(user){
             const isValid = await argon2.verify(user?.password,password)
-            if(isValid){
+            
+            if(isValid && pin == user.pin){
                 req.session.user = {
                     userId: user.userId,
                     email: user.email,
-                    walletBalance: user.balance[0]?.freeBalance ?? 0
+                    walletBalance: user.balance[0]?.freeBalance.toString()?? 0
                 }
                 return res.status(200).send("Login Successful")
             }else{

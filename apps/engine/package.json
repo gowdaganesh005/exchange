@@ -10,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^5.0.1",
     "express": "^5.1.0",
     "redis": "^4.7.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:^",
-    "@repo/zod": "workspace:^"
+    "@repo/zod": "workspace:^",
+    "@types/express": "^5.0.5"
   }
 }

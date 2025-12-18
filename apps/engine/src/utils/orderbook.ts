@@ -620,9 +620,13 @@ export class OrderBook{
             })
 
             return ({
-                success: true,
-                message: "Order Cancellation Initiated"
-            })
+                orderId,
+                response:{
+                    success: true,
+                    message: "Order Cancellation Initiated"
+                }
+
+                })
 
         }
         else if(side=='SELL'){

@@ -3,6 +3,7 @@ import sharedConfig from '@repo/tailwind-config'
 import path from 'path'
 
 module.exports = {
+    darkMode: "class",
     ...sharedConfig,
     content:[
         './index.html',

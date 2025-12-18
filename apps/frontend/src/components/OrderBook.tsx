@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, EventHandler, useLayoutEffect } from "react"
+import { useEffect, useState, useRef } from "react"
 import axios from "axios";
 
 
@@ -9,14 +9,24 @@ function OrderBook({symbol}:{symbol:string}){
     const [trades,setTrades] = useState<any>(null)
     const tradesRef = useRef<any>([])
     const [price,setPrice]= useState<any>(0)
-
     const [activeTab , setActiveTab] = useState<'orderbook'|'trades'>('orderbook')
+    const [visibleRows, setVisibleRows] = useState(10)
 
+    // Update visible rows based on screen size
+    useEffect(() => {
+        const updateVisibleRows = () => {
+            const width = window.innerWidth
+            if (width >= 1024) { // lg breakpoint
+                setVisibleRows(15)
+            } else {
+                setVisibleRows(10)
+            }
+        }
 
-
-    
-   
-
+        updateVisibleRows()
+        window.addEventListener('resize', updateVisibleRows)
+        return () => window.removeEventListener('resize', updateVisibleRows)
+    }, [])
 
     useEffect(()=>{
         const fetchSnapshot= async ()=>{
@@ -55,21 +65,6 @@ function OrderBook({symbol}:{symbol:string}){
                 }
 
 
-                // {
-                //     "T": "1752921495863",
-                //     "a": [
-                //         [
-                //             39,
-                //             0
-                //         ]
-                //     ],
-                //     "e": "depth",
-                //     "i": "20",
-                //     "s": "BTCUSDT",
-                //     "b": []
-                // }
-
-
                 ws.onmessage = (event)=>{
                     try{
                         
@@ -99,31 +94,6 @@ function OrderBook({symbol}:{symbol:string}){
                                             return ele
                                         })
 
-                                    // if( ele[1]==0){
-                                    //     orderBookRef.current.asks.splice(index,1)
-                                    //     let cumm =0
-                                    //     orderBookRef.current.asks.map((ele:any)=>{
-                                    //         cumm = cumm + ele[1]
-                                    //         ele[2] = cumm
-                                    //         return ele
-                                    //     })
-                                       
-                                    // }else{
-                                    //     if(ele[1]){
-                                        
-                                    //     orderBookRef.current.asks[index][1] = ele[1]
-                                    //     let cumm = 0;
-                                    //     orderBookRef.current.asks.map((ele:any)=>{
-                                    //         cumm = cumm + ele[1]
-                                    //         ele[2] = cumm
-                                    //         return ele
-                                    //     })
-                                       
-                                    //     }
-                                        
-
-
-                                    // }
                                     }else{
                                         if(ele && ele[1] !=0){
                                         const newEntry = [ele[0],ele[1],0]
@@ -145,7 +115,6 @@ function OrderBook({symbol}:{symbol:string}){
                             if(updateData.b.length > 0){
                                 updateData.b.map((ele:number[])=>{
                                     const index = orderBookRef.current.bids.findIndex((a:number[])=>a[0]==ele[0])
-                                    // @ts-ignore
                                     console.log(ele[0])
                                     if(index!=-1){
                                         orderBookRef.current.bids[index][1] += ele[1]
@@ -258,18 +227,18 @@ function OrderBook({symbol}:{symbol:string}){
         return <div className="p-4 text-white">NO Trades</div>;
     }
     const reversedAsks = [...orderBook.asks].reverse();
-    const topAsks = reversedAsks.slice(0, 15);
+    const topAsks = reversedAsks.slice(0, visibleRows);
     const maxCumulativeA = reversedAsks.length > 0 ? reversedAsks[0][2] : 1;
 
     const reversedBids = [...orderBook.bids]
-    const topBids = reversedBids.slice(0, 15);
+    const topBids = reversedBids.slice(0, visibleRows);
     const maxCumulativeB = reversedBids.length > 0 ? reversedBids[reversedBids.length-1][2] : 1;
 
 
 
     return (
         <>
-        <div className="w-full rounded-2xl">
+        <div className="w-full rounded-2xl h-full flex flex-col">
         <div  className=" relative text-white flex justify-between   text-sm">
             <div 
                 className={`h-10 absolute -top-1 left-0 w-1/2 rounded-xs   bg-[#32353d] border border-b-2 border-t-0 border-r-0 border-l-0 mt-[1px] 0 z-0 transition ease-in-out ${activeTab==='orderbook'?"rounded-tl-2xl":"rounded-tr-2xl"}` }
@@ -302,15 +271,15 @@ function OrderBook({symbol}:{symbol:string}){
                             <div>Total</div>
                         </div>
             </div>}
-       { activeTab=='orderbook' && ( <div className=" bg-[rgb(var(--foreground-rgb))] text-blue-100  w-full flex flex-col h-[calc(76vh)] justify-center rounded-b-2xl ">
-            <div className="max-h-3/4 w-full">
+       { activeTab=='orderbook' && ( <div className=" bg-[rgb(var(--foreground-rgb))] text-blue-100  w-full flex flex-col flex-1 justify-center rounded-b-2xl overflow-y-auto">
+            <div className="flex-1 w-full overflow-y-auto">
             
            {topAsks && 
-            topAsks.map((element:any) => {
+            topAsks.map((element:any, idx:number) => {
                 const Lightwidth = (element[2]/maxCumulativeA)*100;
                 const Darkwidth = (element[1]/maxCumulativeA)*100;
                 return(
-                <div className="relative m-0 p-0 my-[2px] py-[2px] ">
+                <div key={`ask-${idx}`} className="relative m-0 p-0 my-[2px] py-[2px] ">
                     <div className="absolute z-0 bg-[#3a1e24]  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
                     <div className="absolute z-0 bg-[#782c31]  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
 
@@ -327,23 +296,23 @@ function OrderBook({symbol}:{symbol:string}){
             </div>
 
 
-            {/* Trade Price (need to replace with actual price) */}
+            {/* Trade Price */}
             {
-                (price>0)? (<div className="px-3 font-semibold">${price}</div>):(<div></div>)
+                (price>0)? (<div className="px-3 font-semibold py-2">${price}</div>):(<div></div>)
             }
            
 
 
 
 
-            <div className="max-h-3/4 w-full">
+            <div className="flex-1 w-full overflow-y-auto">
            {orderBook && topBids &&
-            topBids.map((element:any) => {
+            topBids.map((element:any, idx:number) => {
                 const length = orderBook.bids.length
                 const Lightwidth = (element[2]/maxCumulativeB)*100;
                 const Darkwidth = (element[1]/maxCumulativeB)*100;
                 return(
-                <div className="relative m-0 p-0 my-[2px] py-[2px] ">
+                <div key={`bid-${idx}`} className="relative m-0 p-0 my-[2px] py-[2px] ">
                     <div className="absolute z-0 bg-[#11312a]  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
                     <div className="absolute z-0 bg-[#0c5f43]  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
 
@@ -366,7 +335,7 @@ function OrderBook({symbol}:{symbol:string}){
         </div>)
         }
 
-        {activeTab=='trades' && (<div className="w-full mr-4 text-white bg-[rgb(var(--foreground-rgb))] min-h-[82vh] h-[100%]">
+        {activeTab=='trades' && (<div className="w-full mr-4 text-white bg-[rgb(var(--foreground-rgb))] flex-1 overflow-y-auto">
             <div className="flex justify-between text-sm px-2 font-semibold">
                 <div>
                     Price

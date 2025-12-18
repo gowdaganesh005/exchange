@@ -145,6 +145,7 @@ exports.Prisma.TradesScalarFieldEnum = {
 
 exports.Prisma.UserScalarFieldEnum = {
   userId: 'userId',
+  name: 'name',
   email: 'email',
   password: 'password',
   pin: 'pin'

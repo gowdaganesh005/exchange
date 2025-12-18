@@ -12,16 +12,46 @@ export default function TradingCharts(){
     const dataRef = useRef<any>([])
     const wsRef = useRef<any>(null)
     const widgetRef = useRef<any>(null)
+    const buttonContainerRef = useRef<HTMLDivElement>(null)
+    const activeButtonRef = useRef<HTMLButtonElement>(null)
 
     const [chartTime,setchartTime] = useState<"1_minute" | "5_minutes" | "10_minutes" | '30_minutes' | '1_hour' | '1_day'>("1_minute")
+    const [sliderPosition, setSliderPosition] = useState(0)
+    const [sliderWidth, setSliderWidth] = useState(0)
     
     useEffect(()=> {
         dataRef.current = data
     },[data])
 
-    
+    // Update slider position based on active button
+    useEffect(() => {
+        if (activeButtonRef.current && buttonContainerRef.current) {
+            const containerRect = buttonContainerRef.current.getBoundingClientRect()
+            const buttonRect = activeButtonRef.current.getBoundingClientRect()
+            
+            setSliderPosition(buttonRect.left - containerRect.left )
+            setSliderWidth(buttonRect.width)
+        }
+    }, [chartTime])
 
-    
+    // Recalculate on window resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (activeButtonRef.current && buttonContainerRef.current) {
+                const containerRect = buttonContainerRef.current.getBoundingClientRect()
+                const buttonRect = activeButtonRef.current.getBoundingClientRect()
+                
+                setSliderPosition(buttonRect.left - containerRect.left)
+                setSliderWidth(buttonRect.width)
+            }
+        }
+
+        window.addEventListener('resize', handleResize)
+        // Initial calculation
+        handleResize()
+
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
 
     useEffect(()=>{
@@ -115,12 +145,14 @@ export default function TradingCharts(){
     useEffect(()=>{
         
         const handleResize = () =>{
-            chartRef.current.applyOptions({
-                width: chartContainerRef.current.clientWidth,
-                height: chartContainerRef.current.clientHeight-10
-            })
+            if(chartRef.current && chartContainerRef.current){
+                chartRef.current.applyOptions({
+                    width: chartContainerRef.current.clientWidth,
+                    height: chartContainerRef.current.clientHeight-10
+                })
+            }
         }
-        if(chartContainerRef && !chartRef.current) {
+        if(chartContainerRef.current && !chartRef.current) {
             const chart = createChart(chartContainerRef.current,
                 {timeScale:{
                     timeVisible:true
@@ -146,14 +178,16 @@ export default function TradingCharts(){
 
         return () =>{
             window.removeEventListener('resize',handleResize)
-            chartRef.current.remove()
-            chartRef.current= null
+            if(chartRef.current){
+                chartRef.current.remove()
+                chartRef.current= null
+            }
         }
         
     },[])
 
     useEffect(()=>{
-        if(chartRef && !seriesRef.current && data && data.length >0){
+        if(chartRef.current && !seriesRef.current && data && data.length >0){
             const newseries = chartRef.current.addSeries(CandlestickSeries,{
                 upColor: '#26a69a',
                 downColor: '#ef5350',
@@ -169,61 +203,83 @@ export default function TradingCharts(){
 
     
 
-    
     return(
         <>
-        <div className="relative bg-[#161921] w-full rounded-2xl ">
-        <div className=" relative  h-5 bg-[#161921] rounded-t-2xl  mr-10 z-10 px-4  pb-4 pt-1">
+        <div className="relative bg-[#161921] w-full rounded-md ">
+        <div className="relative h-5 bg-[#161921] rounded-md mr-10 z-10 px-4 pb-4 pt-1">
         
-            <div className="absolute top-0 left-0  h-[28px] bg-[#32353d] border border-t-0 border-l-0 border-r-0 border-b-2 border-amber-50 w-16 rounded-xs my-[2px] transition-transform duration-200 ease-in-out z-0" style={{ 
-                transform:
-                    chartTime==='1_minute' ? "translateX(18px)":
-                    chartTime==='5_minutes' ? "translateX(92px)":
-                    chartTime==='10_minutes' ? "translateX(162px)":
-                    chartTime==='30_minutes' ? "translateX(236px)":
-                    chartTime==='1_hour' ? "translateX(306px)": "translateX(380px)"
+            {/* Dynamic slider */}
+            <div 
+                className="absolute  top-0 left-0 h-[28px] bg-[#32353d] border border-t-0 border-l-0 border-r-0 border-b-2 border-amber-50 rounded-xs my-[2px] transition-all duration-200 ease-in-out z-0" 
+                style={{ 
+                    transform: `translateX(${sliderPosition+15}px)`,
+                    width: `${sliderWidth}px`
+                }}
+            />
 
-            }}> </div>
-
-            <div className="relative flex z-10">
+            <div className="relative flex z-10" ref={buttonContainerRef}>
 
             <button
+                ref={chartTime === '1_minute' ? activeButtonRef : null}
                 onClick={()=>{
                     setchartTime("1_minute")
                 }} 
-                className=" text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md  w-18  ">1 min</button>
+                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
+                <span className="hidden sm:inline">1 min</span>
+                <span className="sm:hidden">1m</span>
+            </button>
             <button 
+                ref={chartTime === '5_minutes' ? activeButtonRef : null}
                 onClick={()=>{ 
                     setchartTime("5_minutes") 
                 }}   
-                className=" text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md  w-18 ">5 mins</button>
+                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
+                <span className="hidden sm:inline">5 mins</span>
+                <span className="sm:hidden">5m</span>
+            </button>
             <button 
+                ref={chartTime === '10_minutes' ? activeButtonRef : null}
                 onClick={()=>{ 
                     setchartTime("10_minutes") 
                 }}   
-                className=" text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md  w-18  ">10 mins</button>
+                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
+                <span className="hidden sm:inline">10 mins</span>
+                <span className="sm:hidden">10m</span>
+            </button>
             <button 
+                ref={chartTime === '30_minutes' ? activeButtonRef : null}
                 onClick={()=>{ 
                     setchartTime("30_minutes") 
                 }}   
-                className=" text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md  w-18 ">30 mins</button>
+                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
+                <span className="hidden sm:inline">30 mins</span>
+                <span className="sm:hidden">30m</span>
+            </button>
              
             <button 
+                ref={chartTime === '1_hour' ? activeButtonRef : null}
                 onClick={()=>{ 
                     setchartTime("1_hour") 
                 }}   
-                className=" text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md  w-18 ">1 hour</button>
+                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
+                <span className="hidden sm:inline">1 hour</span>
+                <span className="sm:hidden">1h</span>
+            </button>
  
             <button 
+                ref={chartTime === '1_day' ? activeButtonRef : null}
                 onClick={()=>{ 
                     setchartTime("1_day") 
                 }}   
-                className=" text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md  w-18 ">1 day</button>
+                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
+                <span className="hidden sm:inline">1 day</span>
+                <span className="sm:hidden">1d</span>
+            </button>
  
             </div> 
 
         </div>
-        <div className="  top-0 left-0 mt-5 w-full h-[60vh] z-0 px-2 overflow-hidden  " style={{ overflow:"hidden"}} ref ={chartContainerRef}>
+        <div className="top-0 left-0 mt-5 w-full h-[60vh] z-0 px-2 overflow-hidden" style={{ overflow:"hidden"}} ref={chartContainerRef}>
 
         </div>
         </div>

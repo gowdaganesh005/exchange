@@ -6,6 +6,11 @@
         "name": "react"
       }
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
