@@ -7,7 +7,7 @@ import { client } from "@repo/db/client";
 
 export const tradingRoute = Router();
 
-tradingRoute.post("/order", async (req: any, res: any) => {
+tradingRoute.post("/order",isAuthenticated, async (req: any, res: any) => {
   const body = req.body;
   console.log(body)
   let userBalance=null;

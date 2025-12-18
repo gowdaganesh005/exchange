@@ -6,11 +6,20 @@ import cors from 'cors';
 import session from "express-session";
 import { createClient } from "redis";
 import { authHandler } from "./routes/auth.js";
+import { walletHandler } from "./routes/wallet.js";
 
 const app = express();
 app.use(cors({
-    origin: '*'
+    origin: 'http://localhost:5173',
+    credentials: true,
+    
 }));
+
+app.options("*", cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }));
+  
 
 app.use(express.json());
 
@@ -73,7 +82,7 @@ app.use(session({
     cookie: {
         secure: false,
         httpOnly: true,
-        sameSite: 'strict'
+        sameSite: 'lax'
     }
 }));
 
@@ -81,6 +90,7 @@ app.use("/api/v1", tradingRoute);
 app.use("/api/v1", dataStream);
 app.use("/api/v1", candles_route);
 app.use("/api/v1", authHandler);
+app.use("/api/v1",walletHandler);
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');

@@ -8,17 +8,19 @@ export const walletHandler = Router();
 walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
     const userId = req.session.user.userId
     if(userId){
-        const wallet = await client.wallet.findFirst({
+        const wallet = await client.balances.findMany({
             where:{
                 userId:userId
+            },
+            select:{
+                balanceId:true,
+                asset:true,
+                freeBalance:true,
+                lockedBalance:true
             }
         })
         if(wallet){
-            return res.status(200).json({data:{
-                freebalance:wallet.freeBalance,
-                lockedbalance: wallet.lockedBalance,
-                walletId: wallet.walletId
-            },
+            return res.status(200).json({data:wallet,
                 message:"Fetched Balance"})
         }else{
             return res.status(500).json({
@@ -35,29 +37,36 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
 
 walletHandler.post("/addAmt",isAuthenticated,async (req:any,res:any)=>{
     try{
-        let userId = req.session.user.userId
-        let { amount } = amountSchema.parse(req.body)
+        let userId:string = req.session.user.userId
+        let { amount,asset } = amountSchema.parse(req.body)
         
 
         amount = Math.round(amount*10**3);
         const credit = await client.$transaction(async (tx)=>{
-            const wallet= await tx.wallet.findUnique({
-                where:{ userId:userId },
-                select: { walletId:true }
+            const wallet= await tx.balances.findUnique({
+                where:{ userId_asset:{
+                    userId:userId,
+                    asset:asset
+                } },
+                select: { balanceId:true }
 
             })
             if(!wallet) throw new Error("Cannot access your wallet")
                 await tx.ledger.create({
                 data:{
-                    walletId:wallet?.walletId,
-                    reason:"credit to wallet",
+                    userId:userId,
+                    symbol: asset,
+                    balanceId:wallet?.balanceId,
                     type:"CREDIT",
                     amount:amount
 
                 }})
-                const newbalance = await tx.wallet.update({
+                const newbalance = await tx.balances.update({
                     where:{
-                        userId:userId
+                        userId_asset:{
+                            userId:userId,
+                            asset:asset,
+                        }
                     },
                     data:{
                         freeBalance:{
@@ -89,13 +98,16 @@ walletHandler.post("/addAmt",isAuthenticated,async (req:any,res:any)=>{
 walletHandler.post("/debit",isAuthenticated,async (req:any,res:any)=>{
     try{
         let userId = req.session.user.userId
-        let { amount } = amountSchema.parse(req.body)
+        let { amount,asset } = amountSchema.parse(req.body)
         
         amount = Math.round(amount*10**3);
         const credit = await client.$transaction(async (tx)=>{
-            const wallet= await tx.wallet.findUnique({
-                where:{ userId:userId },
-                select: { walletId:true,freeBalance:true }
+            const wallet= await tx.balances.findUnique({
+                where:{ userId_asset:{
+                    userId:userId,
+                    asset: asset,
+                } },
+                select: { balanceId:true,freeBalance:true,lockedBalance:true }
 
             })
             
@@ -103,15 +115,19 @@ walletHandler.post("/debit",isAuthenticated,async (req:any,res:any)=>{
             if(wallet?.freeBalance<amount) throw new Error("Not enought funds to debit")
                 await tx.ledger.create({
                 data:{
-                    walletId:wallet?.walletId,
-                    reason:"debit from wallet",
+                    balanceId:wallet?.balanceId,
+                    userId: userId,
                     type:"DEBIT",
-                    amount:amount
+                    amount:amount,
+                    symbol:asset
 
                 }})
-                const newbalance = await tx.wallet.update({
+                const newbalance = await tx.balances.update({
                     where:{
-                        userId:userId
+                        userId_asset:{
+                            userId:userId,
+                            asset: asset
+                        }
                     },
                     data:{
                         freeBalance:{
@@ -142,11 +158,11 @@ walletHandler.post("/debit",isAuthenticated,async (req:any,res:any)=>{
 
 walletHandler.get("/transactions", isAuthenticated, async (req:any, res:any) => {
     const userId = req.session.user.userId;
-    const wallet = await client.wallet.findUnique({ where: { userId } });
+    const wallet = await client.balances.findUnique({ where: { userId_asset:{userId,asset:'USDT' }} });
     if (!wallet) return res.status(404).json({ message: "Wallet not found" });
   
     const ledger = await client.ledger.findMany({
-      where: { walletId: wallet.walletId },
+      where: { balanceId: wallet.balanceId },
       orderBy: { createdAt: "desc" },
       take: 50, 
     });

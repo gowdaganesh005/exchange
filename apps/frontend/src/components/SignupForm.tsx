@@ -58,7 +58,7 @@ export function SignUpForm() {
       console.log(data)
       setLoading(true);
       try {
-        const response = await axios.post("http://localhost:3000/api/v1/signup",data)
+        const response = await axios.post("http://localhost:3000/api/v1/signup",data,{withCredentials:true})
       if(response.status==200){
         setLoading(false);
         setPage("success");

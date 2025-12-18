@@ -10,4 +10,5 @@ export const amountSchema = z.object({
     )
     .transform((val) => parseFloat(val))
     .refine((val) => val > 0, "Amount must be greater than 0"),
+    asset: z.string()
 });
