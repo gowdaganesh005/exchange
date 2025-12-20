@@ -6,6 +6,7 @@ import { z,amountSchema } from "@repo/zod/wallet";
 export const walletHandler = Router();
 
 walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
+    console.log("balances fetched ------")
     const userId = req.session.user.userId
     if(userId){
         const wallet = await client.balances.findMany({
@@ -19,8 +20,18 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
                 lockedBalance:true
             }
         })
+        let serializedWallet;
         if(wallet){
-            return res.status(200).json({data:wallet,
+         serializedWallet = wallet.map(balance =>({
+            balanceId: balance.balanceId,
+            asset: balance.asset,
+            freeBalance: Number(balance.freeBalance),
+            lockedBalance: Number(balance.lockedBalance)
+        }))
+        }
+
+        if(wallet){
+            return res.status(200).json({data:serializedWallet,
                 message:"Fetched Balance"})
         }else{
             return res.status(500).json({

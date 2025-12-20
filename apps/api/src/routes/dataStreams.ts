@@ -16,8 +16,11 @@ dataStream.get('/snapshot/:symbol',async (req:any,res:any)=>{
 })
 
 dataStream.get("/price/:symbol",async(req:any,res:any)=>{
+    console.log("---fetching the symbol price-----")
     const redisClient = RedisManager.getInstance()
+    console.log(req.params.symbol)
     let data = await redisClient.getPrice(req.params.symbol)
+    console.log(data)
     if(!data) return res.status(200).json(0)
     console.log(data)
     data = JSON.parse(data?.toString() || "")

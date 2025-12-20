@@ -8,7 +8,7 @@ import { randomUUID } from "node:crypto";
 const redisClient  =  RedisManager.getInstance()
 
 const allOrderBooks:Record<string,Worker | null> = {
-    "BTCUSDT": null
+    "BTC/USDT": null
 }
 
 
@@ -63,7 +63,7 @@ app.get("/snapshot",async (req:any,res:any)=>{
 
 function startAllOrderBooks(){
     const worker = new Worker("./dist/trade/orderbook.js")
-    allOrderBooks["BTCUSDT"] = worker
+    allOrderBooks["BTC/USDT"] = worker
 
     worker?.on('message',async (data)=>{
         if(data.type=="order")
