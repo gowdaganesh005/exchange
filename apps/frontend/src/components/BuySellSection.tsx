@@ -5,6 +5,8 @@ import { Input } from "./ui/input.tsx";
 import { Info } from "lucide-react";
 import { easeInOut, motion } from "framer-motion";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import axios from "axios";
 
 interface BullSellSectionProps{
   symbol:string,
@@ -13,18 +15,32 @@ interface BullSellSectionProps{
     balance: string,
   }[],
   price: string,                                
-  onPlaceOrder:()=>void,
   isLoading: boolean,
   isAuthenticated: boolean
 } 
 
 
-export const BuySellSection = ({symbol,balances,price,onPlaceOrder,isLoading=false,isAuthenticated}:BullSellSectionProps ) => {
+export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenticated}:BullSellSectionProps ) => {
   const [activeTab, setActiveTab] = useState<"BUY" | "SELL">("BUY");
   const [symbolQuant, setSymbolQuant] = useState<string>("1");
   const [buyPrice,setBuyPrice]= useState<string>(price)
 
   const navigate = useNavigate();
+
+  const onPlaceOrder=async ()=>{
+    const response = await axios.post("http://localhost:3000/api/v1/order",{
+      symbol,
+      price: Number(parseFloat(buyPrice).toFixed(3)),
+      quantity: Number(parseFloat(symbolQuant).toFixed(3)),
+      side:activeTab,
+      type:"LIMIT",
+      timestamp:parseInt(Date.now().toString())
+
+    },{ withCredentials: true })
+    console.log(response)
+  }
+
+  
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -65,6 +81,19 @@ export const BuySellSection = ({symbol,balances,price,onPlaceOrder,isLoading=fal
       }
     }
   }
+
+  useEffect(() => {
+    if (price && price !== "0") {
+      setBuyPrice(price);
+  
+      // recalc amount from price
+      const quantity = parseFloat(price);
+      if (!isNaN(quantity)) {
+        setSymbolQuant("1.000");
+      }
+    }
+  }, [price]);
+  
 
   
 
@@ -230,13 +259,13 @@ export const BuySellSection = ({symbol,balances,price,onPlaceOrder,isLoading=fal
 
       {/* Submit Button */}
       <div className="px-4 pb-4">
-        <Button
-          className={`w-full py-3 rounded-lg font-bold text-white transition-all shadow-[0px_2px_6px_rgba(200,200,200,0.3)] 
+        <Button onClick={onPlaceOrder}
+          className={`w-full py-3 rounded-lg font-bold text-white  disabled transition-all shadow-[0px_2px_6px_rgba(200,200,200,0.3)] 
             
             ${ activeTab === "BUY"
               ? "bg-chart-3 text-muted hover:bg-[#89c983]"
               : "bg-destructive text-muted hover:bg-[#ce5a7b]"
-          }`}
+          } ${!isAuthenticated ? " cursor-not-allowed":""}`}
         >
           {activeTab} 
         </Button>

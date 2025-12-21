@@ -106,5 +106,5 @@ authHandler.get("/me", (req:any, res:any) => {
     if (req.session.user) {
         return res.json({ loggedIn: true, user: req.session.user });
     }
-    return res.status(401).json({ loggedIn: false });
+    return res.status(200).json({ loggedIn: false });
 });

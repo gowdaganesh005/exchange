@@ -12,7 +12,7 @@ tradingRoute.post("/order", async (req: any, res: any) => {
   console.log(body)
   let userBalance=null;
   try {
-    const { symbol,price,quantity,side,type,timestamp,userId} = orderBodySchema.parse(body);
+    const { symbol,price,quantity,side,type,timestamp} = orderBodySchema.parse(body);
 
       const scaledPrice = Math.floor(price*1000)
       const totalCost = Math.floor((scaledPrice * Math.floor(quantity*1000))/1000);
@@ -20,7 +20,7 @@ tradingRoute.post("/order", async (req: any, res: any) => {
         try{
           userBalance = await client.balances.findFirst({
             where:{
-              userId:userId,
+              userId:req.session.user.userId,
               asset: side=="BUY"?'USDT':symbol
             },
             select:{
@@ -63,7 +63,7 @@ tradingRoute.post("/order", async (req: any, res: any) => {
       const response = await RedisManager.getInstance().sendAndAwait({
         type:CREATE_ORDER,
         message:{
-          price,quantity,symbol,side,userId,type,timestamp
+          price,quantity,symbol,side,userId:req.session.user.userId,type,timestamp
         } 
       })
       console.log(response)

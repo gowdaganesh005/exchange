@@ -21,7 +21,7 @@ export const routes: RouteObject[] = [
 
         },
         {
-            path:"trade",
+            path:"trade/:symbol",
             element: <Trade/>
 
         }]

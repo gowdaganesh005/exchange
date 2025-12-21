@@ -9,8 +9,6 @@ export const orderBodySchema = z.object({
     type: typeEnum,
     quantity: z.number(),
     price: z.number(),
-    timestamp: z.number(),
-    userId: z.string()
-    
+    timestamp: z.number(),    
 })
 

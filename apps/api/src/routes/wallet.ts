@@ -25,8 +25,8 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
          serializedWallet = wallet.map(balance =>({
             balanceId: balance.balanceId,
             asset: balance.asset,
-            freeBalance: Number(balance.freeBalance),
-            lockedBalance: Number(balance.lockedBalance)
+            freeBalance: Number(balance.freeBalance)/1000,
+            lockedBalance: Number(balance.lockedBalance)/1000
         }))
         }
 

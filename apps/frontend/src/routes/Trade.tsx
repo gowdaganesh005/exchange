@@ -4,22 +4,31 @@ import TradingCharts from "../components/TradingCharts.tsx";
 import { BuySellSection } from "../components/BuySellSection.tsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router";
 
 
-export function Trade({symbol}:{symbol:string}) {
+export function Trade() {
+  let {symbol} = useParams();
   const [isLoading,setLoading] = useState<boolean>(true)
   const [isAuthenticated,setAuthenticated] = useState(false)
   const [userBalances,setUserBalances] = useState([])
+  const [price,setPrice] = useState(0)
+  
+
+  symbol = symbol?.replace("-", "/");
+
+  
 
   useEffect(()=>{
     const fetchBalances=async ()=>{
       try{
 
       
-      const isauth =await  axios.get("http://localhost:3000/api/v1/me",{
+      const { data } =await  axios.get("http://localhost:3000/api/v1/me",{
         withCredentials:true
       })
-      if(isauth) {
+      console.log(data)
+      if(data.loggedIn) {
         setAuthenticated(true)
         try{
           const balance = await axios.get("http://localhost:3000/api/v1/balance",{
@@ -41,10 +50,13 @@ export function Trade({symbol}:{symbol:string}) {
       
       }
       try{
-        const symbolPrice = await axios.get(`http://localhost:3000/api/v1/price/${symbol}`,{
+        const { data } = await axios.post(`http://localhost:3000/api/v1/price`,{
+            symbol
+        },{
           withCredentials: true,
         })
-        console.log(symbolPrice)
+        setPrice(parseFloat(data.price))
+        // setPrice()
         
       }catch(error:any){
         console.log("failed to fetch the price data ")
@@ -76,7 +88,7 @@ export function Trade({symbol}:{symbol:string}) {
           <OrderBook symbol="BTCUSDT" />
         </div>
         <div className="w-full lg:w-[21%]  rounded-2xl my-3 pr-3 lg:pr-1">
-          <BuySellSection isAuthenticated={isAuthenticated} symbol={symbol} price={"100.44"} balances={userBalances} onPlaceOrder={()=>{console.log("placed the order")}} isLoading={isLoading} />
+          <BuySellSection isAuthenticated={isAuthenticated} symbol={symbol || ""} price={price?.toFixed(3).toString() } balances={userBalances} isLoading={isLoading} />
         </div>
       </div>
     </>

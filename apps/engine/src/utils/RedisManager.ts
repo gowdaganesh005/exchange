@@ -30,7 +30,15 @@ export class RedisManager{
 
     public async publishPrice(symbol:string,data:any){
         console.log(data)
-        await this.client.hSet("PRICE",symbol,JSON.stringify(data,(_,value)=> typeof value == 'bigint' ? value.toString() : value))
+        let priceData= {
+            price:data.toString(),
+            Up: true
+        }
+        const prevPrice = await this.client.hGet("PRICE",symbol);
+        if(prevPrice && parseFloat(JSON.parse(prevPrice).price)>parseFloat(data)){
+            priceData.Up=false;
+        }
+        await this.client.hSet("PRICE",symbol,JSON.stringify(priceData,(_,value)=> typeof value == 'bigint' ? value.toString() : value))
     }
 
     public async publishStream(stream:string,data:any){
