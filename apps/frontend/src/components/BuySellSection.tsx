@@ -121,7 +121,7 @@ export const BuySellSection = ({symbol,balances,price,onPlaceOrder,isLoading=fal
           <div className="grid gap-2">
             <label className="text-xs  font-medium text-gray-400">Available Balance</label>
             <div className=" rounded-lg px-3 py-2 flex justify-between bg-popover items-center">
-              <span className=" text-popover-foreground">{activeTab=="BUY"? "USDT":symbol.split('/')[0]}</span>
+              <span className=" text-popover-foreground">{activeTab=="BUY"? "USDT":symbol?.split('/')[0]}</span>
               {isAuthenticated ?<div>
               <span className="text-popover-foreground font-semibold">{ activeTab=="BUY"? (balances.filter((e)=>(e.asset=="USDT"))[0]?.balance) || '0.000' : balances.filter((e)=>(e.asset==symbol.split('/')[0]))[0]?.balance || "0.00"}</span>
               </div>:

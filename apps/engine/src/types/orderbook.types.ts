@@ -1,4 +1,4 @@
-import { orderBody } from "@repo/zod/trading"
+import { orderBodySchema } from "@repo/zod/trading"
 import { engineDepthUpdates } from "@repo/zod/websocket"
 import { z } from 'zod'
 
@@ -31,7 +31,7 @@ export interface consolidatedBook{
    }[]
 }
 
-export type orderBody = z.infer< typeof orderBody>
+export type orderBody = z.infer< typeof orderBodySchema>
 
 export interface fill{
    price: number,

@@ -66,9 +66,12 @@ function startAllOrderBooks(){
     allOrderBooks["BTC/USDT"] = worker
 
     worker?.on('message',async (data)=>{
+        // console.log(data)
         if(data.type=="order")
         {
             const {clientId,response} = data
+            console.log("order pushed to api table to redis ")
+            console.log(response)
         
             if(response){
             await redisClient.publishToApi(clientId,response);
@@ -101,10 +104,16 @@ async function  main(){
     
     while(true){
         const data =  await redisClient.getMessage()
+        
         if(data){
+            console.log("inside index engine",data)
             const {clientId,message} = JSON.parse(data)
+            console.log("Incoming order symbol:", message.message.symbol);
+            console.log("Known workers:", Object.keys(allOrderBooks));
+
 
             const required_worker = allOrderBooks[message.message.symbol]
+            if(required_worker) console.log("worker is there")
 
             const orderId = randomUUID()
 
@@ -125,12 +134,22 @@ async function  main(){
             }
 
             redisClient.pushToDb(dbData)
-
+            console.log("📤 Sending order to worker:", {
+                symbol:message.message.symbol,
+                orderId,
+                side: message.message.side,
+                price: message.message.price,
+                quantity: message.message.quantity
+              });
+              
             required_worker?.postMessage({type:"order" ,data:message.message,clientId,orderId})
 
             
+            // if(message.message.symbol!=null){
+            //     const response = allOrderBooks[message.message.symbol].matchOrders(message.message)
+
+            // }
             
-            // const response = allOrderBooks[message.message.symbol].matchOrders(message.message)
            
         }
         

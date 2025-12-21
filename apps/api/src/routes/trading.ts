@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { orderBody } from "@repo/zod/trading";
+import { orderBodySchema } from "@repo/zod/trading";
 import { RedisManager } from "../utils/RedisManager.js";
 import { CREATE_ORDER } from "../types/trading.js";
 import { isAuthenticated } from "../middleware/authentication.js";
@@ -12,7 +12,7 @@ tradingRoute.post("/order", async (req: any, res: any) => {
   console.log(body)
   let userBalance=null;
   try {
-    const { symbol,price,quantity,side,type,timestamp,userId} = orderBody.parse(body);
+    const { symbol,price,quantity,side,type,timestamp,userId} = orderBodySchema.parse(body);
 
       const scaledPrice = Math.floor(price*1000)
       const totalCost = Math.floor((scaledPrice * Math.floor(quantity*1000))/1000);

@@ -1,5 +1,5 @@
 import { consolidatedBook, orderBook, fill, engineDepthUpdates } from "../types/orderbook.types";
-import { orderBody } from "../types/orderbook.types";
+import { orderBody } from "../types/orderbook.types.ts";
 import { parentPort } from "node:worker_threads"
 export class OrderBook{
     private orderBook : orderBook
@@ -26,8 +26,10 @@ export class OrderBook{
         return Math.floor((Math.floor(a*1000)*Math.floor(b*1000))/1000);
     }
 
-    public matchOrders({symbol, type, side, price,quantity,userId,timestamp}:orderBody,orderId: string){
+    public matchOrders({symbol, type, side, price,quantity,userId,timestamp}:any,orderId: string){
         console.log(timestamp ,"inside matching engine")
+        console.log(this.symbol,"<-this symbol")
+        console.log(symbol,"<-symbol")
         
         if(symbol != this.symbol){
             return null

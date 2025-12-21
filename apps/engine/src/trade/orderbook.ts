@@ -3,9 +3,12 @@ import { OrderBook } from "../utils/orderbook"
 
 import { parentPort } from "node:worker_threads"
 
-export const OB_BTCUSDT = new OrderBook("BTCUSDT")
+export const OB_BTCUSDT = new OrderBook("BTC/USDT")
+
+console.log("🔥 WORKER TS FILE LOADED 🔥");
 
 parentPort?.on("message",(data)=>{
+    console.log("parent Port   ",data)
     if(data.type == "snapshot"){
         const snapshot = OB_BTCUSDT.getCurrentOrderBook()
         parentPort?.postMessage({type:"snapshot",data: snapshot,id:data.id})

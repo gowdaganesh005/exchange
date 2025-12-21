@@ -25,6 +25,7 @@ export class RedisManager{
   }
 
   public sendAndAwait(message:Messagetype){
+    console.log("--send and await ---",message)
     return new Promise<any>((resolve)=>{
       const clientId = this.getRandomClientId()
       this.client.subscribe(clientId,(message)=>{
@@ -48,7 +49,7 @@ export class RedisManager{
   public async getPrice(symbol:string){
     console.log("---get price inside")
     console.log(symbol)
-    return await this.client.hGet("PRICE",symbol)
+    return await this.client.hGet("PRICE",`price.${symbol}`)
   }
 
 }
