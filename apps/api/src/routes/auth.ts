@@ -77,6 +77,7 @@ authHandler.post("/signin",async (req:any,res:any)=>{
                     email: user.email,
                     walletBalance: user.balance[0]?.freeBalance.toString()?? 0
                 }
+                console.log(req.session)
                 return res.status(200).send("Login Successful")
             }else{
                 return res.status(401).json({message:"Invalid Credentials"})
@@ -103,6 +104,7 @@ authHandler.post("/logout",(req:any,res:any)=>{
 })
 
 authHandler.get("/me", (req:any, res:any) => {
+    console.log(req.session)
     if (req.session.user) {
         return res.json({ loggedIn: true, user: req.session.user });
     }

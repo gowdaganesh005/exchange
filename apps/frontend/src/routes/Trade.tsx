@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 
 export function Trade() {
   let {symbol} = useParams();
-  const [isLoading,setLoading] = useState<boolean>(true)
+  const [isLoading,setLoading] = useState<boolean>(false)
   const [isAuthenticated,setAuthenticated] = useState(false)
   const [userBalances,setUserBalances] = useState([])
   const [price,setPrice] = useState(0)
@@ -21,6 +21,7 @@ export function Trade() {
 
   useEffect(()=>{
     const fetchBalances=async ()=>{
+      setLoading(true)
       try{
 
       
@@ -41,6 +42,7 @@ export function Trade() {
               balance: bal.freeBalance
             }))
             setUserBalances(balanceData);
+            console.log(balanceData)
           }
 
         }catch(error:any){
@@ -71,6 +73,7 @@ export function Trade() {
     }
     fetchBalances();
     console.log(userBalances)
+    setLoading(false)
     
   },[])
 
@@ -85,7 +88,7 @@ export function Trade() {
           <TradingCharts />
         </div>
         <div className="w-full lg:w-[21%] bg-neutral-800 rounded-md my-3">
-          <OrderBook symbol="BTCUSDT" />
+          <OrderBook symbol={ symbol || ""} />
         </div>
         <div className="w-full lg:w-[21%]  rounded-2xl my-3 pr-3 lg:pr-1">
           <BuySellSection isAuthenticated={isAuthenticated} symbol={symbol || ""} price={price?.toFixed(3).toString() } balances={userBalances} isLoading={isLoading} />

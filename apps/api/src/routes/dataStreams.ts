@@ -3,11 +3,13 @@ import { RedisManager } from "../utils/RedisManager.js";
 
 export const dataStream = Router()
 
-dataStream.get('/snapshot/:symbol',async (req:any,res:any)=>{
-    console.log(req.params.symbol)
+dataStream.post('/snapshot',async (req:any,res:any)=>{
+    const { symbol } = req.body;
+
+    console.log(" -- fetching snapshot --- ",symbol)
 
    const redisClient = RedisManager.getInstance()
-   let data = await redisClient.getSnapshot(req.params.symbol)
+   let data = await redisClient.getSnapshot(symbol)
    data = JSON.parse(data?.toString() || "")
 
    console.log(data)

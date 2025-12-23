@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Button } from "./ui/button.tsx";
 import { Card } from "./ui/card.tsx";
 import { Input } from "./ui/input.tsx";
+import { Spinner } from "./ui/spinner.tsx";
 import { Info } from "lucide-react";
 import { easeInOut, motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 interface BullSellSectionProps{
   symbol:string,
@@ -24,26 +26,42 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
   const [activeTab, setActiveTab] = useState<"BUY" | "SELL">("BUY");
   const [symbolQuant, setSymbolQuant] = useState<string>("1");
   const [buyPrice,setBuyPrice]= useState<string>(price)
+  const [Loading,setLoading] = useState<boolean>(isLoading);
+  const [totalPrice,setTotalPrice] = useState<string>("0.000")
 
   const navigate = useNavigate();
 
   const onPlaceOrder=async ()=>{
-    const response = await axios.post("http://localhost:3000/api/v1/order",{
-      symbol,
-      price: Number(parseFloat(buyPrice).toFixed(3)),
-      quantity: Number(parseFloat(symbolQuant).toFixed(3)),
-      side:activeTab,
-      type:"LIMIT",
-      timestamp:parseInt(Date.now().toString())
+    setLoading(true);
+    try{
+      const response = await axios.post("http://localhost:3000/api/v1/order",{
+        symbol,
+        price: Number(parseFloat(totalPrice).toFixed(3)),
+        quantity: Number(parseFloat(symbolQuant).toFixed(3)),
+        side:activeTab,
+        type:"LIMIT",
+        timestamp:parseInt(Date.now().toString())
+  
+      },{ withCredentials: true })
+      console.log(response)
+      toast.success("Order Placed Successfully" ,
+        { className:'bg-chart-3 text-muted rounded-md'}
+      )
+      
 
-    },{ withCredentials: true })
-    console.log(response)
+    }catch(error){
+      console.log(error)
+    }
+    setLoading(false)
+    
   }
 
   
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    
+    
     
     // Regex to allow numbers with max 3 decimal places
     const regex = /^\d*\.?\d{0,3}$/;
@@ -53,17 +71,18 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
       if (value && value !== '.') {
         
         const quantity = parseFloat(value);
-        const total = (Math.floor(quantity * 1000) / Math.floor(parseFloat(price) * 1000)) ;
-        setSymbolQuant(total.toFixed(3));
+        const total = (Math.floor(parseFloat(symbolQuant) * 1000) * Math.floor(quantity * 1000)) / 1000000;
+        setTotalPrice(total.toFixed(3));
       } else {
         setBuyPrice('');
-        setSymbolQuant('0')
+        setTotalPrice('0')
       }
     }
    
   };
   const handleSymQuantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    
     
     // Regex to allow numbers with max 3 decimal places
     const regex = /^\d*\.?\d{0,3}$/;
@@ -73,11 +92,11 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
       if (value && value !== '.') {
         
         const quantity = parseFloat(value);
-        const total = (Math.floor(parseFloat(price) * 1000) * Math.floor(quantity * 1000)) / 1000000;
-        setBuyPrice((total.toFixed(3)));
+        const total = (Math.floor(parseFloat(buyPrice) * 1000) * Math.floor(quantity * 1000)) / 1000000;
+        setTotalPrice((total.toFixed(3)));
       } else {
         setSymbolQuant('');
-        setBuyPrice('0')
+        setTotalPrice('0')
       }
     }
   }
@@ -87,19 +106,39 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
       setBuyPrice(price);
   
       // recalc amount from price
-      const quantity = parseFloat(price);
-      if (!isNaN(quantity)) {
-        setSymbolQuant("1.000");
+      const curprice = parseFloat(price);
+      if (!isNaN(curprice)) {
+        setTotalPrice(((Math.floor(curprice*1000)*Math.floor(1*1000))/1000000).toFixed(3));
       }
     }
   }, [price]);
+
+  const hasInsufficientFunds =
+  isAuthenticated &&
+  (
+    activeTab === "BUY"
+      ? parseFloat(totalPrice) >
+        parseFloat(
+          balances.find(b => b.asset === "USDT")?.balance ?? "0"
+        )
+      : parseFloat(symbolQuant) >
+        parseFloat(
+          balances.find(b => b.asset === symbol)?.balance ?? "0"
+        )
+  );
+
+
+  const isButtonDisabled =
+    Loading || !isAuthenticated || hasInsufficientFunds;
+
   
 
   
 
 
   return (
-    <Card className="h-full">
+    <>
+    <Card className="relative h-full">
       {/* Tabs */}
       <div className=" w-full gap-4 justify-between  px-1 pt-4  ">
         <div className="flex w-full gap-4 justify-between  ">
@@ -144,15 +183,26 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
 
 
       {/* Form Content */}
-      <div className="flex-1 px-4 py-6 overflow-y-auto">
-        <form className="flex flex-col gap-4">
+      <div className=" w-full flex-1 px-4 py-6 overflow-y-auto">
+        <form className="w-full flex flex-col gap-4">
           {/* Available Balance */}
+          <div className=" w-full grid grid-cols-2 gap-4">
+          <div className="grid gap-2">
+            <label className="text-xs  font-medium text-gray-400">Market Price</label>
+            <div className=" rounded-md px-3 py-2 flex justify-between bg-popover items-center">
+              <span className=" text-popover-foreground">{symbol?.split('/')[0]}</span>
+              <div>
+              <span className="text-popover-foreground font-semibold">{price}</span>
+              </div>
+            </div>
+          </div>
+            
           <div className="grid gap-2">
             <label className="text-xs  font-medium text-gray-400">Available Balance</label>
-            <div className=" rounded-lg px-3 py-2 flex justify-between bg-popover items-center">
+            <div className=" rounded-md px-3 py-2 flex justify-between bg-popover items-center">
               <span className=" text-popover-foreground">{activeTab=="BUY"? "USDT":symbol?.split('/')[0]}</span>
               {isAuthenticated ?<div>
-              <span className="text-popover-foreground font-semibold">{ activeTab=="BUY"? (balances.filter((e)=>(e.asset=="USDT"))[0]?.balance) || '0.000' : balances.filter((e)=>(e.asset==symbol.split('/')[0]))[0]?.balance || "0.00"}</span>
+              <span className="text-popover-foreground font-semibold">{ activeTab=="BUY"? (balances.filter((e)=>(e.asset=="USDT"))[0]?.balance) || '0.000' : balances.filter((e)=>(e.asset==symbol))[0]?.balance || "0.00"}</span>
               </div>:
               <div>
                   <span>
@@ -164,6 +214,7 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
               </div>}
             </div>
           </div>
+          </div>
 
 
           {/* Price Input */}
@@ -174,15 +225,8 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
             className={`${activeTab =='BUY'?"order-1":"order-2"}`}>
           <div className="grid gap-2 ">
             <label htmlFor="price" className=" flex items-center text-xs font-medium text-gray-400">
-              <span>Price </span>
-              <span className="px-3 text-destructive">
-                {(activeTab=='BUY' && isAuthenticated && parseFloat(buyPrice)>parseFloat(balances?.find((ele)=>(ele.asset=="USDT"))?.balance ?? "0"))&&(
-                  <span className="inline-flex gap-1 py-0">
-                  <Info className="w-3 h-3 mt-0.5 " />
-                  Insufficient Funds
-                  </span>
-                )}
-              </span>
+              <span>Price per Unit </span>
+             
             </label>
             
             
@@ -215,20 +259,7 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
           <label htmlFor="amount" className="flex items-center text-xs font-medium text-gray-400">
          <span>Amount</span>
 
-            <span className="px-3 text-destructive">
-              {(activeTab === "SELL" && isAuthenticated &&
-                parseFloat(symbolQuant) >
-                  parseFloat(
-                    balances?.find(
-                      ele => ele.asset === symbol.split("/")[0]
-                    )?.balance ?? "0"
-                  )) && (
-                <span className="inline-flex gap-1 py-0">
-                  <Info className="w-3 h-3 mt-0.5" />
-                  Insufficient Funds
-                </span>
-              )}
-            </span>
+            
             </label>
             <div className="relative">
               <Input
@@ -245,6 +276,42 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
           </div>
           </motion.div>
         </motion.div>
+        <div className=" w-full grid  gap-4">
+          <div className="grid gap-2">
+            <label htmlFor="price" className=" flex items-center text-xs font-medium text-gray-400">
+              <span>Total Price</span>
+              <span className="px-3 text-destructive">
+                {(activeTab=='BUY' && isAuthenticated && parseFloat(totalPrice)>parseFloat(balances?.find((ele)=>(ele.asset=="USDT"))?.balance ?? "0"))&&(
+                  <span className="inline-flex gap-1 py-0">
+                  <Info className="w-3 h-3 mt-0.5 " />
+                  Insufficient Funds
+                  </span>
+                )}
+              </span>
+              <span className="px-3 text-destructive">
+              {(activeTab === "SELL" && isAuthenticated &&
+                parseFloat(symbolQuant) >
+                  parseFloat(
+                    balances?.find(
+                      ele => ele.asset === symbol
+                    )?.balance ?? "0"
+                  )) && (
+                <span className="inline-flex gap-1 py-0">
+                  <Info className="w-3 h-3 mt-0.5" />
+                  Insufficient Funds
+                </span>
+              )}
+            </span>
+            </label>
+            
+            <div className=" rounded-md px-3 py-2 flex justify-between bg-popover items-center">
+              <span className=" text-popover-foreground">{}</span>
+              <div>
+              <span className="text-popover-foreground font-semibold">{totalPrice}</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
          
@@ -260,17 +327,30 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
       {/* Submit Button */}
       <div className="px-4 pb-4">
         <Button onClick={onPlaceOrder}
+          disabled={isButtonDisabled}
           className={`w-full py-3 rounded-lg font-bold text-white  disabled transition-all shadow-[0px_2px_6px_rgba(200,200,200,0.3)] 
             
             ${ activeTab === "BUY"
               ? "bg-chart-3 text-muted hover:bg-[#89c983]"
               : "bg-destructive text-muted hover:bg-[#ce5a7b]"
-          } ${!isAuthenticated ? " cursor-not-allowed":""}`}
+          } ${!isAuthenticated && isButtonDisabled ?  " cursor-not-allowed":""}`}
         >
-          {activeTab} 
+          {Loading?
+            <>
+            <Spinner/>
+            Processing
+            </>
+            :<>
+              {activeTab}
+            </>
+            } 
         </Button>
       </div>
       </div>
+    
     </Card>
+    
+    </>
+    
   );
 }

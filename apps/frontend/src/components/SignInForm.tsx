@@ -56,9 +56,10 @@ export function SignInForm() {
       console.log(data)
       setLoading(true);
       try {
-        const response = await axios.post("http://localhost:3000/api/v1/signin",data)
+        const response = await axios.post("http://localhost:3000/api/v1/signin",data,{ withCredentials: true })
       if(response.status==200){
         setLoading(false);
+       
         setPage("success");
 
       }

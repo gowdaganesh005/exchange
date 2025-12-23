@@ -31,8 +31,12 @@ function OrderBook({symbol}:{symbol:string}){
     useEffect(()=>{
         const fetchSnapshot= async ()=>{
             try{
-                const { data } = await axios.get(`http://localhost:3000/api/v1/snapshot/${symbol}`)
-                const priceData = await axios.get(`http://localhost:3000/api/v1/price/${symbol}`)
+                const { data } = await axios.post(`http://localhost:3000/api/v1/snapshot`,{
+                    symbol,
+                })
+                const priceData = await axios.post(`http://localhost:3000/api/v1/price`,{
+                    symbol,
+                })
                 
                 console.log(priceData)
                 const price = priceData.data
@@ -57,7 +61,7 @@ function OrderBook({symbol}:{symbol:string}){
                     const updateSubMsg = {
                         "method":"SUBSCRIBE",
                         "id":2,
-                        "params":["bookticker.BTCUSDT"]
+                        "params":[`bookticker.${symbol}`]
                     }
                     
                     ws.send(JSON.stringify(DepthsubscriptionMsg));
@@ -280,12 +284,12 @@ function OrderBook({symbol}:{symbol:string}){
                 const Darkwidth = (element[1]/maxCumulativeA)*100;
                 return(
                 <div key={`ask-${idx}`} className="relative m-0 p-0 my-[2px] py-[2px] ">
-                    <div className="absolute z-0 bg-[#3a1e24]  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
-                    <div className="absolute z-0 bg-[#782c31]  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
+                    <div className="absolute z-0 bg-destructive opacity-50  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
+                    <div className="absolute z-0 bg-[#7e1b37] opacity-90 h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
 
 
                     <div className="flex relative z-10 bg-transparent  w-full text-[13px]  font-light px-2 ">
-                        <div className="w-3/5 text-red-500">{element[0]}</div>
+                        <div className="w-3/5 text-destructive font-medium">{element[0]}</div>
                         <div className="w-1/2 font-medium flex justify-between">
                             <div>{element[1]}</div>
                             <div>{element[2]}</div>
@@ -313,12 +317,12 @@ function OrderBook({symbol}:{symbol:string}){
                 const Darkwidth = (element[1]/maxCumulativeB)*100;
                 return(
                 <div key={`bid-${idx}`} className="relative m-0 p-0 my-[2px] py-[2px] ">
-                    <div className="absolute z-0 bg-[#11312a]  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
-                    <div className="absolute z-0 bg-[#0c5f43]  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
+                    <div className="absolute z-0 bg-chart-3 opacity-50  h-full top-0 right-0" style={{ width: `${Lightwidth}%` }} ></div>  
+                    <div className="absolute z-0 bg-[#7cff70] opacity-40  h-full top-0 right-0" style={{ width: `${Darkwidth}%` }} ></div>  
 
 
                     <div className="flex relative z-10 bg-transparent  w-full text-[13px]  font-light px-2 ">
-                        <div className="w-3/5 text-green-500">{element[0]}</div>
+                        <div className="w-3/5 text-chart-3 font-medium">{element[0]}</div>
                         <div className="w-1/2 font-medium flex justify-between">
                             <div>{element[1]}</div>
                             <div>{element[2]}</div>
