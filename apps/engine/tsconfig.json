@@ -13,12 +13,13 @@
     "skipLibCheck": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
     "allowArbitraryExtensions": true,  // Add this
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
+    
 
     "types": ["node"],
 
     "incremental": true,
-    "composite": false
+    "composite": true
   },
 
   "include": ["src/**/*.ts"],

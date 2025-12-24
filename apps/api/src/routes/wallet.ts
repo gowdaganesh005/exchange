@@ -6,7 +6,6 @@ import { z,amountSchema } from "@repo/zod/wallet";
 export const walletHandler = Router();
 
 walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
-    console.log("balances fetched ------")
     const userId = req.session.user.userId
     if(userId){
         const wallet = await client.balances.findMany({
@@ -170,14 +169,22 @@ walletHandler.post("/debit",isAuthenticated,async (req:any,res:any)=>{
 walletHandler.get("/transactions", isAuthenticated, async (req:any, res:any) => {
     const userId = req.session.user.userId;
     const wallet = await client.balances.findUnique({ where: { userId_asset:{userId,asset:'USDT' }} });
+    
     if (!wallet) return res.status(404).json({ message: "Wallet not found" });
   
-    const ledger = await client.ledger.findMany({
+    let ledger = await client.ledger.findMany({
       where: { balanceId: wallet.balanceId },
       orderBy: { createdAt: "desc" },
       take: 50, 
     });
+    
+    const serializedLedger = ledger.map((ele)=>({
+        ...ele,
+        amount: Number(ele.amount)/1000
+
+    }))
+    console.log(serializedLedger)
   
-    return res.json({ transactions: ledger });
+    return res.json({ transactions: serializedLedger });
   });
   

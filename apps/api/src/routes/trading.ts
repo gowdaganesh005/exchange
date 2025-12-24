@@ -9,7 +9,6 @@ export const tradingRoute = Router();
 
 tradingRoute.post("/order", async (req: any, res: any) => {
   const body = req.body;
-  console.log(body)
   let userBalance=null;
   try {
     const { symbol,price,quantity,side,type,timestamp} = orderBodySchema.parse(body);
@@ -66,7 +65,6 @@ tradingRoute.post("/order", async (req: any, res: any) => {
           price,quantity,symbol,side,userId:req.session.user.userId,type,timestamp
         } 
       })
-      console.log(response)
       return res.json(response)
 
     }catch(error:any){
@@ -95,3 +93,4 @@ tradingRoute.post("/order", async (req: any, res: any) => {
 
 
 });
+

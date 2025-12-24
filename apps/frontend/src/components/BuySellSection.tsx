@@ -36,7 +36,7 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
     try{
       const response = await axios.post("http://localhost:3000/api/v1/order",{
         symbol,
-        price: Number(parseFloat(totalPrice).toFixed(3)),
+        price: Number(parseFloat(buyPrice).toFixed(3)),
         quantity: Number(parseFloat(symbolQuant).toFixed(3)),
         side:activeTab,
         type:"LIMIT",

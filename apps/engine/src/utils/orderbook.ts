@@ -1,5 +1,4 @@
 import { consolidatedBook, orderBook, fill, engineDepthUpdates } from "../types/orderbook.types";
-import { orderBody } from "../types/orderbook.types.ts";
 import { parentPort } from "node:worker_threads"
 export class OrderBook{
     private orderBook : orderBook
@@ -27,7 +26,7 @@ export class OrderBook{
     }
 
     public matchOrders({symbol, type, side, price,quantity,userId,timestamp}:any,orderId: string){
-        console.log(timestamp ,"inside matching engine")
+        console.log(timestamp ,"updated matching engine")
         console.log(this.symbol,"<-this symbol")
         console.log(symbol,"<-symbol")
         
@@ -88,15 +87,15 @@ export class OrderBook{
                             tradeId: this.updateId.toString(),
                             updates:[{
                             orderId,
-                            filled_quantity:matchedQuantity,
+                            filled_quantity:matchedQuantity*1000,
                             status:"FULL_FILLED",
-                            filled_price: this.orderBook.sells[0].price,
+                            filled_price: this.orderBook.sells[0].price*1000,
                             updatedAt: Date.now()
                             },{
                             orderId: this.orderBook.sells[0].orderId,
-                            filled_quantity: matchedQuantity,
+                            filled_quantity: matchedQuantity*1000,
                             status:  this.orderBook.sells[0].quantity === 0 ? "FULL_FILLED" : "PARTIALLY_FILLED",
-                            filled_price: this.orderBook.sells[0].price,
+                            filled_price: this.orderBook.sells[0].price*1000,
                             updatedAt: Date.now()
 
                                 }]
@@ -109,7 +108,7 @@ export class OrderBook{
                         data:{
                             type: "walletUpdate",
                             symbol: this.symbol,
-                            quantity: matchedQuantity,
+                            quantity: matchedQuantity*1000,
                             amount: totalScaledAmount,
                             credit: this.orderBook.sells[0].userId,
                             debit: userId
@@ -170,15 +169,15 @@ export class OrderBook{
                         
                             updates:[{
                                 orderId,
-                                filled_quantity: matchedQuantity,
+                                filled_quantity: matchedQuantity*1000,
                                 status: "PARTIALLY_FILLED",
-                                filled_price: this.orderBook.sells[0].price,
+                                filled_price: this.orderBook.sells[0].price*1000,
                                 updatedAt: Date.now()
                                 },{
                                 orderId: this.orderBook.sells[0].orderId,
-                                filled_quantity: matchedQuantity,
+                                filled_quantity: matchedQuantity*1000,
                                 status: "FULL_FILLED",
-                                filled_price: this.orderBook.sells[0].price,
+                                filled_price: this.orderBook.sells[0].price*1000,
                                 updatedAt: Date.now()
                             }]
                     }
@@ -194,7 +193,7 @@ export class OrderBook{
                             amount: totalScaledAmount,
                             credit: this.orderBook.sells[0].userId,
                             debit: userId,
-                            quantity: matchedQuantity
+                            quantity: matchedQuantity*1000
                         }
                     })
 
@@ -346,15 +345,15 @@ export class OrderBook{
                         
                         updates:[{
                             orderId,
-                            filled_quantity:matchedQuantity,
+                            filled_quantity:matchedQuantity*1000,
                             status:"FULL_FILLED",
-                            filled_price: this.orderBook.buys[0].price,
+                            filled_price: this.orderBook.buys[0].price*1000,
                             updatedAt: Date.now()
                         },{
                             orderId: this.orderBook.buys[0].orderId,
-                            filled_quantity: matchedQuantity,
+                            filled_quantity: matchedQuantity*1000,
                             status: this.orderBook.buys[0].quantity === 0 ? "FULL_FILLED" : "PARTIALLY_FILLED",
-                            filled_price: this.orderBook.buys[0].price,
+                            filled_price: this.orderBook.buys[0].price*1000,
                             updatedAt: Date.now()
 
                         }]
@@ -372,7 +371,7 @@ export class OrderBook{
                             amount: totalScaledAmount,
                             debit: this.orderBook.buys[0].userId,
                             credit: userId,
-                            quantity: matchedQuantity
+                            quantity: matchedQuantity*1000
                         }
                     })
 
@@ -427,15 +426,15 @@ export class OrderBook{
                             symbol: this.symbol,
                         
                         updates:[{                           orderId,
-                            filled_quantity: matchedQuantity,
+                            filled_quantity: matchedQuantity*1000,
                             status: "PARTIALLY_FILLED",
-                            filled_price: this.orderBook.buys[0].price,
+                            filled_price: this.orderBook.buys[0].price*1000,
                             updatedAt: Date.now()
                         },{
                             orderId: this.orderBook.buys[0].orderId,
-                            filled_quantity: matchedQuantity,
+                            filled_quantity: matchedQuantity*1000,
                             status: "FULL_FILLED",
-                            filled_price: this.orderBook.buys[0].price,
+                            filled_price: this.orderBook.buys[0].price*1000,
                             updatedAt: Date.now()
                         }]
                     }
@@ -450,7 +449,7 @@ export class OrderBook{
                             amount: totalScaledAmount,
                             debit: this.orderBook.buys[0].userId,
                             credit: userId,
-                            quantity: matchedQuantity
+                            quantity: matchedQuantity*1000
                         }
                     })
 
@@ -589,7 +588,7 @@ export class OrderBook{
                 
                 updates:[{                           
                     orderId,
-                    filled_quantity: order.quantity,
+                    filled_quantity: order.quantity*1000,
                     status: "CANCELLED",
                     filled_price: 0,
                     updatedAt: Date.now()
@@ -660,7 +659,7 @@ export class OrderBook{
                 
                 updates:[{                           
                     orderId,
-                    filled_quantity: order.quantity,
+                    filled_quantity: order.quantity*1000,
                     status: "CANCELLED",
                     filled_price: 0,
                     updatedAt: Date.now()

@@ -24,6 +24,9 @@ export function Trade() {
       setLoading(true)
       try{
 
+        const res = await axios.get("http://localhost:3000/api/v1/transactions",{withCredentials:true})
+        console.log(res.data)
+
       
       const { data } =await  axios.get("http://localhost:3000/api/v1/me",{
         withCredentials:true
