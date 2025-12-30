@@ -22,12 +22,8 @@ export function Trade() {
   useEffect(()=>{
     const fetchBalances=async ()=>{
       setLoading(true)
-      try{
-
-        const res = await axios.get("http://localhost:3000/api/v1/transactions",{withCredentials:true})
-        console.log(res.data)
-
       
+      try{
       const { data } =await  axios.get("http://localhost:3000/api/v1/me",{
         withCredentials:true
       })

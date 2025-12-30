@@ -4,6 +4,7 @@ import { SignUp } from "./Signup.tsx";
 import {Trade} from "./Trade.tsx"
 import { MainLayout } from "./MainLayout.tsx";
 import { SignIn } from "./SignIn.tsx";
+import { Dashboard } from "./Dashboard.tsx";
 
 export const routes: RouteObject[] = [
     {
@@ -24,6 +25,10 @@ export const routes: RouteObject[] = [
             path:"trade/:symbol",
             element: <Trade/>
 
+        },
+        {
+            path:"dashboard",
+            element:<Dashboard/>
         }]
     }
 ]

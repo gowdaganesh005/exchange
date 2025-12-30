@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes/index.tsx";
+import { TooltipProvider } from "./components/ui/tooltip.tsx";
 
 const router = createBrowserRouter(routes);
 
@@ -35,7 +36,10 @@ createRoot(document.getElementById("root")!).render(
         },
       }}
     />
+    <TooltipProvider>
 
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
+
+    </TooltipProvider>
   </>
 );

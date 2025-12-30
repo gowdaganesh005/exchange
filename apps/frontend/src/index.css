@@ -224,5 +224,8 @@ select:-webkit-autofill {
     @apply bg-background text-foreground;
   }
 }
-
+.mask-gradient {
+  mask-image: linear-gradient(to left, black, transparent);
+  -webkit-mask-image: linear-gradient(to left, black, transparent);
+}
 
