@@ -168,7 +168,8 @@ exports.Prisma.LedgerScalarFieldEnum = {
   type: 'type',
   symbol: 'symbol',
   createdAt: 'createdAt',
-  amount: 'amount'
+  amount: 'amount',
+  reason: 'reason'
 };
 
 exports.Prisma.SortOrder = {
@@ -200,6 +201,16 @@ exports.STATUS = exports.$Enums.STATUS = {
 exports.LedgerType = exports.$Enums.LedgerType = {
   CREDIT: 'CREDIT',
   DEBIT: 'DEBIT'
+};
+
+exports.LedgerReason = exports.$Enums.LedgerReason = {
+  TRADE_PROFIT: 'TRADE_PROFIT',
+  TRADE_COST: 'TRADE_COST',
+  ASSET_CREDIT: 'ASSET_CREDIT',
+  ASSET_DEBIT: 'ASSET_DEBIT',
+  FEE: 'FEE',
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL'
 };
 
 exports.Prisma.ModelName = {

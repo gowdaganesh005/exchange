@@ -19,6 +19,22 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
                 lockedBalance:true
             }
         })
+        const profitQuery:any= await client.$queryRaw`
+        SELECT
+        COALESCE(
+          SUM(
+            CASE
+              WHEN type = 'CREDIT' THEN amount
+              ELSE -amount
+            END
+          ), 0
+        ) AS total_profit
+        FROM "Ledger"
+        WHERE
+        "userId" = ${userId}
+        AND reason = 'TRADE_PROFIT' OR reason = 'TRADE_COST';
+        `
+        console.log("This is profitQuery ",profitQuery)
         let serializedWallet;
         if(wallet){
          serializedWallet = wallet.map(balance =>({
@@ -30,7 +46,10 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
         }
 
         if(wallet){
-            return res.status(200).json({data:serializedWallet,
+            return res.status(200).json({data:{
+                    wallet:serializedWallet,
+                    profit:profitQuery?.total_profit
+                },
                 message:"Fetched Balance"})
         }else{
             return res.status(500).json({
@@ -68,7 +87,8 @@ walletHandler.post("/addAmt",isAuthenticated,async (req:any,res:any)=>{
                     symbol: asset,
                     balanceId:wallet?.balanceId,
                     type:"CREDIT",
-                    amount:amount
+                    amount:amount,
+                    reason:"DEPOSIT"
 
                 }})
                 const newbalance = await tx.balances.update({
@@ -129,7 +149,8 @@ walletHandler.post("/debit",isAuthenticated,async (req:any,res:any)=>{
                     userId: userId,
                     type:"DEBIT",
                     amount:amount,
-                    symbol:asset
+                    symbol:asset,
+                    reason:"WITHDRAWAL"
 
                 }})
                 const newbalance = await tx.balances.update({
@@ -187,4 +208,3 @@ walletHandler.get("/transactions", isAuthenticated, async (req:any, res:any) => 
   
     return res.json({ transactions: serializedLedger });
   });
-  

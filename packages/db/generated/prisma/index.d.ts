@@ -76,6 +76,19 @@ export const LedgerType: {
 
 export type LedgerType = (typeof LedgerType)[keyof typeof LedgerType]
 
+
+export const LedgerReason: {
+  TRADE_PROFIT: 'TRADE_PROFIT',
+  TRADE_COST: 'TRADE_COST',
+  ASSET_CREDIT: 'ASSET_CREDIT',
+  ASSET_DEBIT: 'ASSET_DEBIT',
+  FEE: 'FEE',
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL'
+};
+
+export type LedgerReason = (typeof LedgerReason)[keyof typeof LedgerReason]
+
 }
 
 export type SIDE = $Enums.SIDE
@@ -93,6 +106,10 @@ export const STATUS: typeof $Enums.STATUS
 export type LedgerType = $Enums.LedgerType
 
 export const LedgerType: typeof $Enums.LedgerType
+
+export type LedgerReason = $Enums.LedgerReason
+
+export const LedgerReason: typeof $Enums.LedgerReason
 
 /**
  * ##  Prisma Client ʲˢ
@@ -5801,6 +5818,7 @@ export namespace Prisma {
     symbol: string | null
     createdAt: Date | null
     amount: bigint | null
+    reason: $Enums.LedgerReason | null
   }
 
   export type LedgerMaxAggregateOutputType = {
@@ -5811,6 +5829,7 @@ export namespace Prisma {
     symbol: string | null
     createdAt: Date | null
     amount: bigint | null
+    reason: $Enums.LedgerReason | null
   }
 
   export type LedgerCountAggregateOutputType = {
@@ -5821,6 +5840,7 @@ export namespace Prisma {
     symbol: number
     createdAt: number
     amount: number
+    reason: number
     _all: number
   }
 
@@ -5841,6 +5861,7 @@ export namespace Prisma {
     symbol?: true
     createdAt?: true
     amount?: true
+    reason?: true
   }
 
   export type LedgerMaxAggregateInputType = {
@@ -5851,6 +5872,7 @@ export namespace Prisma {
     symbol?: true
     createdAt?: true
     amount?: true
+    reason?: true
   }
 
   export type LedgerCountAggregateInputType = {
@@ -5861,6 +5883,7 @@ export namespace Prisma {
     symbol?: true
     createdAt?: true
     amount?: true
+    reason?: true
     _all?: true
   }
 
@@ -5958,6 +5981,7 @@ export namespace Prisma {
     symbol: string
     createdAt: Date
     amount: bigint
+    reason: $Enums.LedgerReason
     _count: LedgerCountAggregateOutputType | null
     _avg: LedgerAvgAggregateOutputType | null
     _sum: LedgerSumAggregateOutputType | null
@@ -5987,6 +6011,7 @@ export namespace Prisma {
     symbol?: boolean
     createdAt?: boolean
     amount?: boolean
+    reason?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ledger"]>
@@ -5999,6 +6024,7 @@ export namespace Prisma {
     symbol?: boolean
     createdAt?: boolean
     amount?: boolean
+    reason?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ledger"]>
@@ -6011,6 +6037,7 @@ export namespace Prisma {
     symbol?: boolean
     createdAt?: boolean
     amount?: boolean
+    reason?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     balance?: boolean | BalancesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ledger"]>
@@ -6023,9 +6050,10 @@ export namespace Prisma {
     symbol?: boolean
     createdAt?: boolean
     amount?: boolean
+    reason?: boolean
   }
 
-  export type LedgerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ledgerId" | "balanceId" | "userId" | "type" | "symbol" | "createdAt" | "amount", ExtArgs["result"]["ledger"]>
+  export type LedgerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ledgerId" | "balanceId" | "userId" | "type" | "symbol" | "createdAt" | "amount" | "reason", ExtArgs["result"]["ledger"]>
   export type LedgerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     balance?: boolean | BalancesDefaultArgs<ExtArgs>
@@ -6053,6 +6081,7 @@ export namespace Prisma {
       symbol: string
       createdAt: Date
       amount: bigint
+      reason: $Enums.LedgerReason
     }, ExtArgs["result"]["ledger"]>
     composites: {}
   }
@@ -6485,6 +6514,7 @@ export namespace Prisma {
     readonly symbol: FieldRef<"Ledger", 'String'>
     readonly createdAt: FieldRef<"Ledger", 'DateTime'>
     readonly amount: FieldRef<"Ledger", 'BigInt'>
+    readonly reason: FieldRef<"Ledger", 'LedgerReason'>
   }
     
 
@@ -6973,7 +7003,8 @@ export namespace Prisma {
     type: 'type',
     symbol: 'symbol',
     createdAt: 'createdAt',
-    amount: 'amount'
+    amount: 'amount',
+    reason: 'reason'
   };
 
   export type LedgerScalarFieldEnum = (typeof LedgerScalarFieldEnum)[keyof typeof LedgerScalarFieldEnum]
@@ -7109,6 +7140,20 @@ export namespace Prisma {
    * Reference to a field of type 'LedgerType[]'
    */
   export type ListEnumLedgerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LedgerType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'LedgerReason'
+   */
+  export type EnumLedgerReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LedgerReason'>
+    
+
+
+  /**
+   * Reference to a field of type 'LedgerReason[]'
+   */
+  export type ListEnumLedgerReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LedgerReason[]'>
     
 
 
@@ -7415,6 +7460,7 @@ export namespace Prisma {
     symbol?: StringFilter<"Ledger"> | string
     createdAt?: DateTimeFilter<"Ledger"> | Date | string
     amount?: BigIntFilter<"Ledger"> | bigint | number
+    reason?: EnumLedgerReasonFilter<"Ledger"> | $Enums.LedgerReason
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     balance?: XOR<BalancesScalarRelationFilter, BalancesWhereInput>
   }
@@ -7427,6 +7473,7 @@ export namespace Prisma {
     symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
+    reason?: SortOrder
     user?: UserOrderByWithRelationInput
     balance?: BalancesOrderByWithRelationInput
   }
@@ -7442,6 +7489,7 @@ export namespace Prisma {
     symbol?: StringFilter<"Ledger"> | string
     createdAt?: DateTimeFilter<"Ledger"> | Date | string
     amount?: BigIntFilter<"Ledger"> | bigint | number
+    reason?: EnumLedgerReasonFilter<"Ledger"> | $Enums.LedgerReason
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     balance?: XOR<BalancesScalarRelationFilter, BalancesWhereInput>
   }, "ledgerId">
@@ -7454,6 +7502,7 @@ export namespace Prisma {
     symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
+    reason?: SortOrder
     _count?: LedgerCountOrderByAggregateInput
     _avg?: LedgerAvgOrderByAggregateInput
     _max?: LedgerMaxOrderByAggregateInput
@@ -7472,6 +7521,7 @@ export namespace Prisma {
     symbol?: StringWithAggregatesFilter<"Ledger"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Ledger"> | Date | string
     amount?: BigIntWithAggregatesFilter<"Ledger"> | bigint | number
+    reason?: EnumLedgerReasonWithAggregatesFilter<"Ledger"> | $Enums.LedgerReason
   }
 
   export type OrdersCreateInput = {
@@ -7778,6 +7828,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
     user: UserCreateNestedOneWithoutTransactionsInput
     balance: BalancesCreateNestedOneWithoutLedgersInput
   }
@@ -7790,6 +7841,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
   }
 
   export type LedgerUpdateInput = {
@@ -7798,6 +7850,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
     user?: UserUpdateOneRequiredWithoutTransactionsNestedInput
     balance?: BalancesUpdateOneRequiredWithoutLedgersNestedInput
   }
@@ -7810,6 +7863,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
   export type LedgerCreateManyInput = {
@@ -7820,6 +7874,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
   }
 
   export type LedgerUpdateManyMutationInput = {
@@ -7828,6 +7883,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
   export type LedgerUncheckedUpdateManyInput = {
@@ -7838,6 +7894,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8212,6 +8269,13 @@ export namespace Prisma {
     not?: NestedEnumLedgerTypeFilter<$PrismaModel> | $Enums.LedgerType
   }
 
+  export type EnumLedgerReasonFilter<$PrismaModel = never> = {
+    equals?: $Enums.LedgerReason | EnumLedgerReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumLedgerReasonFilter<$PrismaModel> | $Enums.LedgerReason
+  }
+
   export type BalancesScalarRelationFilter = {
     is?: BalancesWhereInput
     isNot?: BalancesWhereInput
@@ -8225,6 +8289,7 @@ export namespace Prisma {
     symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
+    reason?: SortOrder
   }
 
   export type LedgerAvgOrderByAggregateInput = {
@@ -8239,6 +8304,7 @@ export namespace Prisma {
     symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
+    reason?: SortOrder
   }
 
   export type LedgerMinOrderByAggregateInput = {
@@ -8249,6 +8315,7 @@ export namespace Prisma {
     symbol?: SortOrder
     createdAt?: SortOrder
     amount?: SortOrder
+    reason?: SortOrder
   }
 
   export type LedgerSumOrderByAggregateInput = {
@@ -8263,6 +8330,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLedgerTypeFilter<$PrismaModel>
     _max?: NestedEnumLedgerTypeFilter<$PrismaModel>
+  }
+
+  export type EnumLedgerReasonWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LedgerReason | EnumLedgerReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumLedgerReasonWithAggregatesFilter<$PrismaModel> | $Enums.LedgerReason
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLedgerReasonFilter<$PrismaModel>
+    _max?: NestedEnumLedgerReasonFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8455,6 +8532,10 @@ export namespace Prisma {
 
   export type EnumLedgerTypeFieldUpdateOperationsInput = {
     set?: $Enums.LedgerType
+  }
+
+  export type EnumLedgerReasonFieldUpdateOperationsInput = {
+    set?: $Enums.LedgerReason
   }
 
   export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
@@ -8652,6 +8733,13 @@ export namespace Prisma {
     not?: NestedEnumLedgerTypeFilter<$PrismaModel> | $Enums.LedgerType
   }
 
+  export type NestedEnumLedgerReasonFilter<$PrismaModel = never> = {
+    equals?: $Enums.LedgerReason | EnumLedgerReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumLedgerReasonFilter<$PrismaModel> | $Enums.LedgerReason
+  }
+
   export type NestedEnumLedgerTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.LedgerType | EnumLedgerTypeFieldRefInput<$PrismaModel>
     in?: $Enums.LedgerType[] | ListEnumLedgerTypeFieldRefInput<$PrismaModel>
@@ -8660,6 +8748,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLedgerTypeFilter<$PrismaModel>
     _max?: NestedEnumLedgerTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumLedgerReasonWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LedgerReason | EnumLedgerReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LedgerReason[] | ListEnumLedgerReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumLedgerReasonWithAggregatesFilter<$PrismaModel> | $Enums.LedgerReason
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLedgerReasonFilter<$PrismaModel>
+    _max?: NestedEnumLedgerReasonFilter<$PrismaModel>
   }
 
   export type BalancesCreateWithoutUserInput = {
@@ -8698,6 +8796,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
     balance: BalancesCreateNestedOneWithoutLedgersInput
   }
 
@@ -8708,6 +8807,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
   }
 
   export type LedgerCreateOrConnectWithoutUserInput = {
@@ -8776,6 +8876,7 @@ export namespace Prisma {
     symbol?: StringFilter<"Ledger"> | string
     createdAt?: DateTimeFilter<"Ledger"> | Date | string
     amount?: BigIntFilter<"Ledger"> | bigint | number
+    reason?: EnumLedgerReasonFilter<"Ledger"> | $Enums.LedgerReason
   }
 
   export type UserCreateWithoutBalanceInput = {
@@ -8807,6 +8908,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
     user: UserCreateNestedOneWithoutTransactionsInput
   }
 
@@ -8817,6 +8919,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
   }
 
   export type LedgerCreateOrConnectWithoutBalanceInput = {
@@ -8998,6 +9101,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
   }
 
   export type BalancesUpdateWithoutUserInput = {
@@ -9035,6 +9139,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
     balance?: BalancesUpdateOneRequiredWithoutLedgersNestedInput
   }
 
@@ -9045,6 +9150,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
   export type LedgerUncheckedUpdateManyWithoutUserInput = {
@@ -9054,6 +9160,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
   export type LedgerCreateManyBalanceInput = {
@@ -9063,6 +9170,7 @@ export namespace Prisma {
     symbol: string
     createdAt?: Date | string
     amount: bigint | number
+    reason: $Enums.LedgerReason
   }
 
   export type LedgerUpdateWithoutBalanceInput = {
@@ -9071,6 +9179,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
     user?: UserUpdateOneRequiredWithoutTransactionsNestedInput
   }
 
@@ -9081,6 +9190,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
   export type LedgerUncheckedUpdateManyWithoutBalanceInput = {
@@ -9090,6 +9200,7 @@ export namespace Prisma {
     symbol?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   }
 
 

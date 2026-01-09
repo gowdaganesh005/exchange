@@ -36,6 +36,16 @@ enum LedgerType {
   DEBIT
 }
 
+enum LedgerReason {
+  TRADE_PROFIT
+  TRADE_COST
+  ASSET_CREDIT
+  ASSET_DEBIT
+  FEE
+  DEPOSIT
+  WITHDRAWAL
+}
+
 model Orders {
   orderId         String   @unique
   symbol          String
@@ -88,13 +98,14 @@ model Balances {
 }
 
 model Ledger {
-  ledgerId  String     @id @default(uuid())
+  ledgerId  String       @id @default(uuid())
   balanceId String
-  user      User       @relation(fields: [userId], references: [userId])
+  user      User         @relation(fields: [userId], references: [userId])
   userId    String
-  balance   Balances   @relation(fields: [balanceId], references: [balanceId])
+  balance   Balances     @relation(fields: [balanceId], references: [balanceId])
   type      LedgerType
   symbol    String
-  createdAt DateTime   @default(now())
+  createdAt DateTime     @default(now())
   amount    BigInt
+  reason    LedgerReason
 }

@@ -101,7 +101,8 @@ async function ProcessRequest(){
                                 balanceId: USDTcrediter.balanceId,
                                 amount:data.amount,
                                 type:"CREDIT",
-                                symbol:"USDT"
+                                symbol:"USDT",
+                                reason:"TRADE_PROFIT"
 
                             }
                         })
@@ -129,7 +130,8 @@ async function ProcessRequest(){
                                 balanceId: asssetDebit.balanceId,
                                 amount:data.quantity,
                                 type:"DEBIT",
-                                symbol:data.symbol
+                                symbol:data.symbol,
+                                reason:"ASSET_DEBIT"
 
                             }
                         })
@@ -162,7 +164,8 @@ async function ProcessRequest(){
                                 balanceId:USDTdebiter.balanceId,
                                 amount: data.amount,
                                 symbol:"USDT",
-                                type:"DEBIT"
+                                type:"DEBIT",
+                                reason:"TRADE_COST"
                             }
                         })
 
@@ -192,7 +195,8 @@ async function ProcessRequest(){
                                 balanceId: assetCrediter.balanceId,
                                 symbol: data.symbol,
                                 type:"CREDIT",
-                                amount: data.quantity
+                                amount: data.quantity,
+                                reason: "ASSET_CREDIT"
 
                             }
                         })
