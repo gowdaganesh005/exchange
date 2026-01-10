@@ -4,22 +4,37 @@ import { useEffect, useState } from "react";
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from "./ui/empty.tsx";
 import { Spinner } from "./ui/spinner.tsx";
 import { Skeleton } from "./ui/skeleton.tsx";
+import axios from "axios";
 
 export function UserAssets(){
     const [ loading ,setLoading ] = useState<boolean>(true)
     const [assetBalances,setAssetBalances] = useState<any>([]);
 
     useEffect(()=>{
-        setAssetBalances([ {
-            asset: "BTC/USDT",
-            balance:  78.23
-        }])
+        async function fetchMyAssets(){
+            const { data } = await axios.get("http://localhost:3000/api/v1/my_assets",{withCredentials:true})
+            setAssetBalances(data)
+        } 
+
+        try {
+          fetchMyAssets();
+        } catch (error) {
+          console.log("Error Fetching the Assets Balances")
+        }
+       
+        
+        setLoading(false);
     },[])
     return(
         <>
         <ScrollArea className="h-72 md:h-141   w-full  rounded-sm border">
             <div className="p-4">
               <h2 className="mb-4  leading-none font-medium">Your Assets</h2>
+              <div className="flex justify-between py-2">
+                <div>Asset</div>
+                <div>Available</div>
+                <div>Locked</div>
+              </div>
               {loading?
               <>
                 {[...Array(6)].map((_,i)=>
@@ -34,7 +49,10 @@ export function UserAssets(){
                 <div >
                   <div className="flex justify-between py-2">
                       <div>{tag.asset.split("/")[0]}</div>
-                      <div>{tag.balance}</div>
+                      
+                      <div className="text-chart-3 pr-5">{tag.freeBalance}</div>
+                      <div className="text-destructive">{tag.lockedBalance}</div>
+                      
                   </div>
                   <Separator className="bg-muted" />
                 </div>

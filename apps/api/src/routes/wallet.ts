@@ -208,3 +208,33 @@ walletHandler.get("/transactions", isAuthenticated, async (req:any, res:any) => 
   
     return res.json({ transactions: serializedLedger });
   });
+
+
+walletHandler.get("/my_assets",isAuthenticated,async (req:any,res:any)=>{
+    const userId = req.session.user.userId;
+    try {
+        const mywallets = await client.balances.findMany({
+            where:{
+                userId: userId
+            },
+            select:{
+                freeBalance: true,
+                asset: true,
+                lockedBalance: true
+            }
+        })
+        const wallets = mywallets.filter((ele)=>ele.freeBalance>0 || ele.lockedBalance>0)
+        const serializedWallet = wallets.map((ele)=>({
+            ...ele,
+            freeBalance: Number(ele.freeBalance)/1000,
+            lockedBalance: Number(ele.lockedBalance)/1000
+        }))
+        console.log(serializedWallet)
+        return res.json(serializedWallet)
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({data:"Something Went Wrong"})
+    }
+    
+})

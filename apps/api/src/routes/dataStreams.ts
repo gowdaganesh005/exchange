@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { RedisManager } from "../utils/RedisManager.js";
+import { client } from "@repo/db/client";
+import { isAuthenticated } from "../middleware/authentication.js";
 
 export const dataStream = Router()
 
@@ -23,5 +25,26 @@ dataStream.post("/price",async(req:any,res:any)=>{
     data = JSON.parse(data?.toString() || "")
     return res.status(200).json(data)
     
+})
+
+
+dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
+    const userId = req.session.user.userId;
+    try {
+        const orders = client.orders.findMany({
+            where:{
+                userId: userId
+            },
+            select:{
+                orderId:true,
+                symbol: true,
+                quote_price: true,
+                quote_quantity: true,
+                status: true
+            }
+        })
+    } catch (error) {
+        
+    }
 })
 

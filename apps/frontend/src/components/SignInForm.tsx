@@ -14,6 +14,7 @@ import { Root, Content} from "./ResizablePanel.tsx"
 import { PinBox } from "./PinBox.tsx"
 import axios from "axios"
 import { Link } from "react-router"
+import { useNavigate } from "react-router"
 
 interface SignInDataType{
     
@@ -29,6 +30,7 @@ export function SignInForm() {
         password:"",
         pin:"",
     })
+    const navigator = useNavigate();
     const [error,setError]=useState<string>("");
 
     const isValidEmail = (email: string) => {
@@ -206,7 +208,7 @@ export function SignInForm() {
         </CardHeader>
         
       <CardFooter className="flex-col gap-2">
-        <Button disabled={!isPinValid} onClick={onSetPin} className="w-full shadow-[0px_2px_6px_rgba(200,200,200,0.3)]">
+        <Button disabled={!isPinValid} onClick={()=>navigator('/dashboard')} className="w-full shadow-[0px_2px_6px_rgba(200,200,200,0.3)]">
           {!loading?(<>Go To Dashboard</>):(
             <div>
             <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-loader-icon lucide-loader animate-spin"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg></div>)
