@@ -31,7 +31,7 @@ dataStream.post("/price",async(req:any,res:any)=>{
 dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
     const userId = req.session.user.userId;
     try {
-        const orders = client.orders.findMany({
+        const orders = await client.orders.findMany({
             where:{
                 userId: userId
             },
@@ -40,11 +40,16 @@ dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
                 symbol: true,
                 quote_price: true,
                 quote_quantity: true,
-                status: true
+                status: true,
+                side: true,
             }
+
         })
-    } catch (error) {
+        return res.json(orders)
         
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Something is Wrong on Our Side"})
     }
 })
 

@@ -31,12 +31,13 @@ export function Trade() {
       if(data.loggedIn) {
         setAuthenticated(true)
         try{
-          const balance = await axios.get("http://localhost:3000/api/v1/balance",{
+          const { data } = await axios.get("http://localhost:3000/api/v1/balance",{
             withCredentials:true 
           })
+          console.log(data)
           let balanceData;
-          if(balance.data.data){
-            balanceData = balance.data.data.map((bal:any)=>({
+          if(data.wallets){
+            balanceData = data.wallets.map((bal:any)=>({
               asset:bal.asset,
               balance: bal.freeBalance
             }))

@@ -10,7 +10,7 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
     if(userId){
         const wallet = await client.balances.findMany({
             where:{
-                userId:userId
+                userId:userId,
             },
             select:{
                 balanceId:true,
@@ -32,7 +32,7 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
         FROM "Ledger"
         WHERE
         "userId" = ${userId}
-        AND reason = 'TRADE_PROFIT' OR reason = 'TRADE_COST';
+        AND (reason = 'TRADE_PROFIT' OR reason = 'TRADE_COST');
         `
         console.log("This is profitQuery ",profitQuery)
         let serializedWallet;
@@ -46,11 +46,10 @@ walletHandler.get("/balance",isAuthenticated,async (req:any,res:any)=>{
         }
 
         if(wallet){
-            return res.status(200).json({data:{
-                    wallet:serializedWallet,
-                    profit:profitQuery?.total_profit
-                },
-                message:"Fetched Balance"})
+            return res.status(200).json({
+                wallets: serializedWallet,
+                profit: Number(profitQuery[0]?.total_profit>0?profitQuery[0]?.total_profit:0 || 0) / 1000
+                })
         }else{
             return res.status(500).json({
                 message:"Error fetching balance"
@@ -212,6 +211,7 @@ walletHandler.get("/transactions", isAuthenticated, async (req:any, res:any) => 
 
 walletHandler.get("/my_assets",isAuthenticated,async (req:any,res:any)=>{
     const userId = req.session.user.userId;
+    console.log(userId)
     try {
         const mywallets = await client.balances.findMany({
             where:{
@@ -223,7 +223,9 @@ walletHandler.get("/my_assets",isAuthenticated,async (req:any,res:any)=>{
                 lockedBalance: true
             }
         })
-        const wallets = mywallets.filter((ele)=>ele.freeBalance>0 || ele.lockedBalance>0)
+        console.log(mywallets)
+        const wallets = mywallets.filter((ele)=>(ele.freeBalance>0 || ele.lockedBalance>0)&&(ele.asset!='USDT'))
+        console.log(wallets)
         const serializedWallet = wallets.map((ele)=>({
             ...ele,
             freeBalance: Number(ele.freeBalance)/1000,

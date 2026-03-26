@@ -185,7 +185,8 @@ async function ProcessRequest(){
                             },
                             create:{
                                 userId:data.debit,
-                                asset: data.symbol
+                                asset: data.symbol,
+                                freeBalance: data.quantity
                             }
                         })
 

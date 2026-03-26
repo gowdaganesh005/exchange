@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollArea } from "./ui/scroll-area.tsx";
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "./ui/table.tsx";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table.tsx";
+import axios from "axios";
+import { OrderIdCell } from "./OrderIdCell.tsx";
+import { Badge } from "./ui/badge.tsx";
+import { Skeleton } from "./ui/skeleton.tsx";
+
 
 export function  PastOrders(){
 
-    const [transactions,setTransactions]= useState<any>([])
+    const [orders,setOrders]= useState<any>([])
     const [loading ,setLoading ] = useState<boolean>(true)
 
+
+    useEffect(()=>{
+        async function fetchOrders(){
+        try {
+            const { data } = await axios.get("http://localhost:3000/api/v1/orders",{ withCredentials: true })
+            console.log(data)
+            setOrders(data);
+
+        } catch (error) {
+            console.log(error)
+        }
+
+        
+
+        }
+        fetchOrders();
+        setLoading(false)
+    },[])
 
     return(
         <>
@@ -39,7 +62,32 @@ export function  PastOrders(){
       </TableHeader>
 
       <TableBody>
-        {/* {transactions.map((tag: any, idx: number) => (
+        {loading? 
+            [...Array(6)].map((_,i)=>
+                <TableRow key={i} className="h-8 hover:bg-muted/40">
+                    <TableCell className="px-2 py-1 whitespace-nowrap">
+                        <Skeleton className="h-4 w-[70%]" />
+                    </TableCell>
+                    <TableCell className="px-2 py-1 whitespace-nowrap">
+                        <Skeleton className="h-4 w-[70%]" />
+                    </TableCell>
+                    <TableCell className="px-2 py-1 whitespace-nowrap">
+                        <Skeleton className="h-4 w-[70%]" />
+                    </TableCell>
+
+                    <TableCell className="px-2 py-1 whitespace-nowrap">
+                        <Skeleton className="h-4 w-[70%]" />
+                    </TableCell>
+                    <TableCell className="px-2 py-1 whitespace-nowrap">
+                        <Skeleton className="h-4 w-[70%]" />
+                    </TableCell>
+                    <TableCell className="  whitespace-nowrap">
+                        <Skeleton className="h-4 " />
+                    </TableCell>
+                  </TableRow>
+                )
+        :
+        orders.map((tag: any, idx: number) => (
           <TableRow key={idx} className="h-8 hover:bg-muted/40">
             <TableCell className="px-2 py-1 whitespace-nowrap">
               <OrderIdCell orderId={tag.orderId} />
@@ -47,6 +95,10 @@ export function  PastOrders(){
 
             <TableCell className="px-2 py-1">
               {tag.symbol}
+            </TableCell>
+
+            <TableCell className={`${tag.side == 'BUY'? "text-chart-3":"text-destructive"} px-2 py-1`}>
+              {tag.side}
             </TableCell>
 
             <TableCell className="px-2 py-1 font-mono">
@@ -69,7 +121,7 @@ export function  PastOrders(){
               )}
             </TableCell>
           </TableRow>
-        ))} */}
+        ))}
       </TableBody>
     </Table>
   </div>

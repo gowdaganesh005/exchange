@@ -1,8 +1,6 @@
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Separator } from "@radix-ui/react-separator";
 import { useEffect, useState } from "react";
-import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from "./ui/empty.tsx";
-import { Spinner } from "./ui/spinner.tsx";
 import { Skeleton } from "./ui/skeleton.tsx";
 import axios from "axios";
 
@@ -13,6 +11,7 @@ export function UserAssets(){
     useEffect(()=>{
         async function fetchMyAssets(){
             const { data } = await axios.get("http://localhost:3000/api/v1/my_assets",{withCredentials:true})
+            console.log(" User Assests Fetch :: ",data)
             setAssetBalances(data)
         } 
 
@@ -37,12 +36,13 @@ export function UserAssets(){
               </div>
               {loading?
               <>
-                {[...Array(6)].map((_,i)=>
+                {[...Array(5)].map((_,i)=>
                 <div key={i}
                 className={`
-                    flex justify-between py-2 `}>
+                    flex justify-between gap-1 py-2 `}>
                   <Skeleton className="h-6 w-[20%]" />
-                  <Skeleton className="h-6 w-[70%]" />
+                  <Skeleton className="h-6 w-[40%]" />
+                  <Skeleton className="h-6 w-[40%]" />
                 </div>)} 
               </>:
               assetBalances.map((tag:any) => (
