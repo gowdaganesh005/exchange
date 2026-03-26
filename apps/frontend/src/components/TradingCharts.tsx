@@ -67,7 +67,7 @@ export default function TradingCharts(){
             })
 
             setData(data.data.data)
-            console.log(data.data.data)
+            console.log(data.data)
             dataRef.current = data.data.data
 
         

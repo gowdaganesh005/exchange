@@ -33,7 +33,7 @@ export function  PastOrders(){
 
     return(
         <>
-        <ScrollArea className="h-56 sm:h-72 md:h-141 w-full col-span-2 rounded-sm border">
+        <ScrollArea className="h-86 md:h-141 w-full col-span-2 rounded-sm border">
   <div className="p-3 sm:p-4">
     <h4 className="mb-3 text-sm font-medium">Orders</h4>
 
@@ -58,6 +58,9 @@ export function  PastOrders(){
           <TableHead className="px-2 py-1 text-right font-medium">
             Status
           </TableHead>
+          <TableHead className="px-2 py-1 font-medium">
+            Date
+          </TableHead>
         </TableRow>
       </TableHeader>
 
@@ -65,6 +68,9 @@ export function  PastOrders(){
         {loading? 
             [...Array(6)].map((_,i)=>
                 <TableRow key={i} className="h-8 hover:bg-muted/40">
+                    <TableCell className="px-2 py-1 whitespace-nowrap">
+                        <Skeleton className="h-4 w-[70%]" />
+                    </TableCell>
                     <TableCell className="px-2 py-1 whitespace-nowrap">
                         <Skeleton className="h-4 w-[70%]" />
                     </TableCell>
@@ -92,7 +98,7 @@ export function  PastOrders(){
             <TableCell className="px-2 py-1 whitespace-nowrap">
               <OrderIdCell orderId={tag.orderId} />
             </TableCell>
-
+            
             <TableCell className="px-2 py-1">
               {tag.symbol}
             </TableCell>
@@ -120,6 +126,23 @@ export function  PastOrders(){
                 </Badge>
               )}
             </TableCell>
+            <TableCell className="px-2 py-1 whitespace-nowrap">
+            <div className="text-[11px] font-medium">
+    {new Date(tag.timestamp).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short"
+    })}
+  </div>
+  <div className="text-[10px] text-muted-foreground">
+    {new Date(tag.timestamp).toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    })}
+  </div>
+            </TableCell>
+
           </TableRow>
         ))}
       </TableBody>

@@ -42,6 +42,7 @@ dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
                 quote_quantity: true,
                 status: true,
                 side: true,
+                timestamp: true,
             }
 
         })
