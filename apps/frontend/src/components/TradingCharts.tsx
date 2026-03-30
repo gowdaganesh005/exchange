@@ -62,12 +62,12 @@ export default function TradingCharts(){
         
         const fetchData = async ()=>{
             const data =await  axios.post('http://localhost:3000/api/v1/candles',{
-                "symbol":"BTCUSDT",
+                "symbol":"BTC/USDT",
                 "time": `${chartTime}`
             })
 
             setData(data.data.data)
-            console.log(data.data.data)
+            // console.log(data.data.data)
             dataRef.current = data.data.data
 
         
@@ -79,7 +79,7 @@ export default function TradingCharts(){
                 const intervalMap ={
                     "1_minute":"1m",
                     "5_minutes":"5m",
-                    "10_minutes":"15m",
+                    "10_minutes":"10m",
                     "30_minutes":"30m",
                     "1_hour":"1h",
                     "1_day":"1d"

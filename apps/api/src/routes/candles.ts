@@ -9,7 +9,7 @@ candles_route.post("/candles",async(req:any,res:any)=>{
         const tableName = `candle_${time}`
         const query = `SELECT bucket as time ,open,high,low,close from  ${tableName} WHERE symbol = $1 ORDER by bucket DESC`
         const candle_info:any = await client.$queryRawUnsafe(query,symbol)
-        console.log(candle_info)
+        console.log("Query Output :: " ,candle_info)
         candle_info.map((ele:any)=>{ 
             ele.time = Math.floor(ele.time.getTime()/1000)
 
