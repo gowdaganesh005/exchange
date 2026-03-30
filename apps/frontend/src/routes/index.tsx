@@ -5,6 +5,7 @@ import {Trade} from "./Trade.tsx"
 import { MainLayout } from "./MainLayout.tsx";
 import { SignIn } from "./SignIn.tsx";
 import { Dashboard } from "./Dashboard.tsx";
+import { ProtectedRoute } from "@/components/ProtectedRoute.tsx";
 
 export const routes: RouteObject[] = [
     {
@@ -27,8 +28,11 @@ export const routes: RouteObject[] = [
 
         },
         {
-            path:"dashboard",
-            element:<Dashboard/>
+            
+           
+                    path:"/dashboard",
+                    element: <Dashboard/>
+                
         }]
     }
 ]

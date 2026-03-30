@@ -15,6 +15,7 @@ import { PinBox } from "./PinBox.tsx"
 import axios from "axios"
 import { Link } from "react-router"
 import { useNavigate } from "react-router"
+import { AuthContextType, useAuth } from "./providers/AuthContext.tsx"
 
 interface SignInDataType{
     
@@ -25,6 +26,8 @@ interface SignInDataType{
 }
 
 export function SignInForm() {
+    const userContext : AuthContextType | null = useAuth()
+
     const [data,setData]=useState<SignInDataType>({
         email:"",
         password:"",
@@ -63,6 +66,7 @@ export function SignInForm() {
         setLoading(false);
        
         setPage("success");
+        userContext?.setUser(data)
 
       }
         

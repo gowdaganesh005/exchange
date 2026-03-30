@@ -13,7 +13,8 @@ import {  useState } from "react"
 import { Root, Content} from "./ResizablePanel.tsx"
 import { PinBox } from "./PinBox.tsx"
 import axios from "axios"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
+import { AuthContextType, useAuth } from "./providers/AuthContext.tsx"
 
 interface SignUpDataType{
     name:string,
@@ -23,13 +24,17 @@ interface SignUpDataType{
 
 }
 
+
+
 export function SignUpForm() {
+  const userContext:AuthContextType|null = useAuth()
     const [data,setData]=useState<SignUpDataType>({
         name:"",
         email:"",
         password:"",
         pin:"",
     })
+    const navigate = useNavigate()
     const [error,setError]=useState<string>("");
 
     const isValidEmail = (email: string) => {
@@ -62,6 +67,7 @@ export function SignUpForm() {
       if(response.status==200){
         setLoading(false);
         setPage("success");
+        userContext?.setUser(data)
 
       }
         
@@ -216,7 +222,7 @@ export function SignUpForm() {
         </CardHeader>
         
       <CardFooter className="flex-col gap-2">
-        <Button disabled={!isPinValid} onClick={onSetPin} className="w-full shadow-[0px_2px_6px_rgba(200,200,200,0.3)]">
+        <Button disabled={!isPinValid} onClick={()=>navigate("/dashboard")} className="w-full shadow-[0px_2px_6px_rgba(200,200,200,0.3)]">
           {!loading?(<>Go To Dashboard</>):(
             <div>
             <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-loader-icon lucide-loader animate-spin"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg></div>)

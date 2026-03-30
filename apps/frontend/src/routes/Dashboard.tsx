@@ -6,15 +6,34 @@ import { UserAssets } from "@/components/UserAssets.tsx"
 import { PastOrders } from "@/components/PastOrders.tsx"
 import axios from "axios"
 import { Skeleton } from "@/components/ui/skeleton.tsx"
+import { useNavigate } from "react-router"
+import { AuthContextType, useAuth } from "@/components/providers/AuthContext.tsx"
 
 export const Dashboard=()=>{
-
-    const [ assetBalance , setAssetBalance ] = useState<any>()
-    const [loading ,setLoading] = useState<boolean>(true);
+    const contextData : AuthContextType | null = useAuth();
+    const [assetBalance, setAssetBalance] = useState<any>({
+      lockedBalance: 0,
+      freeBalance: 0,
+      profit: 0
+  });    
+  const navigate = useNavigate()
+    
+    
+    console.log("User Context obj ::: ", contextData)
 
     useEffect(()=>{
+      if(contextData?.loading) return
       async function fetchBalances(){
+        
         try {
+           
+
+          if(!contextData?.user){ 
+            console.log("User context data  :: ",contextData)
+            navigate("/signin")
+            return 
+          }
+            
           const { data } = await axios.get(
             "http://localhost:3000/api/v1/balance",
             { withCredentials: true }
@@ -27,13 +46,11 @@ export const Dashboard=()=>{
           });
         } catch (err) {
           console.error(err);
-        } finally {
-          setLoading(false); 
-        }
+        } 
       }
       fetchBalances()
       
-    },[])
+    },[contextData?.loading,contextData?.user,navigate])
 
 
     
@@ -52,14 +69,14 @@ export const Dashboard=()=>{
             <div className="text-muted-foreground font-semibold">Total Profit</div>              
               <div className=" flex pt-5 text-secondary-foreground">
               <div className="font-semibold text-chart-3 text-2xl inline ">{
-                  loading?
+                  contextData?.loading?
                   <>
                     <div>
                       <Skeleton className=" h-6 w-15" />
                     </div>
                   </>:
                   <>
-                    {assetBalance.profit}
+                    {assetBalance.profit ?? 0}
                   </>}</div>
                 <div className="text-lg pt-1 pl-2 inline ">USDT </div>
               </div>
@@ -78,14 +95,14 @@ export const Dashboard=()=>{
               </div>
               <div className="py-2 flex  ">
                 <div className="font-semibold text-2xl inline ">{
-                  loading?
+                   contextData?.loading?
                   <>
                     <div>
                       <Skeleton className=" h-6 w-15" />
                     </div>
                   </>:
                   <>
-                    {assetBalance.freeBalance}
+                    {assetBalance.freeBalance ?? 0}
                   </>}</div>
                 <div className="text-lg pt-1 pl-2 inline font-medium">USDT </div>
               </div>
@@ -105,14 +122,14 @@ export const Dashboard=()=>{
               </div>
                <div className=" flex  py-2 ">
                <div className="font-semibold text-2xl inline ">{
-                  loading?
+                   contextData?.loading?
                   <>
                     <div>
                       <Skeleton className=" h-6 w-15" />
                     </div>
                   </>:
                   <>
-                    {assetBalance.lockedBalance}
+                    {assetBalance.lockedBalance ?? 0}
                   </>}</div>                
                   <div className="text-lg pt-1 pl-2 font-medium inline ">USDT </div>
               </div>

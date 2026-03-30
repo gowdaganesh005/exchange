@@ -183,7 +183,7 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
 
 
       {/* Form Content */}
-      <div className=" w-full flex-1 px-4 py-6 overflow-y-auto">
+      <div className=" w-full flex-1 px-4 py-6 overflow-y-auto overflow-x-hidden">
         <form className="w-full flex flex-col gap-4">
           {/* Available Balance */}
           <div className=" w-full grid grid-cols-2 gap-4">
@@ -335,7 +335,7 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
               : "bg-destructive text-muted hover:bg-[#ce5a7b]"
           } ${!isAuthenticated && isButtonDisabled ?  " cursor-not-allowed":""}`}
         >
-          {Loading?
+          {Loading && isAuthenticated?
             <>
             <Spinner/>
             Processing

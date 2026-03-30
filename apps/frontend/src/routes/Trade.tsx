@@ -4,32 +4,30 @@ import TradingCharts from "../components/TradingCharts.tsx";
 import { BuySellSection } from "../components/BuySellSection.tsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useOutletContext, useParams } from "react-router";
+import { AuthContextType, useAuth } from "@/components/providers/AuthContext.tsx";
 
 
 export function Trade() {
   let {symbol} = useParams();
-  const [isLoading,setLoading] = useState<boolean>(false)
-  const [isAuthenticated,setAuthenticated] = useState(false)
+  let userContext: AuthContextType | null = useAuth();
+  const [loading,setLoading] = useState<boolean>(false);
   const [userBalances,setUserBalances] = useState([])
   const [price,setPrice] = useState(0)
   
 
   symbol = symbol?.replace("-", "/");
 
-  
+  console.log("User Context user obj ::",userContext?.user)
 
   useEffect(()=>{
     const fetchBalances=async ()=>{
       setLoading(true)
       
       try{
-      const { data } =await  axios.get("http://localhost:3000/api/v1/me",{
-        withCredentials:true
-      })
-      console.log(data)
-      if(data.loggedIn) {
-        setAuthenticated(true)
+      
+      if(userContext?.user) {
+        
         try{
           const { data } = await axios.get("http://localhost:3000/api/v1/balance",{
             withCredentials:true 
@@ -75,7 +73,7 @@ export function Trade() {
     console.log(userBalances)
     setLoading(false)
     
-  },[])
+  },[userContext?.user,symbol])
 
   return (
     <>
@@ -91,7 +89,7 @@ export function Trade() {
           <OrderBook symbol={ symbol || ""} />
         </div>
         <div className="w-full lg:w-[21%]  rounded-2xl my-3 pr-3 lg:pr-1">
-          <BuySellSection isAuthenticated={isAuthenticated} symbol={symbol || ""} price={price?.toFixed(3).toString() } balances={userBalances} isLoading={isLoading} />
+          <BuySellSection isAuthenticated={userContext?.user} symbol={symbol || ""} price={price?.toFixed(3).toString() } balances={userBalances} isLoading={loading} />
         </div>
       </div>
     </>
