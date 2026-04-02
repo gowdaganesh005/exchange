@@ -27,6 +27,28 @@ dataStream.post("/price",async(req:any,res:any)=>{
     
 })
 
+dataStream.post("/prevday-close",async(req:any,res:any)=>{
+    const { symbol } = req.body
+    const data = await client.$queryRaw<{close: number; bucket: Date }[]>`
+        SELECT  close , bucket 
+        FROM candle_1_day
+        WHERE symbol = ${symbol}
+        AND bucket < date_trunc('day',NOW())
+        LIMIT 1
+    `;
+
+    console.log(data)
+
+    if(!data.length){
+        return res.status(404).json({error: "No data found for the symbol"});
+    }
+    return res.json({
+        symbol,
+        prevDayClose: data[0].close,
+        date: data[0].bucket
+    });
+})
+
 
 dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
     const userId = req.session.user.userId;
