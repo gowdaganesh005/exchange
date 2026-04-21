@@ -1,27 +1,29 @@
 
 import { OrderBook } from "../utils/orderbook"
 
-import { parentPort } from "node:worker_threads"
+import { workerData, parentPort } from "node:worker_threads"
 
-export const OB_BTCUSDT = new OrderBook("BTC/USDT")
+const symbol = workerData.symbol
+console.log(`Starging the order book for symbol ${symbol}`)
 
-console.log("🔥 WORKER TS FILE LOADED 🔥");
+const orderbook = new OrderBook(symbol)
+
 
 parentPort?.on("message",(data)=>{
     console.log("parent Port   ",data)
     if(data.type == "snapshot"){
-        const snapshot = OB_BTCUSDT.getCurrentOrderBook()
+        const snapshot = orderbook.getCurrentOrderBook()
         parentPort?.postMessage({type:"snapshot",data: snapshot,id:data.id})
 
     }
     if(data.type == "order"){
-        const response = OB_BTCUSDT.matchOrders(data.data,data.orderId)
+        const response = orderbook.matchOrders(data.data,data.orderId)
         if(response){
             parentPort?.postMessage({type:"order",clientId:data.clientId,response})
         }
     }
     if(data.type == "cancel"){
-       const response =  OB_BTCUSDT.cancelOrder(data.data)
+       const response =  orderbook.cancelOrder(data.data)
        parentPort?.postMessage({type:"cancel",data:response})
     }
 })   

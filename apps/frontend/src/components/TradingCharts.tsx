@@ -65,6 +65,7 @@ export default function TradingCharts(){
                 "symbol":"BTC/USDT",
                 "time": `${chartTime}`
             })
+            console.log("this is candles data",data.data.data)
 
             setData(data.data.data)
             // console.log(data.data.data)
@@ -108,8 +109,8 @@ export default function TradingCharts(){
 
                     const prevdata = dataRef.current || []
 
-                    console.log(prevdata)
-                    console.log(newcand)
+                    console.log("The new candle data is this :: ",prevdata)
+                    console.log("The new candle data is this :: ",newcand)
 
                     if(!seriesRef.current) return
                     let updatedData
@@ -155,7 +156,12 @@ export default function TradingCharts(){
         if(chartContainerRef.current && !chartRef.current) {
             const chart = createChart(chartContainerRef.current,
                 {timeScale:{
-                    timeVisible:true
+                    timeVisible: true,
+    secondsVisible: false,
+    borderColor: '#32353d',
+    rightOffset: 5,
+    barSpacing: 8,
+    minBarSpacing: 4,
                 }, 
                 layout:{
                     background: { color: "#161921"},

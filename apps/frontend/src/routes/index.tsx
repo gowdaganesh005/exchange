@@ -6,6 +6,7 @@ import { MainLayout } from "./MainLayout.tsx";
 import { SignIn } from "./SignIn.tsx";
 import { Dashboard } from "./Dashboard.tsx";
 import { ProtectedRoute } from "@/components/ProtectedRoute.tsx";
+import LandingPage from "./LandingPage.tsx";
 
 export const routes: RouteObject[] = [
     {
@@ -33,6 +34,10 @@ export const routes: RouteObject[] = [
                     path:"/dashboard",
                     element: <Dashboard/>
                 
+        },
+        {
+            path:"/",
+            element: <LandingPage/>
         }]
     }
 ]

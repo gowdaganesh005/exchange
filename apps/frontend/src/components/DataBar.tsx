@@ -112,10 +112,10 @@ const DataBar = () => {
 
   
   return(
-  <div className="px-3 sm:px-6 w-full">
+  <div className="px-2 sm:px-6 w-full">
     <div className="w-full bg-transparent shadow-[0_8px_30px_rgba(200,200,200,0.1)] rounded-md">
-      <div className="flex items-center justify-between gap-4 p-4 sm:p-5">
-        <div className="px-4 py-2 bg-[rgb(var(--foreground2-rgb))] text-sm font-semibold rounded-xl flex items-center">
+      <div className="flex items-center justify-between gap-4 p-3 sm:p-5">
+        <div className="px-4 py-2 bg-[rgb(var(--foreground2-rgb))] text-lg font-semibold rounded-xl flex items-center">
           BTC / USDT
         </div>
         <div>
@@ -129,6 +129,9 @@ const DataBar = () => {
             </div>
             <div className={` text-md ${up ? 'text-chart-3':'text-destructive'}`}>
               ({priceDelta.percent}%)
+            </div>
+            <div className={` font-thin text-md text-md`}>
+               1D 
             </div>
             </div>
           </div>

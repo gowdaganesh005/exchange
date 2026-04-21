@@ -73,6 +73,7 @@ model Trades {
   @@id([timestamp, symbol])
   @@unique([tradeId, timestamp])
   @@unique([symbol, timestamp])
+  @@index([timestamp])
 }
 
 model User {
@@ -111,4 +112,9 @@ model Ledger {
   amount BigInt
   reason LedgerReason
   
+}
+
+model Tickers{
+  tickerId String @id @default(uuid())
+  symbol String
 }

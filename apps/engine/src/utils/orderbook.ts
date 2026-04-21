@@ -8,7 +8,7 @@ export class OrderBook{
 
     private updateId = 1;
 
-    public constructor(symbol: string){
+    public constructor(symbol: string,){
         this.orderBook = {
             buys : [],
             sells: []
@@ -709,9 +709,17 @@ export class OrderBook{
          */
         public getCurrentOrderBook() {
             return {
+
                 
-                bids: this.consolidatedBook.buys,
-                asks: this.consolidatedBook.sells,
+                consolidatedBook:{
+                    bids: this.consolidatedBook.buys,
+                    asks: this.consolidatedBook.sells,
+                },
+                orderBook:{
+                    buys: this.orderBook.buys,
+                    sells: this.orderBook.sells
+                },
+                
                 timestamp: Date.now(),
                 lastupdateId: this.updateId
             } 

@@ -1,7 +1,7 @@
-import { orderBody } from "@repo/zod/trading";
+import { orderBodySchema } from "@repo/zod/trading";
 import { z } from "zod";
 
-export type orderBody = z.infer<typeof orderBody>;
+export type orderBody = z.infer<typeof orderBodySchema>;
 
 export const CREATE_ORDER = 'CREATE_ORDER'
 

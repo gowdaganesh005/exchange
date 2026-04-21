@@ -12,6 +12,7 @@ dataStream.post('/snapshot',async (req:any,res:any)=>{
    const redisClient = RedisManager.getInstance()
    let data = await redisClient.getSnapshot(symbol)
    data = JSON.parse(data?.toString() || "")
+   console.log(data)
 
    
    return res.status(200).json(data)
@@ -74,5 +75,17 @@ dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
         console.log(error);
         res.status(500).json({message:"Something is Wrong on Our Side"})
     }
+})
+
+dataStream.get("/tickers",async(req:any,res:any)=>{
+    try{
+
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({message:"Something is Wrong on Our Side"})
+    }
+    const tickerData = await client.tickers.findMany();
+    console.log(tickerData)
+    
 })
 

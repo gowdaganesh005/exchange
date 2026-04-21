@@ -6,7 +6,7 @@ function OrderBook({symbol}:{symbol:string}){
     const [orderBook,setOrderBook] = useState<any>(null);
     const wsRef = useRef<WebSocket |null>(null)
     const orderBookRef = useRef<any>(null)
-    const [trades,setTrades] = useState<any>(null)
+    const [trades,setTrades] = useState<any[]>([])
     const tradesRef = useRef<any>([])
     const [price,setPrice]= useState<any>(0)
     const [activeTab , setActiveTab] = useState<'orderbook'|'trades'>('orderbook')
@@ -38,7 +38,8 @@ function OrderBook({symbol}:{symbol:string}){
                     symbol,
                 })
                 
-                console.log(priceData)
+                
+                console.log("Price Data: " ,priceData)
                 const price = priceData.data
                 if(price && price > 0) {
                     setPrice(price)
@@ -158,13 +159,16 @@ function OrderBook({symbol}:{symbol:string}){
                             }
                         }
                     }
-                    if(JSON.parse(updates.data).type == 'bookticker'){
-                        const updatedPrice = JSON.parse(updates.data)
-                        console.log(updatedPrice)
-                        setPrice(updatedPrice.tickerPrice)
-                        tradesRef.current.push([updatedPrice.tickerPrice,updatedPrice.size])
+                    const parsedData = JSON.parse(updates.data)
+                    if(parsedData.type == 'bookticker'){
+                        const newTrade = [
+                            Number(parsedData.tickerPrice),
+                            Number(parsedData.size)
+                        ]
+                        setPrice(parsedData.tickerPrice)
+                        tradesRef.current.push([...tradesRef.current, newTrade])
                         setTrades([...tradesRef.current])
-                        console.log(trades)
+                        
                     }
                     }catch(error:any){
                         console.log(error)
@@ -348,17 +352,17 @@ function OrderBook({symbol}:{symbol:string}){
                     Size
                 </div>
             </div>
-            {/* { trades && trades.map((ele:any)=>( */}
-                <div className="relative  flex justify-between px-2 my-[2px]  ">
+            { trades && trades.map((ele:any,idx: number)=>(
+                <div className="relative  flex justify-between px-2 my-[2px]  " key={idx}>
                     <div className="absolute inset-0 w-[100%] bg-indigo-800 opacity-35 rounded"></div>
                     <div className="font-semibold  ">
-                        $30
+                        {ele.tickerPrice}
                     </div>
                     <div>
-                        19
+                        {ele.size}
                     </div>
                 </div>
-            {/* ))} */}
+             ))} 
         </div>)}
         </div>
         </>

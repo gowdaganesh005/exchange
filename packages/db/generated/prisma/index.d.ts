@@ -38,6 +38,11 @@ export type Balances = $Result.DefaultSelection<Prisma.$BalancesPayload>
  * 
  */
 export type Ledger = $Result.DefaultSelection<Prisma.$LedgerPayload>
+/**
+ * Model Tickers
+ * 
+ */
+export type Tickers = $Result.DefaultSelection<Prisma.$TickersPayload>
 
 /**
  * Enums
@@ -285,6 +290,16 @@ export class PrismaClient<
     * ```
     */
   get ledger(): Prisma.LedgerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tickers`: Exposes CRUD operations for the **Tickers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tickers
+    * const tickers = await prisma.tickers.findMany()
+    * ```
+    */
+  get tickers(): Prisma.TickersDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -729,7 +744,8 @@ export namespace Prisma {
     Trades: 'Trades',
     User: 'User',
     Balances: 'Balances',
-    Ledger: 'Ledger'
+    Ledger: 'Ledger',
+    Tickers: 'Tickers'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -748,7 +764,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "orders" | "trades" | "user" | "balances" | "ledger"
+      modelProps: "orders" | "trades" | "user" | "balances" | "ledger" | "tickers"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1122,6 +1138,80 @@ export namespace Prisma {
           }
         }
       }
+      Tickers: {
+        payload: Prisma.$TickersPayload<ExtArgs>
+        fields: Prisma.TickersFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TickersFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TickersFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>
+          }
+          findFirst: {
+            args: Prisma.TickersFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TickersFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>
+          }
+          findMany: {
+            args: Prisma.TickersFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>[]
+          }
+          create: {
+            args: Prisma.TickersCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>
+          }
+          createMany: {
+            args: Prisma.TickersCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TickersCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>[]
+          }
+          delete: {
+            args: Prisma.TickersDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>
+          }
+          update: {
+            args: Prisma.TickersUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>
+          }
+          deleteMany: {
+            args: Prisma.TickersDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TickersUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TickersUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>[]
+          }
+          upsert: {
+            args: Prisma.TickersUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TickersPayload>
+          }
+          aggregate: {
+            args: Prisma.TickersAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTickers>
+          }
+          groupBy: {
+            args: Prisma.TickersGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TickersGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TickersCountArgs<ExtArgs>
+            result: $Utils.Optional<TickersCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1211,6 +1301,7 @@ export namespace Prisma {
     user?: UserOmit
     balances?: BalancesOmit
     ledger?: LedgerOmit
+    tickers?: TickersOmit
   }
 
   /* Types for Logging */
@@ -6930,6 +7021,962 @@ export namespace Prisma {
 
 
   /**
+   * Model Tickers
+   */
+
+  export type AggregateTickers = {
+    _count: TickersCountAggregateOutputType | null
+    _min: TickersMinAggregateOutputType | null
+    _max: TickersMaxAggregateOutputType | null
+  }
+
+  export type TickersMinAggregateOutputType = {
+    tickerId: string | null
+    symbol: string | null
+  }
+
+  export type TickersMaxAggregateOutputType = {
+    tickerId: string | null
+    symbol: string | null
+  }
+
+  export type TickersCountAggregateOutputType = {
+    tickerId: number
+    symbol: number
+    _all: number
+  }
+
+
+  export type TickersMinAggregateInputType = {
+    tickerId?: true
+    symbol?: true
+  }
+
+  export type TickersMaxAggregateInputType = {
+    tickerId?: true
+    symbol?: true
+  }
+
+  export type TickersCountAggregateInputType = {
+    tickerId?: true
+    symbol?: true
+    _all?: true
+  }
+
+  export type TickersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tickers to aggregate.
+     */
+    where?: TickersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tickers to fetch.
+     */
+    orderBy?: TickersOrderByWithRelationInput | TickersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TickersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tickers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tickers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tickers
+    **/
+    _count?: true | TickersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TickersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TickersMaxAggregateInputType
+  }
+
+  export type GetTickersAggregateType<T extends TickersAggregateArgs> = {
+        [P in keyof T & keyof AggregateTickers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTickers[P]>
+      : GetScalarType<T[P], AggregateTickers[P]>
+  }
+
+
+
+
+  export type TickersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TickersWhereInput
+    orderBy?: TickersOrderByWithAggregationInput | TickersOrderByWithAggregationInput[]
+    by: TickersScalarFieldEnum[] | TickersScalarFieldEnum
+    having?: TickersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TickersCountAggregateInputType | true
+    _min?: TickersMinAggregateInputType
+    _max?: TickersMaxAggregateInputType
+  }
+
+  export type TickersGroupByOutputType = {
+    tickerId: string
+    symbol: string
+    _count: TickersCountAggregateOutputType | null
+    _min: TickersMinAggregateOutputType | null
+    _max: TickersMaxAggregateOutputType | null
+  }
+
+  type GetTickersGroupByPayload<T extends TickersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TickersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TickersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TickersGroupByOutputType[P]>
+            : GetScalarType<T[P], TickersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TickersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tickerId?: boolean
+    symbol?: boolean
+  }, ExtArgs["result"]["tickers"]>
+
+  export type TickersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tickerId?: boolean
+    symbol?: boolean
+  }, ExtArgs["result"]["tickers"]>
+
+  export type TickersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tickerId?: boolean
+    symbol?: boolean
+  }, ExtArgs["result"]["tickers"]>
+
+  export type TickersSelectScalar = {
+    tickerId?: boolean
+    symbol?: boolean
+  }
+
+  export type TickersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"tickerId" | "symbol", ExtArgs["result"]["tickers"]>
+
+  export type $TickersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Tickers"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      tickerId: string
+      symbol: string
+    }, ExtArgs["result"]["tickers"]>
+    composites: {}
+  }
+
+  type TickersGetPayload<S extends boolean | null | undefined | TickersDefaultArgs> = $Result.GetResult<Prisma.$TickersPayload, S>
+
+  type TickersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TickersFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TickersCountAggregateInputType | true
+    }
+
+  export interface TickersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Tickers'], meta: { name: 'Tickers' } }
+    /**
+     * Find zero or one Tickers that matches the filter.
+     * @param {TickersFindUniqueArgs} args - Arguments to find a Tickers
+     * @example
+     * // Get one Tickers
+     * const tickers = await prisma.tickers.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TickersFindUniqueArgs>(args: SelectSubset<T, TickersFindUniqueArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Tickers that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TickersFindUniqueOrThrowArgs} args - Arguments to find a Tickers
+     * @example
+     * // Get one Tickers
+     * const tickers = await prisma.tickers.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TickersFindUniqueOrThrowArgs>(args: SelectSubset<T, TickersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tickers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersFindFirstArgs} args - Arguments to find a Tickers
+     * @example
+     * // Get one Tickers
+     * const tickers = await prisma.tickers.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TickersFindFirstArgs>(args?: SelectSubset<T, TickersFindFirstArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tickers that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersFindFirstOrThrowArgs} args - Arguments to find a Tickers
+     * @example
+     * // Get one Tickers
+     * const tickers = await prisma.tickers.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TickersFindFirstOrThrowArgs>(args?: SelectSubset<T, TickersFindFirstOrThrowArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Tickers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tickers
+     * const tickers = await prisma.tickers.findMany()
+     * 
+     * // Get first 10 Tickers
+     * const tickers = await prisma.tickers.findMany({ take: 10 })
+     * 
+     * // Only select the `tickerId`
+     * const tickersWithTickerIdOnly = await prisma.tickers.findMany({ select: { tickerId: true } })
+     * 
+     */
+    findMany<T extends TickersFindManyArgs>(args?: SelectSubset<T, TickersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Tickers.
+     * @param {TickersCreateArgs} args - Arguments to create a Tickers.
+     * @example
+     * // Create one Tickers
+     * const Tickers = await prisma.tickers.create({
+     *   data: {
+     *     // ... data to create a Tickers
+     *   }
+     * })
+     * 
+     */
+    create<T extends TickersCreateArgs>(args: SelectSubset<T, TickersCreateArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Tickers.
+     * @param {TickersCreateManyArgs} args - Arguments to create many Tickers.
+     * @example
+     * // Create many Tickers
+     * const tickers = await prisma.tickers.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TickersCreateManyArgs>(args?: SelectSubset<T, TickersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tickers and returns the data saved in the database.
+     * @param {TickersCreateManyAndReturnArgs} args - Arguments to create many Tickers.
+     * @example
+     * // Create many Tickers
+     * const tickers = await prisma.tickers.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tickers and only return the `tickerId`
+     * const tickersWithTickerIdOnly = await prisma.tickers.createManyAndReturn({
+     *   select: { tickerId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TickersCreateManyAndReturnArgs>(args?: SelectSubset<T, TickersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Tickers.
+     * @param {TickersDeleteArgs} args - Arguments to delete one Tickers.
+     * @example
+     * // Delete one Tickers
+     * const Tickers = await prisma.tickers.delete({
+     *   where: {
+     *     // ... filter to delete one Tickers
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TickersDeleteArgs>(args: SelectSubset<T, TickersDeleteArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Tickers.
+     * @param {TickersUpdateArgs} args - Arguments to update one Tickers.
+     * @example
+     * // Update one Tickers
+     * const tickers = await prisma.tickers.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TickersUpdateArgs>(args: SelectSubset<T, TickersUpdateArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Tickers.
+     * @param {TickersDeleteManyArgs} args - Arguments to filter Tickers to delete.
+     * @example
+     * // Delete a few Tickers
+     * const { count } = await prisma.tickers.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TickersDeleteManyArgs>(args?: SelectSubset<T, TickersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tickers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tickers
+     * const tickers = await prisma.tickers.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TickersUpdateManyArgs>(args: SelectSubset<T, TickersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tickers and returns the data updated in the database.
+     * @param {TickersUpdateManyAndReturnArgs} args - Arguments to update many Tickers.
+     * @example
+     * // Update many Tickers
+     * const tickers = await prisma.tickers.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tickers and only return the `tickerId`
+     * const tickersWithTickerIdOnly = await prisma.tickers.updateManyAndReturn({
+     *   select: { tickerId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TickersUpdateManyAndReturnArgs>(args: SelectSubset<T, TickersUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Tickers.
+     * @param {TickersUpsertArgs} args - Arguments to update or create a Tickers.
+     * @example
+     * // Update or create a Tickers
+     * const tickers = await prisma.tickers.upsert({
+     *   create: {
+     *     // ... data to create a Tickers
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tickers we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TickersUpsertArgs>(args: SelectSubset<T, TickersUpsertArgs<ExtArgs>>): Prisma__TickersClient<$Result.GetResult<Prisma.$TickersPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Tickers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersCountArgs} args - Arguments to filter Tickers to count.
+     * @example
+     * // Count the number of Tickers
+     * const count = await prisma.tickers.count({
+     *   where: {
+     *     // ... the filter for the Tickers we want to count
+     *   }
+     * })
+    **/
+    count<T extends TickersCountArgs>(
+      args?: Subset<T, TickersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TickersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tickers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TickersAggregateArgs>(args: Subset<T, TickersAggregateArgs>): Prisma.PrismaPromise<GetTickersAggregateType<T>>
+
+    /**
+     * Group by Tickers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TickersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TickersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TickersGroupByArgs['orderBy'] }
+        : { orderBy?: TickersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TickersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTickersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Tickers model
+   */
+  readonly fields: TickersFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Tickers.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TickersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Tickers model
+   */
+  interface TickersFieldRefs {
+    readonly tickerId: FieldRef<"Tickers", 'String'>
+    readonly symbol: FieldRef<"Tickers", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Tickers findUnique
+   */
+  export type TickersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * Filter, which Tickers to fetch.
+     */
+    where: TickersWhereUniqueInput
+  }
+
+  /**
+   * Tickers findUniqueOrThrow
+   */
+  export type TickersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * Filter, which Tickers to fetch.
+     */
+    where: TickersWhereUniqueInput
+  }
+
+  /**
+   * Tickers findFirst
+   */
+  export type TickersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * Filter, which Tickers to fetch.
+     */
+    where?: TickersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tickers to fetch.
+     */
+    orderBy?: TickersOrderByWithRelationInput | TickersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tickers.
+     */
+    cursor?: TickersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tickers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tickers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tickers.
+     */
+    distinct?: TickersScalarFieldEnum | TickersScalarFieldEnum[]
+  }
+
+  /**
+   * Tickers findFirstOrThrow
+   */
+  export type TickersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * Filter, which Tickers to fetch.
+     */
+    where?: TickersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tickers to fetch.
+     */
+    orderBy?: TickersOrderByWithRelationInput | TickersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tickers.
+     */
+    cursor?: TickersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tickers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tickers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tickers.
+     */
+    distinct?: TickersScalarFieldEnum | TickersScalarFieldEnum[]
+  }
+
+  /**
+   * Tickers findMany
+   */
+  export type TickersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * Filter, which Tickers to fetch.
+     */
+    where?: TickersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tickers to fetch.
+     */
+    orderBy?: TickersOrderByWithRelationInput | TickersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tickers.
+     */
+    cursor?: TickersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tickers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tickers.
+     */
+    skip?: number
+    distinct?: TickersScalarFieldEnum | TickersScalarFieldEnum[]
+  }
+
+  /**
+   * Tickers create
+   */
+  export type TickersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Tickers.
+     */
+    data: XOR<TickersCreateInput, TickersUncheckedCreateInput>
+  }
+
+  /**
+   * Tickers createMany
+   */
+  export type TickersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tickers.
+     */
+    data: TickersCreateManyInput | TickersCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tickers createManyAndReturn
+   */
+  export type TickersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * The data used to create many Tickers.
+     */
+    data: TickersCreateManyInput | TickersCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tickers update
+   */
+  export type TickersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Tickers.
+     */
+    data: XOR<TickersUpdateInput, TickersUncheckedUpdateInput>
+    /**
+     * Choose, which Tickers to update.
+     */
+    where: TickersWhereUniqueInput
+  }
+
+  /**
+   * Tickers updateMany
+   */
+  export type TickersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tickers.
+     */
+    data: XOR<TickersUpdateManyMutationInput, TickersUncheckedUpdateManyInput>
+    /**
+     * Filter which Tickers to update
+     */
+    where?: TickersWhereInput
+    /**
+     * Limit how many Tickers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tickers updateManyAndReturn
+   */
+  export type TickersUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * The data used to update Tickers.
+     */
+    data: XOR<TickersUpdateManyMutationInput, TickersUncheckedUpdateManyInput>
+    /**
+     * Filter which Tickers to update
+     */
+    where?: TickersWhereInput
+    /**
+     * Limit how many Tickers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tickers upsert
+   */
+  export type TickersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Tickers to update in case it exists.
+     */
+    where: TickersWhereUniqueInput
+    /**
+     * In case the Tickers found by the `where` argument doesn't exist, create a new Tickers with this data.
+     */
+    create: XOR<TickersCreateInput, TickersUncheckedCreateInput>
+    /**
+     * In case the Tickers was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TickersUpdateInput, TickersUncheckedUpdateInput>
+  }
+
+  /**
+   * Tickers delete
+   */
+  export type TickersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+    /**
+     * Filter which Tickers to delete.
+     */
+    where: TickersWhereUniqueInput
+  }
+
+  /**
+   * Tickers deleteMany
+   */
+  export type TickersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tickers to delete
+     */
+    where?: TickersWhereInput
+    /**
+     * Limit how many Tickers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tickers without action
+   */
+  export type TickersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tickers
+     */
+    select?: TickersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tickers
+     */
+    omit?: TickersOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7008,6 +8055,14 @@ export namespace Prisma {
   };
 
   export type LedgerScalarFieldEnum = (typeof LedgerScalarFieldEnum)[keyof typeof LedgerScalarFieldEnum]
+
+
+  export const TickersScalarFieldEnum: {
+    tickerId: 'tickerId',
+    symbol: 'symbol'
+  };
+
+  export type TickersScalarFieldEnum = (typeof TickersScalarFieldEnum)[keyof typeof TickersScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7524,6 +8579,43 @@ export namespace Prisma {
     reason?: EnumLedgerReasonWithAggregatesFilter<"Ledger"> | $Enums.LedgerReason
   }
 
+  export type TickersWhereInput = {
+    AND?: TickersWhereInput | TickersWhereInput[]
+    OR?: TickersWhereInput[]
+    NOT?: TickersWhereInput | TickersWhereInput[]
+    tickerId?: StringFilter<"Tickers"> | string
+    symbol?: StringFilter<"Tickers"> | string
+  }
+
+  export type TickersOrderByWithRelationInput = {
+    tickerId?: SortOrder
+    symbol?: SortOrder
+  }
+
+  export type TickersWhereUniqueInput = Prisma.AtLeast<{
+    tickerId?: string
+    AND?: TickersWhereInput | TickersWhereInput[]
+    OR?: TickersWhereInput[]
+    NOT?: TickersWhereInput | TickersWhereInput[]
+    symbol?: StringFilter<"Tickers"> | string
+  }, "tickerId">
+
+  export type TickersOrderByWithAggregationInput = {
+    tickerId?: SortOrder
+    symbol?: SortOrder
+    _count?: TickersCountOrderByAggregateInput
+    _max?: TickersMaxOrderByAggregateInput
+    _min?: TickersMinOrderByAggregateInput
+  }
+
+  export type TickersScalarWhereWithAggregatesInput = {
+    AND?: TickersScalarWhereWithAggregatesInput | TickersScalarWhereWithAggregatesInput[]
+    OR?: TickersScalarWhereWithAggregatesInput[]
+    NOT?: TickersScalarWhereWithAggregatesInput | TickersScalarWhereWithAggregatesInput[]
+    tickerId?: StringWithAggregatesFilter<"Tickers"> | string
+    symbol?: StringWithAggregatesFilter<"Tickers"> | string
+  }
+
   export type OrdersCreateInput = {
     orderId: string
     symbol: string
@@ -7895,6 +8987,41 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     reason?: EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  }
+
+  export type TickersCreateInput = {
+    tickerId?: string
+    symbol: string
+  }
+
+  export type TickersUncheckedCreateInput = {
+    tickerId?: string
+    symbol: string
+  }
+
+  export type TickersUpdateInput = {
+    tickerId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TickersUncheckedUpdateInput = {
+    tickerId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TickersCreateManyInput = {
+    tickerId?: string
+    symbol: string
+  }
+
+  export type TickersUpdateManyMutationInput = {
+    tickerId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TickersUncheckedUpdateManyInput = {
+    tickerId?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8340,6 +9467,21 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLedgerReasonFilter<$PrismaModel>
     _max?: NestedEnumLedgerReasonFilter<$PrismaModel>
+  }
+
+  export type TickersCountOrderByAggregateInput = {
+    tickerId?: SortOrder
+    symbol?: SortOrder
+  }
+
+  export type TickersMaxOrderByAggregateInput = {
+    tickerId?: SortOrder
+    symbol?: SortOrder
+  }
+
+  export type TickersMinOrderByAggregateInput = {
+    tickerId?: SortOrder
+    symbol?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {

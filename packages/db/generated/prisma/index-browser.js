@@ -172,6 +172,11 @@ exports.Prisma.LedgerScalarFieldEnum = {
   reason: 'reason'
 };
 
+exports.Prisma.TickersScalarFieldEnum = {
+  tickerId: 'tickerId',
+  symbol: 'symbol'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -218,7 +223,8 @@ exports.Prisma.ModelName = {
   Trades: 'Trades',
   User: 'User',
   Balances: 'Balances',
-  Ledger: 'Ledger'
+  Ledger: 'Ledger',
+  Tickers: 'Tickers'
 };
 
 /**

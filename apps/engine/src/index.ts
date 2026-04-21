@@ -1,16 +1,22 @@
 import express from "express"
-import { OB_BTCUSDT } from "./trade/orderbook";
 import { RedisManager } from "./utils/RedisManager";
-import { OrderBook } from "./utils/orderbook";
-import  { Worker } from "node:worker_threads"
+import  { Worker, workerData } from "node:worker_threads"
 import { randomUUID } from "node:crypto";
+import axios from "axios"
 
 const redisClient  =  RedisManager.getInstance()
 
-const allOrderBooks:Record<string,Worker | null> = {
-    "BTC/USDT": null
-}
+const SUPPORTED_SYMBOLS = [
+    "BTC/USDT",
+    "ETH/USDT",
+    "SOL/USDT"
+]
 
+const allOrderBooks:Record<string,Worker | null> = {}
+
+for ( const symbol of SUPPORTED_SYMBOLS){
+    allOrderBooks[symbol] = null
+}
 
 
 
@@ -61,10 +67,20 @@ app.get("/snapshot",async (req:any,res:any)=>{
     })
 })
 
-function startAllOrderBooks(){
-    const worker = new Worker("./dist/trade/orderbook.js")
-    allOrderBooks["BTC/USDT"] = worker
+async function fetchTickers(){
+    const tickerData = await 
+}
 
+function startAllOrderBooks(){
+    for ( const symbol of SUPPORTED_SYMBOLS){
+        const worker = new Worker("./dist/trade/orderbook.js",{ workerData: { symbol }})
+    
+    allOrderBooks["BTC/USDT"] = worker;
+
+    worker?.on('online',()=>{
+        console.log(`Worker online for symbol ${symbol}`)
+    })
+    
     worker?.on('message',async (data)=>{
         // console.log(data)
         if(data.type=="order")
@@ -96,9 +112,9 @@ function startAllOrderBooks(){
             }
         }
 
-    })
+    });
 }
-
+}
 async function  main(){
 
     
