@@ -1,295 +1,416 @@
-import axios from "axios"
-import { AreaSeries, CandlestickSeries, createChart } from "lightweight-charts"
-import { useEffect,useRef, useState } from "react"
+import axios from "axios";
+import {
+  CandlestickSeries,
+  createChart,
+} from "lightweight-charts";
 
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
+export default function TradingCharts() {
+  const chartContainerRef = useRef<HTMLDivElement | null>(null);
 
-export default function TradingCharts(){
-    const chartContainerRef = useRef<any>(null)
-    const chartRef = useRef<any>(null)
-    const seriesRef = useRef<any>(null)
-    const [data,setData] = useState<any>(null);
-    const dataRef = useRef<any>([])
-    const wsRef = useRef<any>(null)
-    const widgetRef = useRef<any>(null)
-    const buttonContainerRef = useRef<HTMLDivElement>(null)
-    const activeButtonRef = useRef<HTMLButtonElement>(null)
+  const chartRef = useRef<any>(null);
+  const seriesRef = useRef<any>(null);
 
-    const [chartTime,setchartTime] = useState<"1_minute" | "5_minutes" | "10_minutes" | '30_minutes' | '1_hour' | '1_day'>("1_minute")
-    const [sliderPosition, setSliderPosition] = useState(0)
-    const [sliderWidth, setSliderWidth] = useState(0)
-    
-    useEffect(()=> {
-        dataRef.current = data
-    },[data])
+  const wsRef = useRef<WebSocket | null>(null);
 
-    // Update slider position based on active button
-    useEffect(() => {
-        if (activeButtonRef.current && buttonContainerRef.current) {
-            const containerRect = buttonContainerRef.current.getBoundingClientRect()
-            const buttonRect = activeButtonRef.current.getBoundingClientRect()
-            
-            setSliderPosition(buttonRect.left - containerRect.left )
-            setSliderWidth(buttonRect.width)
-        }
-    }, [chartTime])
+  const [data, setData] = useState<any[]>([]);
+  const dataRef = useRef<any[]>([]);
 
-    // Recalculate on window resize
-    useEffect(() => {
-        const handleResize = () => {
-            if (activeButtonRef.current && buttonContainerRef.current) {
-                const containerRect = buttonContainerRef.current.getBoundingClientRect()
-                const buttonRect = activeButtonRef.current.getBoundingClientRect()
-                
-                setSliderPosition(buttonRect.left - containerRect.left)
-                setSliderWidth(buttonRect.width)
-            }
-        }
+  const buttonContainerRef = useRef<HTMLDivElement | null>(null);
+  const activeButtonRef = useRef<HTMLButtonElement | null>(null);
 
-        window.addEventListener('resize', handleResize)
-        // Initial calculation
-        handleResize()
+  const [sliderPosition, setSliderPosition] = useState(0);
+  const [sliderWidth, setSliderWidth] = useState(0);
 
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
+  const [chartTime, setChartTime] = useState<
+    | "1_minute"
+    | "5_minutes"
+    | "10_minutes"
+    | "30_minutes"
+    | "1_hour"
+    | "1_day"
+  >("1_minute");
 
+  /*
+  ==========================================
+  KEEP REF UPDATED
+  ==========================================
+  */
 
-    useEffect(()=>{
-        if(seriesRef.current){
-            chartRef.current.removeSeries(seriesRef.current)
-            seriesRef.current = null
-        }
-        
-        const fetchData = async ()=>{
-            const data =await  axios.post('http://localhost:3000/api/v1/candles',{
-                "symbol":"BTC/USDT",
-                "time": `${chartTime}`
-            })
-            console.log("this is candles data",data.data.data)
+  useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
 
-            setData(data.data.data)
-            // console.log(data.data.data)
-            dataRef.current = data.data.data
+  /*
+  ==========================================
+  SLIDER POSITION
+  ==========================================
+  */
 
-        
+  useEffect(() => {
+    const updateSlider = () => {
+      if (
+        activeButtonRef.current &&
+        buttonContainerRef.current
+      ) {
+        const containerRect =
+          buttonContainerRef.current.getBoundingClientRect();
 
-        }
-        fetchData();
-        const ws = new WebSocket('ws://localhost:8000')
-                wsRef.current = ws;
-                const intervalMap ={
-                    "1_minute":"1m",
-                    "5_minutes":"5m",
-                    "10_minutes":"10m",
-                    "30_minutes":"30m",
-                    "1_hour":"1h",
-                    "1_day":"1d"
-            
-                }
-                const wsinterval = intervalMap[chartTime]
-                
+        const buttonRect =
+          activeButtonRef.current.getBoundingClientRect();
 
+        setSliderPosition(
+          buttonRect.left - containerRect.left
+        );
 
-                ws.onopen = () => {
-                    console.log("Connected To Websocket !" )
-                    const KlinesubscriptionMsg = {
-                        "method":"SUBSCRIBE",
-                        "id":1,
-                        "params":[`kline.${wsinterval}.BTCUSDT`]
-                    }
-                    
-                    
-                    ws.send(JSON.stringify(KlinesubscriptionMsg));
-                    
-                }
+        setSliderWidth(buttonRect.width);
+      }
+    };
 
-                ws.onmessage = (event) => {
-                    console.log("trading websocket");
-                    const newcand = JSON.parse(event.data).data;
+    updateSlider();
 
-                    const prevdata = dataRef.current || []
+    window.addEventListener("resize", updateSlider);
 
-                    console.log("The new candle data is this :: ",prevdata)
-                    console.log("The new candle data is this :: ",newcand)
+    return () => {
+      window.removeEventListener(
+        "resize",
+        updateSlider
+      );
+    };
+  }, [chartTime]);
 
-                    if(!seriesRef.current) return
-                    let updatedData
+  /*
+  ==========================================
+  CREATE CHART
+  ==========================================
+  */
 
-                  
-                    
-                      if (prevdata?.length && prevdata[prevdata.length - 1].time === newcand.time) {
-                        // Create a new array with last element replaced immutably
-                        updatedData = [...prevdata];
-                        updatedData[updatedData.length - 1] = newcand;
-                        seriesRef.current.update(newcand)
-                      }else {
-                            updatedData = [...prevdata,newcand]
-                            seriesRef.current.update(newcand);
-                      }
-                  
-                        // Update the chart with new candle
-                        
-                  
-                        setData(updatedData)
-                        dataRef.current= updatedData
-                      
-                }
-                return () => ws.close()
-                  
-    },[chartTime]);
+  useEffect(() => {
+    if (!chartContainerRef.current) return;
 
-    
+    const chart = createChart(
+      chartContainerRef.current,
+      {
+        width:
+          chartContainerRef.current.clientWidth,
 
-    
+        height:
+          chartContainerRef.current.clientHeight,
 
+        layout: {
+          background: {
+            color: "#161921",
+          },
+          textColor: "#ffffff",
+        },
 
-    useEffect(()=>{
-        
-        const handleResize = () =>{
-            if(chartRef.current && chartContainerRef.current){
-                chartRef.current.applyOptions({
-                    width: chartContainerRef.current.clientWidth,
-                    height: chartContainerRef.current.clientHeight-10
-                })
-            }
-        }
-        if(chartContainerRef.current && !chartRef.current) {
-            const chart = createChart(chartContainerRef.current,
-                {timeScale:{
-                    timeVisible: true,
-    secondsVisible: false,
-    borderColor: '#32353d',
-    rightOffset: 5,
-    barSpacing: 8,
-    minBarSpacing: 4,
-                }, 
-                layout:{
-                    background: { color: "#161921"},
-                    textColor:"#FFFFFF"
+        grid: {
+          vertLines: {
+            color: "#32353d",
+          },
+          horzLines: {
+            color: "#32353d",
+          },
+        },
 
-                },
-                grid:{
-                    horzLines: { color: "#32353d"},
-                    vertLines: { color: "#323531"}
-                },
-               
+        timeScale: {
+          timeVisible: true,
+          secondsVisible: false,
+          borderColor: "#32353d",
+          rightOffset: 5,
+          barSpacing: 2,
+          minBarSpacing: 1,
+        },
+      }
+    );
 
-            })
-            chart.timeScale().fitContent();
-            chart.timeScale().scrollToPosition(3,true);
-            chartRef.current = chart
-        }
+    chartRef.current = chart;
 
-        window.addEventListener('resize',handleResize)
+    const candlestickSeries =
+      chart.addSeries(CandlestickSeries, {
+        upColor: "#26a69a",
+        downColor: "#ef5350",
+        borderVisible: false,
+        wickUpColor: "#26a69a",
+        wickDownColor: "#ef5350",
+      });
 
-        return () =>{
-            window.removeEventListener('resize',handleResize)
-            if(chartRef.current){
-                chartRef.current.remove()
-                chartRef.current= null
-            }
-        }
-        
-    },[])
-
-    useEffect(()=>{
-        if(chartRef.current && !seriesRef.current && data && data.length >0){
-            const newseries = chartRef.current.addSeries(CandlestickSeries,{
-                upColor: '#26a69a',
-                downColor: '#ef5350',
-                borderVisible: false,
-                wickUpColor: '#26a69a',
-                wickDownColor: '#ef5350',
-                color: '#FFFFFF',
-            })
-            newseries.setData(data)
-            seriesRef.current = newseries
-        }
-    },[data])
-
+    seriesRef.current = candlestickSeries;
     
 
-    return(
-        <>
-        <div className="relative bg-[#161921] w-full rounded-md ">
-        <div className="relative h-5 bg-[#161921] rounded-md mr-10 z-10 px-4 pb-4 pt-1">
-        
-            {/* Dynamic slider */}
-            <div 
-                className="absolute  top-0 left-0 h-[28px] bg-[#32353d] border border-t-0 border-l-0 border-r-0 border-b-2 border-amber-50 rounded-xs my-[2px] transition-all duration-200 ease-in-out z-0" 
-                style={{ 
-                    transform: `translateX(${sliderPosition+15}px)`,
-                    width: `${sliderWidth}px`
-                }}
-            />
+    /*
+    ==========================================
+    RESIZE OBSERVER
+    ==========================================
+    */
 
-            <div className="relative flex z-10" ref={buttonContainerRef}>
+    const resizeObserver = new ResizeObserver(() => {
+      if (
+        chartContainerRef.current &&
+        chartRef.current
+      ) {
+        chartRef.current.applyOptions({
+          width:
+            chartContainerRef.current.clientWidth,
 
+          height:
+            chartContainerRef.current.clientHeight,
+        });
+      }
+    });
+
+    resizeObserver.observe(
+      chartContainerRef.current
+    );
+
+    return () => {
+      resizeObserver.disconnect();
+
+      chart.remove();
+
+      chartRef.current = null;
+      seriesRef.current = null;
+    };
+  }, []);
+
+  /*
+  ==========================================
+  FETCH DATA + WS
+  ==========================================
+  */
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/v1/candles",
+          {
+            symbol: "BTC/USDT",
+            time: chartTime,
+          }
+        );
+
+        // const candles = response.data.data;
+        const candles = [];
+
+let currentPrice = 18;
+
+let currentTime =
+  Math.floor(Date.now() / 1000) - 200 * 60;
+
+for (let i = 0; i < 200; i++) {
+  const open = currentPrice;
+
+  let close =
+    open + (Math.random() - 0.5) * 1.2;
+
+  close = Math.max(12, Math.min(24, close));
+
+  const high =
+    Math.max(open, close) +
+    Math.random() * 0.5;
+
+  const low =
+    Math.min(open, close) -
+    Math.random() * 0.5;
+
+  candles.push({
+    time: currentTime,
+    open: Number(open.toFixed(2)),
+    high: Number(high.toFixed(2)),
+    low: Number(low.toFixed(2)),
+    close: Number(close.toFixed(2)),
+  });
+
+  currentPrice = close;
+  currentTime += 60;
+}
+
+        setData(candles);
+
+        dataRef.current = candles;
+
+        if (seriesRef.current) {
+          seriesRef.current.setData(candles);
+        }
+
+        chartRef.current?.timeScale().fitContent();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+
+    /*
+    ==========================================
+    WS
+    ==========================================
+    */
+
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+
+    const ws = new WebSocket(
+      "ws://localhost:8000"
+    );
+
+    wsRef.current = ws;
+
+    const intervalMap = {
+      "1_minute": "1m",
+      "5_minutes": "5m",
+      "10_minutes": "10m",
+      "30_minutes": "30m",
+      "1_hour": "1h",
+      "1_day": "1d",
+    };
+
+    const wsInterval =
+      intervalMap[chartTime];
+
+    ws.onopen = () => {
+        console.log("WS CONNECTED");
+        console.log("INTERVAL:", wsInterval);
+      ws.send(
+        JSON.stringify({
+          method: "SUBSCRIBE",
+          id: 1,
+          params: [
+            `kline.${wsInterval}.BTC/USDT`,
+          ],
+        })
+      );
+    };
+
+    ws.onmessage = (event) => {
+        console.log("RAW WS MESSAGE:", event.data);
+      const newCandle = JSON.parse(
+        event.data
+      ).data;
+      console.log("PARSED:", JSON.parse(event.data));
+
+      if (!newCandle) return;
+      console.log("NEW CANDLE:", newCandle);
+
+      const prevData =
+        dataRef.current || [];
+
+      let updatedData = [];
+
+      if (
+        prevData.length &&
+        prevData[prevData.length - 1]
+          .time === newCandle.time
+      ) {
+        updatedData = [...prevData];
+
+        updatedData[
+          updatedData.length - 1
+        ] = newCandle;
+      } else {
+        updatedData = [
+          ...prevData,
+          newCandle,
+        ];
+      }
+
+      dataRef.current = updatedData;
+
+      setData(updatedData);
+
+      if (seriesRef.current) {
+        console.log("UPDATING CHART:", newCandle);
+        seriesRef.current.update(
+          newCandle
+        );
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, [chartTime]);
+
+  return (
+    <div className="h-full w-full bg-[#161921] rounded-md overflow-hidden flex flex-col min-h-0">
+
+      {/* TOP BAR */}
+      <div className="relative shrink-0 px-4 pt-2 pb-2">
+
+        {/* SLIDER */}
+        <div
+          className="absolute top-1 left-0 h-[28px] bg-[#32353d] rounded-md transition-all duration-200"
+          style={{
+            transform: `translateX(${sliderPosition + 12}px)`,
+            width: `${sliderWidth}px`,
+          }}
+        />
+
+        {/* BUTTONS */}
+        <div
+          className="relative flex items-center gap-2 z-10"
+          ref={buttonContainerRef}
+        >
+          {[
+            {
+              label: "1m",
+              value: "1_minute",
+            },
+            {
+              label: "5m",
+              value: "5_minutes",
+            },
+            {
+              label: "10m",
+              value: "10_minutes",
+            },
+            {
+              label: "30m",
+              value: "30_minutes",
+            },
+            {
+              label: "1h",
+              value: "1_hour",
+            },
+            {
+              label: "1d",
+              value: "1_day",
+            },
+          ].map((item) => (
             <button
-                ref={chartTime === '1_minute' ? activeButtonRef : null}
-                onClick={()=>{
-                    setchartTime("1_minute")
-                }} 
-                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
-                <span className="hidden sm:inline">1 min</span>
-                <span className="sm:hidden">1m</span>
+              key={item.value}
+              ref={
+                chartTime === item.value
+                  ? activeButtonRef
+                  : null
+              }
+              onClick={() =>
+                setChartTime(
+                  item.value as any
+                )
+              }
+              className="px-2 py-1 text-sm text-emerald-400 rounded-md relative z-10"
+            >
+              {item.label}
             </button>
-            <button 
-                ref={chartTime === '5_minutes' ? activeButtonRef : null}
-                onClick={()=>{ 
-                    setchartTime("5_minutes") 
-                }}   
-                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
-                <span className="hidden sm:inline">5 mins</span>
-                <span className="sm:hidden">5m</span>
-            </button>
-            <button 
-                ref={chartTime === '10_minutes' ? activeButtonRef : null}
-                onClick={()=>{ 
-                    setchartTime("10_minutes") 
-                }}   
-                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
-                <span className="hidden sm:inline">10 mins</span>
-                <span className="sm:hidden">10m</span>
-            </button>
-            <button 
-                ref={chartTime === '30_minutes' ? activeButtonRef : null}
-                onClick={()=>{ 
-                    setchartTime("30_minutes") 
-                }}   
-                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
-                <span className="hidden sm:inline">30 mins</span>
-                <span className="sm:hidden">30m</span>
-            </button>
-             
-            <button 
-                ref={chartTime === '1_hour' ? activeButtonRef : null}
-                onClick={()=>{ 
-                    setchartTime("1_hour") 
-                }}   
-                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
-                <span className="hidden sm:inline">1 hour</span>
-                <span className="sm:hidden">1h</span>
-            </button>
- 
-            <button 
-                ref={chartTime === '1_day' ? activeButtonRef : null}
-                onClick={()=>{ 
-                    setchartTime("1_day") 
-                }}   
-                className="text-emerald-400 font-medium text-sm inline p-0.5 pb-1 rounded-md whitespace-nowrap px-2">
-                <span className="hidden sm:inline">1 day</span>
-                <span className="sm:hidden">1d</span>
-            </button>
- 
-            </div> 
-
+          ))}
         </div>
-        <div className="top-0 left-0 mt-5 w-full h-[60vh] z-0 px-2 overflow-hidden" style={{ overflow:"hidden"}} ref={chartContainerRef}>
+      </div>
 
-        </div>
-        </div>
-
-        </>
-    )
+      {/* CHART */}
+      <div className="flex-1 min-h-0 w-full">
+        <div
+          ref={chartContainerRef}
+          className="h-full w-full"
+        />
+      </div>
+    </div>
+  );
 }

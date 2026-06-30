@@ -138,218 +138,219 @@ export const BuySellSection = ({symbol,balances,price,isLoading=false,isAuthenti
 
   return (
     <>
-    <Card className="relative h-full">
-      {/* Tabs */}
-      <div className=" w-full gap-4 justify-between  px-1 pt-4  ">
-        <div className="flex w-full gap-4 justify-between  ">
-        <div className="relative flex justify-between w-full text-sm mx-2 ">
-          {/* Animated background indicator */}
-          <div
-            className={`h-11 absolute -top-1 left-0 w-1/2 rounded-xs border border-b-2 border-t-0 border-r-0 border-l-0 mt-[1px] z-0 transition-transform duration-300 ease-in-out ${
-              activeTab === "BUY"
-                ? "rounded-tl-lg bg-chart-3"
-                : "rounded-tr-lg bg-destructive"
-            }`}
-            style={{
-              transform:
-                activeTab === "BUY" ? "translateX(0%)" : "translateX(100%)",
-            }}
-          ></div>
+    <Card className="relative h-full min-h-0 min-w-0 overflow-hidden flex flex-col bg-background">
 
+{/* HEADER */}
+<div className="shrink-0 px-2 sm:px-3 pt-3 sm:pt-4">
 
-          {/* Buttons */}
-          <div className={`h-10 text-md flex w-full justify-between relative z-10 rounded-sm border border-t-0 border-r-0 border-l-0 border-b-2 ${activeTab === "BUY" ? "border-chart-3" : "border-destructive"}`}>
-            <button
-              onClick={() => setActiveTab("BUY")}
-              className={`font-bold text-center w-1/2 rounded-2xl transition-colors ${
-                activeTab === "BUY" ? "text-muted " : "text-foreground hover:text-chart-3"
-              }`}
-            >
-              BUY
-            </button>
+  <div className="relative flex w-full text-sm mx-auto">
 
+    {/* Animated background */}
+    <div
+      className={`absolute top-0 left-0 h-8 sm:h-10 w-1/2 rounded-xs border-b-2 z-0 transition-transform duration-300 ease-in-out ${
+        activeTab === "BUY"
+          ? "bg-chart-3 border-chart-3"
+          : "bg-destructive border-destructive"
+      }`}
+      style={{
+        transform:
+          activeTab === "BUY"
+            ? "translateX(0%)"
+            : "translateX(100%)",
+      }}
+    />
 
-            <button
-              onClick={() => setActiveTab("SELL")}
-              className={`font-bold text-center w-1/2 rounded-2xl transition-colors ${
-                activeTab === "SELL" ? "text-muted " : "text-foreground hover:text-destructive"
-              }`}
-            >
-              SELL
-            </button>
-          </div>
+    {/* Tabs */}
+    <div
+      className={`relative z-10 flex h-8 sm:h-10 w-full border-b-2 ${
+        activeTab === "BUY"
+          ? "border-chart-3"
+          : "border-destructive"
+      }`}
+    >
+      <button
+        onClick={() => setActiveTab("BUY")}
+        className={`w-1/2 text-xs sm:text-sm md:text-base font-semibold transition-colors ${
+          activeTab === "BUY"
+            ? "text-muted"
+            : "text-foreground hover:text-chart-3"
+        }`}
+      >
+        BUY
+      </button>
+
+      <button
+        onClick={() => setActiveTab("SELL")}
+        className={`w-1/2 text-xs sm:text-sm md:text-base font-semibold transition-colors ${
+          activeTab === "SELL"
+            ? "text-muted"
+            : "text-foreground hover:text-destructive"
+        }`}
+      >
+        SELL
+      </button>
+    </div>
+  </div>
+</div>
+
+{/* SCROLLABLE CONTENT */}
+<div className="flex-1 min-h-0 overflow-y-auto px-2 sm:px-3 md:px-4 py-3 sm:py-4">
+
+  <form className="flex flex-col gap-3 sm:gap-4">
+
+    {/* Market + Balance */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+
+      {/* Market Price */}
+      <div className="grid gap-1.5">
+        <label className="text-[10px] sm:text-xs md:text-sm text-gray-400">
+          Market Price
+        </label>
+
+        <div className="rounded-md px-2 sm:px-3 py-2 flex justify-between bg-popover items-center">
+          <span className="text-xs sm:text-sm">
+            {symbol?.split("/")[0]}
+          </span>
+
+          <span className="font-medium text-xs sm:text-sm md:text-base">
+            {price}
+          </span>
         </div>
       </div>
 
+      {/* Balance */}
+      <div className="grid gap-1.5">
+        <label className="text-[10px] sm:text-xs md:text-sm text-gray-400">
+          Available Balance
+        </label>
 
-      {/* Form Content */}
-      <div className=" w-full flex-1 px-4 py-6 overflow-y-auto overflow-x-hidden">
-        <form className="w-full flex flex-col gap-4">
-          {/* Available Balance */}
-          <div className=" w-full grid grid-cols-2 gap-4">
-          <div className="grid gap-2">
-            <label className="text-xs  font-medium text-gray-400">Market Price</label>
-            <div className=" rounded-md px-3 py-2 flex justify-between bg-popover items-center">
-              <span className=" text-popover-foreground">{symbol?.split('/')[0]}</span>
-              <div>
-              <span className="text-popover-foreground font-semibold">{price}</span>
-              </div>
-            </div>
-          </div>
-            
-          <div className="grid gap-2">
-            <label className="text-xs  font-medium text-gray-400">Available Balance</label>
-            <div className=" rounded-md px-3 py-2 flex justify-between bg-popover items-center">
-              <span className=" text-popover-foreground">{activeTab=="BUY"? "USDT":symbol?.split('/')[0]}</span>
-              {isAuthenticated ?<div>
-              <span className="text-popover-foreground font-semibold">{ activeTab=="BUY"? (balances.filter((e)=>(e.asset=="USDT"))[0]?.balance) || '0.000' : balances.filter((e)=>(e.asset==symbol))[0]?.balance || "0.00"}</span>
-              </div>:
-              <div>
-                  <span>
-                    <Button
-                      onClick={()=>navigate('/signin')}
-                      className="font-bold bg-accent hover:bg-[#afe5ee] text-accent-foreground">Sign In</Button>
-                  </span>
-                
-              </div>}
-            </div>
-          </div>
-          </div>
+        <div className="rounded-md px-2 sm:px-3 py-2 flex justify-between bg-popover items-center">
 
+          <span className="text-xs sm:text-sm">
+            {activeTab === "BUY"
+              ? "USDT"
+              : symbol?.split("/")[0]}
+          </span>
 
-          {/* Price Input */}
-          <motion.div layout className="flex flex-col gap-4">
-          <motion.div 
-            layout 
-            transition={{duration:0.35,ease:"easeInOut"}}
-            className={`${activeTab =='BUY'?"order-1":"order-2"}`}>
-          <div className="grid gap-2 ">
-            <label htmlFor="price" className=" flex items-center text-xs font-medium text-gray-400">
-              <span>Price per Unit </span>
-             
-            </label>
-            
-            
-            <div className="relative">
-              <Input
-                id="price"
-                type="number"
-                value={buyPrice}
-                onChange={handlePriceChange}
-                // className="w-full border border-neutral-600 rounded-lg px-3 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all"
-                placeholder="0.000"
-                inputMode="numeric"                  
-                pattern="[0-9]*"
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-                USDT
-              </span>
-            </div>
-          </div>
-          </motion.div>
-
-
-          {/* Amount Input */}
-          <motion.div
-            layout
-            transition={{duration:0.35,ease:"easeInOut"}} 
-            className={` ${activeTab =='BUY'?"order-2":"order-1"}`}>
-
-          <div className="grid gap-2">
-          <label htmlFor="amount" className="flex items-center text-xs font-medium text-gray-400">
-         <span>Amount</span>
-
-            
-            </label>
-            <div className="relative">
-              <Input
-                id="amount"
-                type="number"
-                value={symbolQuant}
-                onChange={handleSymQuantChange}
-                placeholder="0.00"
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-                BTC
-              </span>
-            </div>
-          </div>
-          </motion.div>
-        </motion.div>
-        <div className=" w-full grid  gap-4">
-          <div className="grid gap-2">
-            <label htmlFor="price" className=" flex items-center text-xs font-medium text-gray-400">
-              <span>Total Price</span>
-              <span className="px-3 text-destructive">
-                {(activeTab=='BUY' && isAuthenticated && parseFloat(totalPrice)>parseFloat(balances?.find((ele)=>(ele.asset=="USDT"))?.balance ?? "0"))&&(
-                  <span className="inline-flex gap-1 py-0">
-                  <Info className="w-3 h-3 mt-0.5 " />
-                  Insufficient Funds
-                  </span>
-                )}
-              </span>
-              <span className="px-3 text-destructive">
-              {(activeTab === "SELL" && isAuthenticated &&
-                parseFloat(symbolQuant) >
-                  parseFloat(
-                    balances?.find(
-                      ele => ele.asset === symbol
-                    )?.balance ?? "0"
-                  )) && (
-                <span className="inline-flex gap-1 py-0">
-                  <Info className="w-3 h-3 mt-0.5" />
-                  Insufficient Funds
-                </span>
-              )}
+          {isAuthenticated ? (
+            <span className="font-medium text-xs sm:text-sm md:text-base">
+              {activeTab === "BUY"
+                ? balances.find(e => e.asset === "USDT")?.balance || "0.000"
+                : balances.find(e => e.asset === symbol)?.balance || "0.000"}
             </span>
-            </label>
-            
-            <div className=" rounded-md px-3 py-2 flex justify-between bg-popover items-center">
-              <span className=" text-popover-foreground">{}</span>
-              <div>
-              <span className="text-popover-foreground font-semibold">{totalPrice}</span>
-              </div>
-            </div>
-          </div>
+          ) : (
+            <Button
+              onClick={() => navigate("/signin")}
+              className="text-[10px] sm:text-xs md:text-sm px-2 py-1"
+            >
+              Sign In
+            </Button>
+          )}
         </div>
-
-
-         
-         
-
-
-         
-          
-        </form>
       </div>
+    </div>
 
+    {/* Price */}
+    <div className="grid gap-1.5">
+      <label className="text-[10px] sm:text-xs md:text-sm text-gray-400">
+        Price per Unit
+      </label>
 
-      {/* Submit Button */}
-      <div className="px-4 pb-4">
-        <Button onClick={onPlaceOrder}
-          disabled={isButtonDisabled}
-          className={`w-full py-3 rounded-lg font-bold text-white  disabled transition-all shadow-[0px_2px_6px_rgba(200,200,200,0.3)] 
-            
-            ${ activeTab === "BUY"
-              ? "bg-chart-3 text-muted hover:bg-[#89c983]"
-              : "bg-destructive text-muted hover:bg-[#ce5a7b]"
-          } ${!isAuthenticated && isButtonDisabled ?  " cursor-not-allowed":""}`}
-        >
-          {Loading && isAuthenticated?
-            <>
-            <Spinner/>
-            Processing
-            </>
-            :<>
-              {activeTab}
-            </>
-            } 
-        </Button>
+      <div className="relative">
+        <Input
+          id="price"
+          type="number"
+          value={buyPrice}
+          onChange={handlePriceChange}
+          placeholder="0.000"
+          className="h-9 sm:h-10 text-xs sm:text-sm md:text-base pr-14"
+        />
+
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm text-gray-400">
+          USDT
+        </span>
       </div>
+    </div>
+
+    {/* Amount */}
+    <div className="grid gap-1.5">
+      <label className="text-[10px] sm:text-xs md:text-sm text-gray-400">
+        Amount
+      </label>
+
+      <div className="relative">
+        <Input
+          id="amount"
+          type="number"
+          value={symbolQuant}
+          onChange={handleSymQuantChange}
+          placeholder="0.00"
+          className="h-9 sm:h-10 text-xs sm:text-sm md:text-base pr-14"
+        />
+
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] sm:text-xs md:text-sm text-gray-400">
+          BTC
+        </span>
       </div>
-    
-    </Card>
-    
+    </div>
+
+    {/* Total */}
+    <div className="grid gap-1.5">
+
+      <label className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs md:text-sm text-gray-400">
+
+        <span>Total Price</span>
+
+        {(activeTab === "BUY" &&
+          isAuthenticated &&
+          parseFloat(totalPrice) >
+            parseFloat(
+              balances.find(ele => ele.asset === "USDT")?.balance ?? "0"
+            )) && (
+          <span className="inline-flex items-center gap-1 text-destructive">
+            <Info className="w-3 h-3" />
+            Insufficient Funds
+          </span>
+        )}
+      </label>
+
+      <div className="rounded-md px-2 sm:px-3 py-2 flex justify-between bg-popover items-center">
+
+        <span />
+
+        <span className="font-medium text-xs sm:text-sm md:text-base">
+          {totalPrice}
+        </span>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+{/* FIXED BUTTON */}
+<div className="shrink-0 p-2 sm:p-3 md:p-4 border-t bg-background mb-10">
+
+  <Button
+    onClick={onPlaceOrder}
+    disabled={isButtonDisabled}
+    className={`w-full h-9 sm:h-10 md:h-11 text-xs sm:text-sm md:text-base font-semibold transition-all
+    ${
+      activeTab === "BUY"
+        ? "bg-chart-3 hover:bg-[#89c983]"
+        : "bg-destructive hover:bg-[#ce5a7b]"
+    }`}
+  >
+    {Loading && isAuthenticated ? (
+      <>
+        <Spinner />
+        Processing
+      </>
+    ) : (
+      activeTab
+    )}
+  </Button>
+</div>
+</Card>
     </>
     
   );

@@ -9,7 +9,7 @@ interface NavBarItemsType{
 function NavBar({NavBarItems}:{NavBarItems:NavBarItemsType[]}){
     return(
         <>
-            <Card className="fixed left-0 top-0  w-full h-fit px-5 py-3 flex justify-between min-h-[50px]  bg-neutral-900 backdrop-blur-md">
+            <Card className="relative left-0 top-0  w-full h-fit px-5 py-3 flex justify-between min-h-[50px]   backdrop-blur-sm bg-transparent">
                 <motion.div 
                 initial={{
                     opacity:0,

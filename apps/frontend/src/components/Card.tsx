@@ -11,7 +11,7 @@ function Card({
 }) {
   return (
     <div
-      className={`bg-[rgb(var(--foreground-rgb))] w-fit rounded-sm ${insetShadow ? 'shadow-[0px_1px_2px_rgb(255,255,255,0.1)_inset,0px_-1px_4px_1px_rgba(255,255,255,0.1)_inset]' : ''} ${className}`}
+      className={`bg-[rgb(var(--foreground-rgb))] rounded-sm ${insetShadow ? 'shadow-[0px_1px_2px_rgb(255,255,255,0.1)_inset,0px_-1px_4px_1px_rgba(255,255,255,0.1)_inset]' : ''} ${className}`}
     >
       {children}
     </div>
