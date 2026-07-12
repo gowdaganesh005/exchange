@@ -12,7 +12,7 @@ type CoinProps = {
   thickness?: number;
   layers?: number;
   className?: string;
-
+  direction?: 1|-1;
   idleSpeed?: number;
   hoverSpeed?: number;
 
@@ -26,7 +26,7 @@ export default function Coin({
   layers = 60,
 
   className = "",
-
+  direction = 1,
   idleSpeed = 0.01,
   hoverSpeed = 0.45,
 
@@ -46,7 +46,7 @@ export default function Coin({
   });
 
   useAnimationFrame((time, delta) => {
-    angle.set(angle.get() + speed.get() * delta);
+    angle.set(angle.get() + direction*speed.get() * delta);
 
     const t = time * 0.001;
 
@@ -79,6 +79,9 @@ export default function Coin({
 
           position: "relative",
         }}
+        drag
+        dragMomentum={false}
+        dragElastic={0.1}
       >
         {/* FRONT */}
 
