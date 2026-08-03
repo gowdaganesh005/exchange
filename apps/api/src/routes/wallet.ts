@@ -110,8 +110,8 @@ walletHandler.post("/addAmt",isAuthenticated,async (req:any,res:any)=>{
                 return newbalance
         })
         if(credit ) return res.status(200).json({
-            freeBalance:credit.freeBalance,
-            lockedBalance:credit.lockedBalance
+            freeBalance:Number(credit.freeBalance),
+            lockedBalance:Number(credit.lockedBalance)
         })
 
 

@@ -209,7 +209,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Ganesh\\Desktop\\Projects\\exchange\\packages\\db\\generated\\prisma",
+      "value": "/home/gowgan/Project/exchange/packages/db/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -218,12 +218,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Ganesh\\Desktop\\Projects\\exchange\\packages\\db\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/gowgan/Project/exchange/packages/db/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

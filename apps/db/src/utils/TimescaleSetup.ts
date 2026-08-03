@@ -21,6 +21,7 @@ const candles = (time: string) => {
 
 async function setup() {
   try {
+    await client.$queryRawUnsafe(`CREATE EXTENSION IF NOT EXISTS timescaledb;`)
     // Convert to hypertable (if not already)
     await client.$executeRawUnsafe(`
       SELECT create_hypertable('"Trades"', 'timestamp',migrate_data=>true, if_not_exists => TRUE);

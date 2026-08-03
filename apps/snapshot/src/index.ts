@@ -49,6 +49,7 @@ async function main(){
 
         try{
             if(data){
+                console.log(data.data)
                 const parsed_data = snapshotZod.parse(data.data)
 
                 const pipeline =  redis_client.multi()

@@ -67,15 +67,15 @@ app.get("/snapshot",async (req:any,res:any)=>{
     })
 })
 
-async function fetchTickers(){
-    const tickerData = await 
-}
+// async function fetchTickers(){
+//     const tickerData = await 
+// }
 
 function startAllOrderBooks(){
     for ( const symbol of SUPPORTED_SYMBOLS){
         const worker = new Worker("./dist/trade/orderbook.js",{ workerData: { symbol }})
     
-    allOrderBooks["BTC/USDT"] = worker;
+    allOrderBooks[symbol] = worker;
 
     worker?.on('online',()=>{
         console.log(`Worker online for symbol ${symbol}`)

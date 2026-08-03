@@ -1,0 +1,109 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "incremental": false,
+        "isolatedModules": true,
+        "lib": [
+            "es2022",
+            "dom",
+            "dom.iterable"
+        ],
+        "module": "nodenext",
+        "moduleDetection": "force",
+        "moduleResolution": "nodenext",
+        "noUncheckedIndexedAccess": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "es2022",
+        "jsx": "react-jsx",
+        "plugins": [
+            {
+                "name": "react"
+            }
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        },
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true,
+        "resolvePackageJsonExports": true,
+        "resolvePackageJsonImports": true,
+        "preserveConstEnums": true,
+        "useDefineForClassFields": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "strictBuiltinIteratorReturn": true,
+        "alwaysStrict": true,
+        "useUnknownInCatchVariables": true
+    },
+    "files": [
+        "./vite.config.ts",
+        "./src/vite-env.d.ts",
+        "./src/lib/utils.ts",
+        "./src/main.tsx",
+        "./src/components/AddAmt.tsx",
+        "./src/components/Background.tsx",
+        "./src/components/Button.tsx",
+        "./src/components/BuySellSection.tsx",
+        "./src/components/Card.tsx",
+        "./src/components/Coin.tsx",
+        "./src/components/DataBar.tsx",
+        "./src/components/NavBar.tsx",
+        "./src/components/OrderBook.tsx",
+        "./src/components/OrderIdCell.tsx",
+        "./src/components/PastOrders.tsx",
+        "./src/components/PinBox.tsx",
+        "./src/components/ProtectedRoute.tsx",
+        "./src/components/ResizablePanel.tsx",
+        "./src/components/SignInForm.tsx",
+        "./src/components/SignupForm.tsx",
+        "./src/components/TradingCharts.tsx",
+        "./src/components/UserAssets.tsx",
+        "./src/components/providers/AuthContext.tsx",
+        "./src/components/ui/badge.tsx",
+        "./src/components/ui/button.tsx",
+        "./src/components/ui/card.tsx",
+        "./src/components/ui/empty.tsx",
+        "./src/components/ui/hover-card.tsx",
+        "./src/components/ui/input-otp.tsx",
+        "./src/components/ui/input.tsx",
+        "./src/components/ui/label.tsx",
+        "./src/components/ui/resizable.tsx",
+        "./src/components/ui/scroll-area.tsx",
+        "./src/components/ui/select.tsx",
+        "./src/components/ui/separator.tsx",
+        "./src/components/ui/skeleton.tsx",
+        "./src/components/ui/sonner.tsx",
+        "./src/components/ui/spinner.tsx",
+        "./src/components/ui/table.tsx",
+        "./src/components/ui/tooltip.tsx",
+        "./src/routes/AddFunds.tsx",
+        "./src/routes/Dashboard.tsx",
+        "./src/routes/LandingPage.tsx",
+        "./src/routes/MainLayout.tsx",
+        "./src/routes/SignIn.tsx",
+        "./src/routes/Signup.tsx",
+        "./src/routes/Trade.tsx",
+        "./src/routes/index.tsx"
+    ],
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "../../packages/ui/**/*.tsx",
+        "tailwind.config.js"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
