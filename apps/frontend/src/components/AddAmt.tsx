@@ -10,6 +10,7 @@ import { Button } from "./ui/button.tsx"
 import axios from "axios"
 import { toast } from "sonner"
 import { useNavigate } from "react-router"
+import SuccessAnimation from "./Success.tsx"
 
 export const AddAmt = ()=>{
     const userContext : AuthContextType | null = useAuth()
@@ -21,6 +22,7 @@ export const AddAmt = ()=>{
 
     })
     const [disabledBtn, setDisableBtn ]= useState(false);
+    const [success,setSuccess] = useState(false)
     const navigate = useNavigate();
 
     const onSubmit = async () =>{
@@ -34,7 +36,7 @@ export const AddAmt = ()=>{
             })
             console.log(response)
             if(response.status==200){
-            toast.success("The Amount was Credited to your wallet")
+            setSuccess(true)
             await new Promise(resolve=>setTimeout(resolve,2000))
             navigate("/dashboard")
             setDisableBtn(false)
@@ -147,6 +149,14 @@ export const AddAmt = ()=>{
                     </Button>
 
                 </CardHeader>
+               { success && 
+               <div className=" fixed inset-0 z-50 backdrop-blur-3xl w-full h-screen flex items-center gap-5 justify-center bg-card/50 ">
+                <div className="">
+                <div className="font-black text-5xl text-center text-chart-3">${data.amount} </div> 
+                <SuccessAnimation />
+                <div className="text-xl text-foreground flex gap-2">  Credited to your Trading Account !</div>
+                </div>
+               </div>}
             </Card>
 
         </>
