@@ -4,7 +4,7 @@ import { OrderBook } from "../utils/orderbook"
 import { workerData, parentPort } from "node:worker_threads"
 
 const symbol = workerData.symbol
-console.log(`Starging the order book for symbol ${symbol}`)
+console.log(`Starting the order book for symbol ${symbol}`)
 
 const orderbook = new OrderBook(symbol)
 

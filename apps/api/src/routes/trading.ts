@@ -1,9 +1,10 @@
 import { Router, Request, Response } from "express";
-import { orderBodySchema } from "@repo/zod/trading";
+import { orderBodySchema, cancelOrderSchema } from "@repo/zod/trading";
 import { RedisManager } from "../utils/RedisManager.js";
-import { CREATE_ORDER } from "../types/trading.js";
+import { CANCEL_ORDER, CREATE_ORDER } from "../types/trading.js";
 import { isAuthenticated } from "../middleware/authentication.js";
 import { client } from "@repo/db/client";
+import z from "zod";
 
 export const tradingRoute = Router();
 
@@ -93,4 +94,62 @@ tradingRoute.post("/order", async (req: any, res: any) => {
 
 
 });
+
+tradingRoute.post("/cancel", async(req: any, res: any) => {
+  
+  try{
+    const userId: string = req.session.user.userId
+    if(userId==null) return res.status(401).json({"message":"Unauthorized"})
+    const body = req.body;
+    const { orderId, symbol } = cancelOrderSchema.parse(body);
+
+    const order = await client.orders.findFirst({
+      where:{
+        userId: userId,
+        orderId: orderId
+      }
+    })
+
+    if(order==null) return res.status(400).json({"message":"Invalid Operation"})
+    
+    const response = await RedisManager.getInstance().sendAndAwait({
+      type: CANCEL_ORDER,
+      message:{
+        symbol,orderId
+      }
+    })
+
+    const unLockAmt = order.side === "BUY"
+      ? Math.floor(((Math.floor(order.quote_price*1000))* (Math.floor(order.quote_quantity*1000)))/1000) :
+      Math.floor((Math.floor(order.quote_quantity*1000)))
+
+    const updateBalance =  await client.balances.update({
+      where:{
+        userId_asset:{
+          userId: order.userId,
+          asset: order.side === "BUY" ? "USDT" : order.symbol,
+        }
+      },
+      data:{
+        lockedBalance:{
+          decrement: unLockAmt
+        },
+        freeBalance:{
+          increment: unLockAmt
+        }
+      }
+      
+    })
+
+    return res.json(response)
+
+
+    
+    
+  }catch(error){
+    console.log(error)
+    if(error instanceof z.ZodError) return res.status(400).json({message: "Input Error "})
+    return res.status(500).json({message:"Internal Server Error"})
+  }
+})
 
