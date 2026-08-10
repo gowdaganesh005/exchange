@@ -66,6 +66,9 @@ dataStream.get("/orders",isAuthenticated,async(req:any,res:any)=>{
                 status: true,
                 side: true,
                 timestamp: true,
+            },
+            orderBy:{
+                timestamp: "desc"
             }
 
         })

@@ -160,7 +160,14 @@ export function  PastOrders(){
                 >
                   Completed
                 </Badge>
-              ) : (
+              ) : tag.status === "CANCELLED" ? 
+              ( 
+                <Badge 
+                  className="px-2 py-0.5 text-[10px] bg-destructive "
+                >
+                  Cancelled
+                </Badge>
+              ) :(
                 
                 <Badge 
                   className="px-2 py-0.5 text-[10px] bg-chart-4 hover:bg-destructive cursor-pointer"

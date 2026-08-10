@@ -728,14 +728,11 @@ export class OrderBook{
             return {
 
                 
-                consolidatedBook:{
-                    bids: this.consolidatedBook.buys,
-                    asks: this.consolidatedBook.sells,
-                },
-                orderBook:{
-                    buys: this.orderBook.buys,
-                    sells: this.orderBook.sells
-                },
+                
+                bids: this.consolidatedBook.buys,
+                asks: this.consolidatedBook.sells,
+                
+               
                 
                 timestamp: Date.now(),
                 lastupdateId: this.updateId
