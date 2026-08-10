@@ -16,5 +16,6 @@ export const orderBodySchema = z.object({
 export const cancelOrderSchema = z.object({
     orderId: z.string(),
     symbol: z.string(),
+    side: z.string(),
 })
 

@@ -100,13 +100,19 @@ tradingRoute.post("/cancel", async(req: any, res: any) => {
   try{
     const userId: string = req.session.user.userId
     if(userId==null) return res.status(401).json({"message":"Unauthorized"})
-    const body = req.body;
-    const { orderId, symbol } = cancelOrderSchema.parse(body);
+    const  body = req.body;
+    console.log("body :: ",body)
+    
+    const { orderId, symbol, side } = cancelOrderSchema.parse(body);
 
     const order = await client.orders.findFirst({
       where:{
         userId: userId,
-        orderId: orderId
+        orderId: orderId,
+        OR:[
+          {status: "PARTIALLY_FILLED"},
+          {status: "PENDING"}
+        ]
       }
     })
 
@@ -115,7 +121,7 @@ tradingRoute.post("/cancel", async(req: any, res: any) => {
     const response = await RedisManager.getInstance().sendAndAwait({
       type: CANCEL_ORDER,
       message:{
-        symbol,orderId
+        symbol,orderId,side
       }
     })
 

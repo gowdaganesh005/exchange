@@ -558,11 +558,14 @@ export class OrderBook{
     }
     
     public cancelOrder({symbol,side,orderId}:{symbol:string,side:"BUY"|"SELL" ,orderId: string}){
+        console.log("The flow is inside the engine implementation")
+        console.log("SIDE :: ",side)
         try{
         if(side== "BUY"){
             const index = this.orderBook.buys.findIndex((a)=>(
                 a.orderId == orderId
             ))
+            console.log("CORE ENGINE VARIABLE " ,index)
             const order = this.orderBook.buys[index]
             
             this.orderBook.buys.splice(index,1);
@@ -595,6 +598,7 @@ export class OrderBook{
                 }]
             }
             })
+
 
             const totalScaledAmount = this.mulprec(order.quantity,order.price);
 
@@ -666,6 +670,19 @@ export class OrderBook{
                 }]
             }
             })
+            parentPort?.postMessage({
+                        type: "dbUpdate",
+                        data:{
+                            type: "tradeUpdate",
+                            symbol: this.symbol,
+                            tradeId: this.updateId.toString(),
+                            updates:[{
+                            orderId,
+                            status:"CANCELLED",
+                            updatedAt: Date.now()
+                            }]
+                        }                        
+                    })
 
             const totalScaledAmount = this.mulprec(order.quantity,order.price);
 

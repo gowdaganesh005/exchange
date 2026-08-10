@@ -5,7 +5,7 @@
     "moduleResolution": "nodenext",
 
     "rootDir": "./src",
-    "noEmit": true,
+    // "noEmit": true,
     "outDir": "./dist",
 
     "strict": true,

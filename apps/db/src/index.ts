@@ -32,6 +32,7 @@ async function ProcessRequest(){
                     console.log(error.message)
                 }
             }else if(data.type == "tradeUpdate"){
+                console.log(data)
                 data.updates.forEach(async (ele:any) => {
                     try{
                         await client.orders.update({

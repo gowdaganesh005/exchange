@@ -2,7 +2,6 @@ import express from "express"
 import { RedisManager } from "./utils/RedisManager";
 import  { Worker, workerData } from "node:worker_threads"
 import { randomUUID } from "node:crypto";
-import axios from "axios"
 
 const redisClient  =  RedisManager.getInstance()
 
@@ -102,6 +101,7 @@ function startAllOrderBooks(){
             await redisClient.publishStream(`${data.type}.${data.symbol}`,updatedData)
             
         }else if(data.type == 'dbUpdate' ){
+            console.log("dbUpdate :: ",data)
             const dbUpdateData = data.data
             await redisClient.pushToDb(dbUpdateData)
 
@@ -130,7 +130,10 @@ async function  main(){
 
             const required_worker = allOrderBooks[message.message.symbol]
             if(required_worker) console.log("worker is there")
+            
+            if(message.type=="CREATE_ORDER"){
 
+            
             const orderId = randomUUID()
 
             const dbData = {
@@ -150,7 +153,7 @@ async function  main(){
             }
 
             redisClient.pushToDb(dbData)
-            console.log("📤 Sending order to worker:", {
+            console.log("Sending order to worker:", {
                 symbol:message.message.symbol,
                 orderId,
                 side: message.message.side,
@@ -165,7 +168,11 @@ async function  main(){
             //     const response = allOrderBooks[message.message.symbol].matchOrders(message.message)
 
             // }
-            
+            }else if(message.type == "CANCEL_ORDER"){
+                console.log("Cancel order called in index.ts")
+                // console.log(required_worker)
+                required_worker?.postMessage({type:"cancel",data:message.message,clientId})
+            }
            
         }
         

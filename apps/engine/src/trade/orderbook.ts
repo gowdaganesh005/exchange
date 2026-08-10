@@ -10,7 +10,8 @@ const orderbook = new OrderBook(symbol)
 
 
 parentPort?.on("message",(data)=>{
-    console.log("parent Port   ",data)
+    // console.log("parent Port   ",data)
+    console.log(" Data type  :: ",data.type)
     if(data.type == "snapshot"){
         const snapshot = orderbook.getCurrentOrderBook()
         parentPort?.postMessage({type:"snapshot",data: snapshot,id:data.id})
@@ -23,8 +24,9 @@ parentPort?.on("message",(data)=>{
         }
     }
     if(data.type == "cancel"){
+       console.log("Cancel Order in the Orderbook trade :: ",data.data)
        const response =  orderbook.cancelOrder(data.data)
-       parentPort?.postMessage({type:"cancel",data:response})
+       parentPort?.postMessage({type:"cancel",clientId:data.clientId,response})
     }
 })   
 

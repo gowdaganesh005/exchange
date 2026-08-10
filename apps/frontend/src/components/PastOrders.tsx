@@ -5,12 +5,20 @@ import axios from "axios";
 import { OrderIdCell } from "./OrderIdCell.tsx";
 import { Badge } from "./ui/badge.tsx";
 import { Skeleton } from "./ui/skeleton.tsx";
+import Card from "./Card.tsx";
+import { CardTitle } from "./ui/card.tsx";
+import { Button } from "./ui/button.tsx"
+import { Tag } from "lucide-react";
+import { toast } from "sonner";
 
 
 export function  PastOrders(){
 
     const [orders,setOrders]= useState<any>([])
     const [loading ,setLoading ] = useState<boolean>(true)
+    const [onHover, setHover] = useState<string |null>(null)
+    const [cancelMsg , setCancelMsg] = useState<any>(null)
+
 
 
     useEffect(()=>{
@@ -30,6 +38,36 @@ export function  PastOrders(){
         fetchOrders();
         setLoading(false)
     },[])
+
+    const onClickCancel = (tag:any) => {
+      console.log("Tag ::",tag)
+      setCancelMsg(tag);
+    }
+
+    const cancelOrder = async ({orderId, symbol, side}:{orderId:string, symbol: string, side: string}) =>{
+
+      try{
+        console.log("Sending:", {
+          orderId,
+          symbol
+        });
+        const response = await axios.post("http://localhost:3000/api/v1/cancel",{
+            orderId: orderId,
+            symbol: symbol,
+            side: side
+        },{ withCredentials: true})
+        if(response.status==200){
+          toast.success("Order Cancellation Intiated")
+        }else{
+          toast.error("Order Cancellation Failed")
+          console.log(response)
+        }
+        setCancelMsg(null)
+      }catch(error:any){
+        console.log(error)
+        toast.error(error.error)
+      }
+    }
 
     return(
         <>
@@ -117,13 +155,22 @@ export function  PastOrders(){
 
             <TableCell className="px-2 py-1 text-right">
               {tag.status === "FULL_FILLED" ? (
-                <Badge className="px-2 py-0.5 text-[10px] bg-chart-3 hover:bg-chart-3">
+                <Badge 
+                  className="px-2 py-0.5 text-[10px] bg-chart-3 hover:bg-chart-3"
+                >
                   Completed
                 </Badge>
               ) : (
-                <Badge className="px-2 py-0.5 text-[10px] bg-chart-4 hover:bg-chart-4">
-                  Pending
+                
+                <Badge 
+                  className="px-2 py-0.5 text-[10px] bg-chart-4 hover:bg-destructive cursor-pointer"
+                  onMouseEnter={()=>setHover(tag.orderId)}
+                  onMouseLeave={()=>setHover(null)}
+                  onClick={()=>onClickCancel(tag)}
+                >
+                  {onHover===tag.orderId?"Cancel":"Pending"}
                 </Badge>
+                
               )}
             </TableCell>
             <TableCell className="px-2 py-1 whitespace-nowrap">
@@ -149,6 +196,54 @@ export function  PastOrders(){
     </Table>
   </div>
 </ScrollArea>
+        { cancelMsg && 
+        <div className="fixed inset-0 z-50 w-screen h-screen flex  justify-center items-center bg-transparent backdrop-blur-3xl">
+          <Card className="p-5 bg-card">
+            <CardTitle className="py-2 text-xl">
+              Confirm Cancel Order
+            </CardTitle>
+            <div>
+            <div className="pb-5"> Are you sure want to cancel this order</div>
+            <div className="mt-4 bg-card/90 border px-3 py-1">
+                <label className="font-bold">Order ID</label>
+                  <p className="font-medium text-primary"> {cancelMsg.orderId}</p>
+                <div className="flex justify-between">
+                  <div className="">
+                <label className="font-bold">Symbol</label>
+                  <p className="font-medium text-primary">{cancelMsg.symbol}</p>
+                </div>
+                <div className="text-center">
+                <label className="font-bold">Type</label>
+                  <p className="font-medium text-primary">{cancelMsg.side}</p>
+                </div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="text-center">
+                  <label className="font-bold">Price</label>
+                    <p className="font-medium text-primary">{cancelMsg.quote_price}</p>
+                  </div>
+                  <div className="text-center">
+                  <label className="font-bold">Quantity</label>
+                    <p className="font-medium text-primary">{cancelMsg.quote_quantity}</p>
+                  </div>
+                </div>
+            </div>
+            <div className="flex justify-between py-5 ">
+            <Button className="bg-destructive hover:bg-destructive/50" onClick={()=>{
+              console.log("Cancel Msg :: ",cancelMsg);
+              console.log("Order ID:", cancelMsg?.orderId);
+              console.log("Symbol:", cancelMsg?.symbol);
+              
+              cancelOrder({orderId:cancelMsg.orderId,symbol:cancelMsg.symbol,side:cancelMsg.side})}}>
+              Confirm
+            </Button>
+            <Button onClick={()=>{setCancelMsg(false)}}>
+              Cancel
+            </Button>
+            </div>
+            </div>
+          </Card>
+        </div>}
         </>
     )
 }

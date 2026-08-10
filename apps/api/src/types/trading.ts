@@ -23,7 +23,8 @@ export type Messagetype = {
     type: typeof CANCEL_ORDER
     message: {
         symbol: string,
-        orderId: string
+        orderId: string,
+        side: string
     }
 
 }
