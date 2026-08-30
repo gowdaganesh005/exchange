@@ -8,6 +8,7 @@ import { Dashboard } from "./Dashboard.tsx";
 import { ProtectedRoute } from "@/components/ProtectedRoute.tsx";
 import LandingPage from "./LandingPage.tsx";
 import { AddFunds } from "./AddFunds.tsx";
+import { MarketHero } from "./MarketHero.tsx";
 
 export const routes: RouteObject[] = [
     {
@@ -46,6 +47,12 @@ export const routes: RouteObject[] = [
         {
             path:"/",
             element: <LandingPage/>
+        },
+        {
+            
+            path:"/market",
+            element: <MarketHero />
+        
         }]
     }
 ]

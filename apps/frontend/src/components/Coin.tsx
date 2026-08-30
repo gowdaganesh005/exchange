@@ -68,8 +68,11 @@ export default function Coin({
           scale: 1.08,
         }}
         style={{
-          width: size,
-          height: size,
+          width: `var(--coin-size, ${size}px)`,
+          
+
+          height: `var(--coin-size, ${size}px)`,
+
 
           rotateY: angle,
           rotateX: wobbleX,
@@ -98,16 +101,16 @@ export default function Coin({
         {/* EDGE */}
 
         {Array.from({ length: layers }).map((_, i) => {
-          const z =
-            -thickness / 2 +
-            (i * thickness) / (layers - 1);
+           const progress = i / (layers - 1);
 
           return (
             <div
               key={i}
               className="absolute inset-0 rounded-full"
               style={{
-                transform: `translateZ(${z}px)`,
+                transform: `translateZ(calc(
+                var(--coin-thickness, ${thickness}px) * ${-0.5 + progress}
+                ))`,
 
                 border: "1px solid #8b5cf6",
 
@@ -125,7 +128,9 @@ export default function Coin({
         <div
           className="absolute inset-0 rounded-full"
           style={{
-            transform: `rotateY(180deg) translateZ(${thickness / 2 + 1}px)`,
+            transform: `rotateY(180deg) translateZ(
+  calc(var(--coin-thickness, ${thickness}px) / 2 + 1px)
+)`,
 
             backfaceVisibility: "hidden",
           }}
@@ -148,7 +153,9 @@ export default function Coin({
             background:
               "radial-gradient(circle at 30% 25%,rgba(255,255,255,.55),transparent 35%)",
 
-            transform: `translateZ(${thickness / 2 + 2}px)`,
+            transform:  `translateZ(
+  calc(var(--coin-thickness, ${thickness}px) / 2 + 2px)
+)`,
           }}
         />
       </motion.div>

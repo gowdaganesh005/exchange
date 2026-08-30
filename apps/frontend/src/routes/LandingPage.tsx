@@ -1,5 +1,7 @@
 import Card from "@/components/Card.tsx";
 import Coin from "@/components/Coin.tsx";
+import { LandingPageChart } from "@/components/LandingPageChart.tsx";
+import { BarGraph } from "@/components/BarGraph.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
   motion,
@@ -7,12 +9,12 @@ import {
   useMotionValue,
   useSpring,
 } from "motion/react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useNavigate } from "react-router";
+
 
 export default function LandingPage() {
   const angle = useMotionValue(0);
-  const THICKNESS = 12;
+  // const THICKNESS = 12;
   const LAYERS = 60;
   const wobble = useMotionValue(0);
   const targetSpeed = useMotionValue(0.01);
@@ -30,9 +32,12 @@ export default function LandingPage() {
     wobble.set(Math.sin(t * 0.004) * 6);
   });
 
+  const navigate = useNavigate();
+
   return (
-    <div className="relative overflow-x-hidden  bg-[#1e1e2e]">
+    <div className="relative overflow-x-hidden min-h-screen h-screen overflow-y-auto  bg-[#1e1e2e]">
       {/* Background Effects */}
+      
       <div className="pointer-events-none fixed left-1/2 top-32 h-[500px] w-[500px] rounded-full bg-[#cba6f785] blur-[120px]" />
 
       <div className="pointer-events-none fixed  bottom-0 left-1/2 h-[350px] w-[600px] -translate-x-40 rounded-full bg-[#cba6f775] blur-[120px]" />
@@ -42,9 +47,12 @@ export default function LandingPage() {
       </div>
 
       <div className="pointer-events-none fixed rounded-2xl w-full  inset-0 bg-[radial-gradient(circle_at_bottom_left,#cba6f78b,transparent_30%),linear-gradient(to_bottom,rgba(0,0,0,0.2),rgba(0,0,0,1))] blur-sm" />
+    
 
+
+      <div className="relative z-10">
       {/* Center Content */}
-      <div className="relative w-full  z-10 flex min-h-screen   justify-center px-6">
+      <div className="relative w-full  z-10 flex min-h-180   justify-center px-6">
         <div className=" absolute w-full top-1/4 text-center  rounded-2xl  ">
           <div className=" h-full w-full flex text-center justify-center items-center  px-0 py-1  z-50 ">
             <div className="bg-card/50 rounded-2xl px-2 py-1 hover:border-accent/50">
@@ -110,13 +118,14 @@ export default function LandingPage() {
               className="  rounded-4xl text-3xl my-7  px-8 py-8 bg-white/10  backdrop-blur-sm       shadow-[0_8px_32px_rgba(203,166,247,0.5)] text-white  font-semibold
           transition-all duration-300 hover:bg-chart-1/20  hover:border-b-3 hover:border-accent/40 
  "
+              onClick={()=>navigate("/signup")}
             >
               Trade now
             </Button>
           </motion.div>
         </div>
         <div
-          className="absolute top-1/5 xl:left-2/5 left-1/3 text-foreground/80 opacity-80"
+          className="absolute top-1/5 xl:left-2/5 left-1/3 [--coin-size:60px] sm:[--coin-size:72px] md:[--coin-size:96px]  [--coin-thickness:7.5px] sm:[--coin-thickness:9px] md:[--coin-thickness:12px] text-foreground/80 opacity-80"
           style={{ perspective: "1000px" }}
         >
           <Coin
@@ -132,14 +141,14 @@ export default function LandingPage() {
         </div>
 
         <div
-          className="absolute  top-1/4 left-3/5 text-foreground/80 opacity-80"
+          className="absolute  top-1/4 left-3/5 [--coin-size:60px] sm:[--coin-size:72px] md:[--coin-size:96px] [--coin-thickness:7.5px] sm:[--coin-thickness:9px] md:[--coin-thickness:12px] text-foreground/80 opacity-80"
           style={{ perspective: "1000px" }}
         >
           <Coin
             logo={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-20 h-20 pt-3 pl-3"
+                className="w-full h-full p-2"
                 viewBox="0 0 320 512"
               >
                 <path
@@ -155,7 +164,7 @@ export default function LandingPage() {
         </div>
 
         <div
-          className="absolute  top-1/12 left-1/8 text-foreground opacity-80"
+          className="absolute  top-1/12 left-1/8 [--coin-size:60px] sm:[--coin-size:72px] md:[--coin-size:96px] [--coin-thickness:7.5px] sm:[--coin-thickness:9px] md:[--coin-thickness:12px] text-foreground opacity-80"
           style={{ perspective: "1000px" }}
         >
           <Coin
@@ -177,7 +186,7 @@ export default function LandingPage() {
         </div>
 
         <div
-          className="absolute  xl:top-2/7 top-3/7 left-1/30 xl:left-1/4 text-foreground/90 opacity-80"
+          className="absolute  xl:top-2/7 top-3/7 left-1/30 xl:left-1/4 [--coin-size:60px] sm:[--coin-size:72px] md:[--coin-size:96px] [--coin-thickness:7.5px] sm:[--coin-thickness:9px] md:[--coin-thickness:12px] text-foreground/90 opacity-80"
           style={{ perspective: "1000px" }}
         >
           <Coin
@@ -200,7 +209,7 @@ export default function LandingPage() {
         </div>
 
         <div
-          className="absolute  xl:top-1/2 xl:left-2/3 top-3/7 left-5/7 text-foreground/80 opacity-80"
+          className="absolute  xl:top-1/2 xl:left-2/3 top-3/7 left-5/7 [--coin-size:60px] sm:[--coin-size:72px] md:[--coin-size:96px] [--coin-thickness:7.5px] sm:[--coin-thickness:9px] md:[--coin-thickness:12px] text-foreground/80 opacity-80"
           style={{ perspective: "1000px" }}
         >
           <Coin
@@ -220,16 +229,66 @@ export default function LandingPage() {
             idleSpeed={0.03}
           />
         </div>
-        <div className="flex    w-full ">
-          <div className="absolute  top-1/3 left-0 w-full flex justify-center "></div>
-        </div>
-        <div
+        
+        
+       
+
+      </div>
+      <div className="w-full flex justify-center items-center rounded-t-3xl mb-10  ">
+          <div className="w-[95%] flex flex-col items-center justify-center bg-card/40 py-5 rounded-4xl xl:max-w-3/5">
+            <div className=" relative h-fit p-5 pb-0 overflow-hidden">
+              <img className="rounded-t-3xl w-full h-full border-4 border-b-0 border-primary/50 "  src="graph.png" alt="" />
+              <div className="pointer-events-none absolute bottom-0 w-[96%] h-10 rounded-full bg-primary/80 blur-xl " />
+              <div className="absolute bottom-0 h-24 w-full z-40 bg-primary bg-linear-to-t  blur-3xl " />
+              
+            </div>
+            <div className="h-1 w-full bg-accent" />
+
+            <div className="flex gap-4 text-4xl md:text-6xl font-bold mt-20 ">
+              <div> Modern</div> <div className="font-black text-chart-3" > finance.</div>
+            </div>
+            <div className="px-10 text-xl text-center font-bold text-accent/60 mb-20">
+              <div>Your brokerage, your exchange, your money in the same place. </div>
+              <div className="text-chart-3/60">Trade, borrow, spend and earn with everything you own working together.</div>
+            </div>
+            <div className="flex justify-between gap-3 w-full text-center">
+              <div className="p-5 ">
+                <div className="font-medium text-2xl text-chart-4 ">
+                  Licenced in unreal Market
+                </div>
+                <div className="text-lg font-light">
+                  Your Brokerage is registered in the Virtual unreal market
+                </div>
+              </div>
+              <div className="w-1 bg-gray-400/10"/>
+              <div className="p-5">
+                <div className="font-medium text-2xl text-chart-4 ">
+                  Custom Wallet
+                </div>
+                <div className="text-lg font-light">
+                 UnLicenced Wallet for all your asssets
+                </div>
+              </div>
+              <div className="w-1 bg-gray-400/10"/>
+              <div className="p-5">
+                <div className="font-medium text-2xl text-chart-4 ">
+                  Secure Trading
+                </div>
+                <div className="text-lg font-light">
+                 Protected environment for your secure trading
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div className="w-full flex justify-center mt-96">
+      <div
           className="
-  absolute
-  top-[65%]
-  left-1/2
-  -translate-x-1/2
-  z-30
+  
+ 
+  
+  
+  
 
   w-[95%]
   max-w-7xl
@@ -272,8 +331,8 @@ transition-all
 duration-300
 
 hover:shadow-[-12px_-8px_40px_rgba(217,200,238,0.20)]
-backdrop-blur-5xl
-bg-card/30
+backdrop-blur-3xl
+bg-card/50
 
 "
           >
@@ -333,8 +392,8 @@ transition-all
 duration-300
 
 hover:shadow-[-12px_-8px_40px_rgba(217,200,238,0.20)]
-backdrop-blur-5xl
-bg-card/30
+backdrop-blur-3xl
+bg-card/50
 "
           >
             <Card
@@ -395,8 +454,8 @@ transition-all
 duration-300
 
 hover:shadow-[-12px_-8px_40px_rgba(217,200,238,0.20)]
-backdrop-blur-5xl
-bg-card/30
+backdrop-blur-3xl
+bg-card/50
 "
           >
             <Card
@@ -425,13 +484,101 @@ lg:h-20 p-4 rounded-md shadow-[inset_-12px_-8px_40px_#585b70]"
                 Built for Scale
               </p>
               <p className="text-lg">
-                Designed to handle growing tradin volume without compromising
+                Designed to handle growing trading volume without compromising
                 performance.{" "}
               </p>
             </div>
           </Card>
+          
+      </div>
+      </div>
+      
+      
+
+      <div className="w-full flex justify-center mt-20 z-10 mb-50 xl:mb-40">
+      <div className="w-200 h-135  px-2 flex flex-col items-center ">
+
+        <div className="flex justify-center text-4xl md:text-6xl font-black mt-10 text-chart-4 ">
+          <div>Trade</div>
+          <div className="text-accent">.</div>
+          <div className="text-destructive">Invest</div>
+          <div className="text-accent">.</div>
+          <div>Earn</div>
+          
+        </div>
+         <div className="my-2 text-lg font-semibold text-accent/40 text-center mb-10">Whether you're a trader executing complex strategies or just want a better place for your money, Backpack delivers more.</div>
+        <LandingPageChart />
+
+        
+       
+        
+      </div>
+      </div>
+
+
+      
+
+      <div className="w-full h-100 flex flex-col  mb-70  items-center justify-center">
+        <div className=" md:text-5xl text-3xl font-bold w-full text-center">Built for the long term, and long <div className="inline text-destructive font-black">beyond.</div></div>
+        <div className="md:text-2xl text-xl text-center px-2 font-medium opacity-50 w-full  xl:max-w-3/7  mt-10 xl:mt-20"> 
+          Zenex is a unlicensed financial institution, setting a new standard of transparency for exchanges with daily proof of reserves. 
+        </div>
+        <div className="xl:max-w-3/7 mt-30 w-[75%]">
+          <BarGraph />
         </div>
       </div>
+
+      <div className="w-full h-100 flex flex-col gap mb-100   items-center justify-center">
+        <div className=" md:text-5xl text-3xl font-semibold w-full text-center mb-5">Built for traders  <div> <div className="inline" >who</div> <div className="inline text-destructive font-black">demand </div><div className="inline">more</div><div className="text-destructive inline">.</div></div></div>
+
+        <div className="md:text-2xl text-xl text-center px-2 font-medium opacity-50 w-full max-w-6/7  xl:max-w-3/7  mt-10 xl:mt-20 mb-10"> 
+          The most capital-efficient margin system in crypto, designed so every dollar works harder.
+        </div>
+        <div className=" md:text-5xl text-3xl font-semibold w-full text-center mb-15  max-w-6/7  xl:max-w-3/7">
+          
+          <div className="inline">More </div><div className="inline text-chart-4 font-black">Trades. </div>
+          <div className="inline">More </div><div className="inline text-chart-4 font-black">Yield. </div>
+          <div className="inline">More </div><div className="inline text-chart-4 font-black">Profit. </div>
+        </div>
+
+        <div className="md:text-2xl text-xl text-center px-2 font-medium opacity-50 max-w-6/7  xl:max-w-3/7 mb-15 mt-10 xl:mt-20"> 
+          Your brokerage, your exchange, your money  in the same place. Trade, spend and earn with everything you own working together.
+        </div>
+        <button
+          className="text-background bg-foreground/80 px-10 py-5 text-3xl  rounded-full hover:bg-foreground font-semibold shadow-[0_10px_60px_4px_rgba(203,166,247,.4)]  "
+          onClick={()=>navigate("/signup")}
+        >Sign Up for free</button>
+
+        
+        
+      </div>
+
+       <footer className="w-full border-t border-white/10 py-10 mb-20">
+  <div className="flex flex-col items-center justify-between gap-5 px-8 md:flex-row">
+    
+    <div className="w-30">
+     <img src="finalLogo.png" alt="" /> 
+    </div>
+
+    <div className="flex gap-6 text-sm text-white/50">
+      <a href="#" className="hover:text-white">About</a>
+      <a href="#" className="hover:text-white">Privacy</a>
+      <a href="#" className="hover:text-white">Terms</a>
+    </div>
+
+    <div className="text-sm text-white/30">
+      © 2026 Zenex
+    </div>
+
+  </div>
+</footer>
+
+      </div>
+      
+     
+     
+    
+       
     </div>
   );
 }

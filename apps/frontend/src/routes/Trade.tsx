@@ -154,7 +154,7 @@ export function Trade() {
                 minSize={25}
                 className="min-h-0"
               >
-                <div className="h-full w-full overflow-auto rounded-md bg-[#161921]">
+                <div className="h-calc w-full overflow-auto rounded-md bg-[#161921]">
                   <BuySellSection
                     isAuthenticated={userContext?.user}
                     symbol={symbol || ""}

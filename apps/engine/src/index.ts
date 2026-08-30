@@ -2,14 +2,21 @@ import express from "express"
 import { RedisManager } from "./utils/RedisManager";
 import  { Worker, workerData } from "node:worker_threads"
 import { randomUUID } from "node:crypto";
+import { client } from "@repo/db/client"
 
 const redisClient  =  RedisManager.getInstance()
 
-const SUPPORTED_SYMBOLS = [
-    "BTC/USDT",
-    "ETH/USDT",
-    "SOL/USDT"
-]
+const SUPPORTED_SYMBOLS:string[] = []
+
+//get all market coins or symbol
+const fetchMarket = async ()=>{
+    const respone = await client.symbol.findMany();
+    for(const sym of respone){
+        SUPPORTED_SYMBOLS.push(sym.name);
+    }
+}
+
+fetchMarket();
 
 const allOrderBooks:Record<string,Worker | null> = {}
 

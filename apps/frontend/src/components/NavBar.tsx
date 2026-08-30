@@ -9,7 +9,7 @@ interface NavBarItemsType{
 function NavBar({NavBarItems}:{NavBarItems:NavBarItemsType[]}){
     return(
         <>
-            <Card className="relative left-0 top-0  w-full h-fit px-5 py-3 flex justify-between min-h-[50px]   backdrop-blur-sm bg-transparent">
+            <Card className="relative left-0 top-0  w-full h-fit px-5 py-3 flex md:px-20 justify-between min-h-[50px]   backdrop-blur-sm bg-transparent">
                 <motion.div 
                 initial={{
                     opacity:0,
@@ -32,9 +32,9 @@ function NavBar({NavBarItems}:{NavBarItems:NavBarItemsType[]}){
                 className="text-amber-50 text-2xl font-semibold font-geist flex justify-center items-center ">                    
                     <img className="w-28 h-8" src="/finalLogo.png" alt="logo" />
                 </motion.div>
-                <div className="flex justify-between ">
+                <div className="flex justify-between  items-center md:text-lg text-xs  font-light ">
                     {NavBarItems.map(ele=>(
-                            <div onClick={ele.onClickHandler} className="text-amber-50 px-5">
+                            <div onClick={ele.onClickHandler} className="hover:text-primary px-2 cursor-pointer">
                                 {ele.name}
                             </div>
                         ))
