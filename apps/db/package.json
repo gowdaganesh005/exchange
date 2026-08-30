@@ -5,17 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc -b && node dist/index.js",
-    "setupdb": "tsc -b &&  node dist/utils/TimescaleSetup.js"
+    "setupdb": "tsc -b &&  node dist/utils/TimescaleSetup.js",
+    "build": "tsc -b"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.11.0",
-  "devDependencies": {
-    "@repo/db": "workspace:*"
-  },
   "dependencies": {
+    "@repo/db": "workspace:*",
     "redis": "^4.7.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.4.0"
+  }
 }
