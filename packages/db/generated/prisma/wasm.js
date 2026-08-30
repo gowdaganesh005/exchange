@@ -177,6 +177,13 @@ exports.Prisma.TickersScalarFieldEnum = {
   symbol: 'symbol'
 };
 
+exports.Prisma.SymbolScalarFieldEnum = {
+  symbolId: 'symbolId',
+  name: 'name',
+  img: 'img',
+  code: 'code'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -185,6 +192,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.SIDE = exports.$Enums.SIDE = {
   BUY: 'BUY',
@@ -224,7 +236,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Balances: 'Balances',
   Ledger: 'Ledger',
-  Tickers: 'Tickers'
+  Tickers: 'Tickers',
+  Symbol: 'Symbol'
 };
 
 /**

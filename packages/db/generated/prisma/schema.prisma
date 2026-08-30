@@ -115,3 +115,10 @@ model Tickers {
   tickerId String @id @default(uuid())
   symbol   String
 }
+
+model Symbol {
+  symbolId Int     @id @default(autoincrement())
+  name     String
+  img      String
+  code     String?
+}
