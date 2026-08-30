@@ -1,1 +1,0 @@
-{"root":["./src/index.ts","./src/routes/auth.ts","./src/routes/candles.ts","./src/routes/datastreams.ts","./src/routes/trading.ts","./src/types/trading.ts","./src/utils/redismanager.ts"],"errors":true,"version":"5.8.2"}
