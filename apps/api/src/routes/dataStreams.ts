@@ -18,6 +18,55 @@ dataStream.post('/snapshot',async (req:any,res:any)=>{
    return res.status(200).json(data)
 })
 
+dataStream.get("/allPrice",async( req:any, res: any)=>{
+    const redisClient = RedisManager.getInstance()
+
+    
+    const symbols = await client.symbol.findMany({
+        select:{
+            name: true,
+            img: true,
+            code: true,
+        }
+    }
+    )
+
+    console.log("Symbols:",symbols)
+
+    const returnData = await Promise.all(
+        symbols.map(async (value)=>{
+        const priceData = await redisClient.getPrice(value.name)
+        // console.log("Price Data", priceData)
+        const prevdayClose = await client.$queryRaw<{close: number; bucket: Date }[]>`
+            SELECT  close , bucket 
+            FROM candle_1_day
+            WHERE symbol = ${value.name}
+            AND bucket < date_trunc('day',NOW())
+            ORDER BY bucket DESC
+            LIMIT 1
+        `;
+        const price = priceData?JSON.parse(priceData || "").price: 0;
+        const close = prevdayClose.length > 0 ? prevdayClose[0].close:0
+        console.log("prevdayClose ",prevdayClose)
+        return({
+            symbol: value.name,
+            price: price,
+            prevdayClose: close,
+            img: value.img,
+            code: value.code,
+        })
+    }))
+    
+
+    console.log(returnData);
+
+    return res.json(returnData).status(200);
+
+
+
+    
+})
+
 dataStream.post("/price",async(req:any,res:any)=>{
     const redisClient = RedisManager.getInstance()
     const { symbol } = req.body
@@ -35,6 +84,7 @@ dataStream.post("/prevday-close",async(req:any,res:any)=>{
         FROM candle_1_day
         WHERE symbol = ${symbol}
         AND bucket < date_trunc('day',NOW())
+        ORDER BY bucket DESC
         LIMIT 1
     `;
 
