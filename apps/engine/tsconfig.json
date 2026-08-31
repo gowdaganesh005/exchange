@@ -18,8 +18,8 @@
 
     "types": ["node"],
 
-    // "incremental": true,
-    "composite": true
+    "incremental": false,
+    // "composite": true
   },
 
   "include": ["src/**/*.ts"],

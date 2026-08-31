@@ -1,5 +1,5 @@
 import express from "express"
-import { RedisManager } from "./utils/RedisManager";
+import { RedisManager } from "./utils/RedisManager.js";
 import  { Worker, workerData } from "node:worker_threads"
 import { randomUUID } from "node:crypto";
 import { client } from "@repo/db/client"
