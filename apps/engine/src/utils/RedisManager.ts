@@ -1,12 +1,14 @@
 import { createClient, RedisClientType } from 'redis'
-import { fill } from '../types/orderbook.types';
+import { fill } from '../types/orderbook.types.js';
 
 export class RedisManager{
     private client:RedisClientType;
     private static instance : RedisManager
 
     private constructor(){
-        this.client = createClient()
+        this.client = createClient({
+            url: process.env.REDIS_URL
+        })
         this.client.connect()
 
     }

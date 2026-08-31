@@ -1,5 +1,5 @@
 
-import { OrderBook } from "../utils/orderbook"
+import { OrderBook } from "../utils/orderbook.js"
 
 import { workerData, parentPort } from "node:worker_threads"
 

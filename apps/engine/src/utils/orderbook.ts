@@ -1,4 +1,4 @@
-import { consolidatedBook, orderBook, fill, engineDepthUpdates } from "../types/orderbook.types";
+import { consolidatedBook, orderBook, fill, engineDepthUpdates } from "../types/orderbook.types.js";
 import { parentPort } from "node:worker_threads"
 export class OrderBook{
     private orderBook : orderBook
@@ -213,7 +213,7 @@ export class OrderBook{
             if(quantity > 0){
 
                 this.orderBook.buys.push({price,quantity,timestamp,userId,orderId})
-                this.orderBook.buys.sort((a,b)=>{ 
+                this.orderBook.buys.sort((a:any,b:any)=>{ 
                     if(a.price == b.price ){
                         return a.timestamp - b.timestamp
                     }
@@ -221,14 +221,14 @@ export class OrderBook{
 
                 })
 
-                const value = this.consolidatedBook.buys.findIndex((a)=>a.price == price)
+                const value = this.consolidatedBook.buys.findIndex((a:any)=>a.price == price)
                 if(value != -1){
                     this.consolidatedBook.buys[value].quantity += quantity
                 }else{
                     this.consolidatedBook.buys.push({price,quantity})
                 }
 
-                this.consolidatedBook.buys.sort((a,b)=>b.price - a.price)
+                this.consolidatedBook.buys.sort((a:any,b:any)=>b.price - a.price)
                 // parentPort?.postMessage({
                 //     data:{
                 //         T: BigInt(Date.now()),
@@ -469,7 +469,7 @@ export class OrderBook{
 
                 this.orderBook.sells.push({price,quantity,timestamp,userId,orderId})
                 
-                this.orderBook.sells.sort((a,b)=>{ 
+                this.orderBook.sells.sort((a:any,b:any)=>{ 
                     if(a.price == b.price ){
                         return a.timestamp - b.timestamp
                     }
@@ -478,14 +478,14 @@ export class OrderBook{
                 })
                 
 
-                const value = this.consolidatedBook.sells.findIndex((a)=>a.price == price)
+                const value = this.consolidatedBook.sells.findIndex((a:any)=>a.price == price)
                 if(value != -1){
                     this.consolidatedBook.sells[value].quantity += quantity
                 }else{
                     this.consolidatedBook.sells.push({price,quantity})
                 }
 
-                this.consolidatedBook.sells.sort((a,b)=>a.price - b.price)
+                this.consolidatedBook.sells.sort((a:any,b:any)=>a.price - b.price)
                 // parentPort?.postMessage({
                 //     data:{
                 //         T: BigInt(Date.now()),
@@ -562,7 +562,7 @@ export class OrderBook{
         console.log("SIDE :: ",side)
         try{
         if(side== "BUY"){
-            const index = this.orderBook.buys.findIndex((a)=>(
+            const index = this.orderBook.buys.findIndex((a:any)=>(
                 a.orderId == orderId
             ))
             console.log("CORE ENGINE VARIABLE " ,index)
@@ -571,7 +571,7 @@ export class OrderBook{
             this.orderBook.buys.splice(index,1);
 
             // remove from consolidated orderbook
-            const index2 = this.consolidatedBook.buys.findIndex((a)=>(
+            const index2 = this.consolidatedBook.buys.findIndex((a:any)=>(
                 a.price==order.price
             ))
             this.consolidatedBook.buys[index2].quantity-=order.quantity
@@ -635,7 +635,7 @@ export class OrderBook{
 
         }
         else if(side=='SELL'){
-            const index = this.orderBook.sells.findIndex((a)=>(
+            const index = this.orderBook.sells.findIndex((a:any)=>(
                 a.orderId == orderId
             ))
             const order = this.orderBook.sells[index]
@@ -643,7 +643,7 @@ export class OrderBook{
             this.orderBook.sells.splice(index,1);
 
             // remove from consolidated orderbook
-            const index2 = this.consolidatedBook.sells.findIndex((a)=>(
+            const index2 = this.consolidatedBook.sells.findIndex((a:any)=>(
                 a.price==order.price
             ))
             this.consolidatedBook.sells[index2].quantity-=order.quantity
