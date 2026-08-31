@@ -3,7 +3,7 @@ import WebSocket , { WebSocketServer } from "ws"
 import http from 'http'
 import { wsStreamRequestType } from './types'
 import { webSocketStreamRequest } from '@repo/zod/websocket'
-import { RedisManager } from './utils/RedisManager'
+import { RedisManager } from './utils/RedisManager.js'
 
 const app = express()
 
@@ -146,4 +146,4 @@ wsServer.on("connection",(ws:WebSocket)=>{
     
 })
 
-server.listen(8000)
+server.listen(8000,"0.0.0.0")

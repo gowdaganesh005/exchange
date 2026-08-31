@@ -85,6 +85,12 @@ importers:
 
   apps/engine:
     dependencies:
+      '@repo/db':
+        specifier: workspace:^
+        version: link:../../packages/db
+      '@repo/zod':
+        specifier: workspace:^
+        version: link:../../packages/zod
       express:
         specifier: ^5.1.0
         version: 5.2.1
@@ -95,15 +101,9 @@ importers:
         specifier: ^4.2.1
         version: 4.4.3
     devDependencies:
-      '@repo/db':
-        specifier: workspace:^
-        version: link:../../packages/db
       '@repo/typescript-config':
         specifier: workspace:^
         version: link:../../packages/typescript-config
-      '@repo/zod':
-        specifier: workspace:^
-        version: link:../../packages/zod
       '@types/express':
         specifier: ^5.0.5
         version: 5.0.6
@@ -270,15 +270,16 @@ importers:
       redis:
         specifier: ^4.7.0
         version: 4.7.1
+    devDependencies:
+      '@types/node':
+        specifier: ^26.4.0
+        version: 26.4.0
 
   apps/websocket:
     dependencies:
-      '@types/express':
-        specifier: ^5.0.1
-        version: 5.0.6
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
+      '@repo/zod':
+        specifier: workspace:^
+        version: link:../../packages/zod
       express:
         specifier: ^5.1.0
         version: 5.2.1
@@ -292,9 +293,12 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@repo/zod':
-        specifier: workspace:^
-        version: link:../../packages/zod
+      '@types/express':
+        specifier: ^5.0.1
+        version: 5.0.6
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
 
   packages/db:
     dependencies:

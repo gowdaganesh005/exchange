@@ -3,21 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "files":[
+    "dist"
+  ],
   "scripts": {
-    "dev": "npx tsc -b && node dist/index.js"
+    "dev": "npx tsc -b && node dist/index.js",
+    "build": "tsc -b"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^5.0.1",
-    "@types/ws": "^8.18.1",
     "express": "^5.1.0",
     "redis": "^4.7.0",
     "ws": "^8.18.2",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "@repo/zod": "workspace:^"
   },
   "devDependencies": {
-    "@repo/zod": "workspace:^"
+    "@types/express": "^5.0.1",
+    "@types/ws": "^8.18.1"
   }
 }
