@@ -17,7 +17,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: api
-        app.kubernetes.io/instance: api
+        app.kubernetes.io/instance: api-deployment
         app.kubernetes.io/component: backend
           
     spec:
@@ -26,6 +26,7 @@ spec:
         image: exchange-api:latest
         ports:
         - containerPort: 3000
+        imagePullPolicy: Never
 
 
 

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: exchange-app
+  namespace: argocd
+
+spec:
+  description: Exchange App deployment 
+
+  sourceRepos:
+  - 'https://github.com/gowdaganesh005/exchange.git'
+
+  destinations: 
+  - namespace: exchange
+    name: in-cluster
+  
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
