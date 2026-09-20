@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: api-app
+  namespace: argocd
+
+  labels:
+    name: api-app-argo
+
+spec:
+  project: exchange
+
+  source:
+    repoURL: https://github.com/gowdaganesh005/exchange.git
+    targetRevision: HEAD
+    path: infra
+
+    valueFiles:
+     - deployment.yaml
+     - service.yaml
+     
